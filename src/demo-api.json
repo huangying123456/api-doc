@@ -1,0 +1,119 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "蜂邻项目App"
+  },
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "我的",
+      "description": "我的数据接口"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/basic-info": {
+      "get": {
+        "tags": [
+          "我的"
+        ],
+        "description": "",
+        "operationId": "get basic info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "basicInfo": {
+                      "$ref": "#/definitions/Specialist"
+                    }
+                  }
+                },
+                "result": {
+                  "$ref": "#/definitions/Result"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "个人资料未找到"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Specialist": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "platformId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "departmentId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer",
+          "description": "性别 男1 女0",
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "complete": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "default": true
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "DisplayMsg": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
