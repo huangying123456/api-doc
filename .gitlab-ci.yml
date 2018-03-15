@@ -18,8 +18,8 @@ push:
   stage: push
   script:
     - sudo docker login -u 7@youhujia.com -p Youhujia2016 registry-vpc.cn-beijing.aliyuncs.com
-    - sudo docker build -t registry.cn-beijing.aliyuncs.com/zhushou-dev/api-doc:latest .
-    - sudo docker push registry.cn-beijing.aliyuncs.com/zhushou-dev/api-doc:latest
+    - sudo docker build -t registry-vpc.cn-beijing.aliyuncs.com/zhushou-dev/api-doc:latest .
+    - sudo docker push registry-vpc.cn-beijing.aliyuncs.com/zhushou-dev/api-doc:latest
 
 rebuild:
   stage: push
