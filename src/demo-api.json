@@ -360,7 +360,7 @@
         }
       }
     },
-    "DepartmentList": {
+    "DepartmentListDTO": {
       "properties": {
         "data": {
           "type": "object",
