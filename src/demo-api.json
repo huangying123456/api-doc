@@ -49,7 +49,7 @@
         "tags": [
           "登录"
         ],
-        "description": "手机验证码登录",
+        "description": "手机验证码登录\n 0-0登录/1-1登录",
         "consumes": [
           "application/json"
         ],
@@ -82,7 +82,7 @@
         "tags": [
           "我的"
         ],
-        "description": "我的信息",
+        "description": "我的信息\n 1-4我的",
         "operationId": "get basic info",
         "consumes": [
           "application/json"
@@ -108,7 +108,7 @@
         "tags": [
           "工作台"
         ],
-        "description": "工作台首页",
+        "description": "工作台首页\n 1-3工作台",
         "operationId": "get dashboard",
         "consumes": [
           "application/json"
@@ -134,8 +134,8 @@
         "tags": [
           "消息"
         ],
-        "description": "同事沟通列表",
-        "operationId": "get all colleagues",
+        "description": "同事沟通列表\n 1-3工作台/1-10发起沟通 ",
+        "operationId": "getAllColleagues",
         "consumes": [
           "application/json"
         ],
@@ -157,7 +157,7 @@
         "tags": [
           "护理任务"
         ],
-        "description": "护理任务列表",
+        "description": "护理任务列表 \n1-6护理任务 1～2",
         "operationId": "getAllNursingTasks",
         "consumes": [
           "application/json"
@@ -180,7 +180,7 @@
         "tags": [
           "护理任务"
         ],
-        "description": "护理任务列表",
+        "description": "护理任务列表 \n1-6护理任务/4~6",
         "operationId": "getNursingTaskById",
         "consumes": [
           "application/json"
@@ -253,7 +253,7 @@
         "tags": [
           "订单"
         ],
-        "description": "护理任务列表",
+        "description": "护理任务列表 \n1-6护理任务/7",
         "operationId": "getOrderDetail",
         "consumes": [
           "application/json"
@@ -286,7 +286,7 @@
         "tags": [
           "客户"
         ],
-        "description": "客户列表",
+        "description": "客户列表 \n1-6护理任务/8",
         "operationId": "getAllCustomers",
         "consumes": [
           "application/json"
@@ -309,7 +309,7 @@
         "tags": [
           "客户"
         ],
-        "description": "根据机构人员id和客户id获取机构id",
+        "description": "根据机构人员id和客户id获取机构id 1-6护理任务/9",
         "consumes": [
           "application/json"
         ],
@@ -385,10 +385,10 @@
           "type": "object",
           "description": "客户列表数据列表",
           "properties": {
-            "nursingTask": {
+            "CustomerProfileGroup": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CustomerProfileInfo"
+                "$ref": "#/definitions/CustomerProfileNameGroup"
               }
             }
           }
@@ -455,6 +455,21 @@
         },
         "customerProfileInfo": {
           "$ref": "#/definitions/CustomerProfileInfo"
+        }
+      }
+    },
+    "CustomerProfileNameGroup": {
+      "properties": {
+        "NameGroupPrefix": {
+          "type": "string",
+          "description": "首字母",
+          "pattern": "^1[A_Z]"
+        },
+        "CustomerProfileInfo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomerProfileInfo"
+          }
         }
       }
     },
