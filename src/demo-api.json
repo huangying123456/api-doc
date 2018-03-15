@@ -38,6 +38,10 @@
     {
       "name": "订单",
       "description": "订单接口"
+    },
+    {
+      "name": "非接口",
+      "description": "非接口"
     }
   ],
   "schemes": [
@@ -50,6 +54,7 @@
           "登录"
         ],
         "description": "手机验证码登录\n 0-0登录/1-1登录",
+        "operationId": "phoneCaptchaLogin",
         "consumes": [
           "application/json"
         ],
@@ -69,7 +74,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见SimpleLoginDTO",
+            "description": "成功\n返回结构见LoginResultDTO",
             "schema": {
               "$ref": "#/definitions/LoginResultDTO"
             }
@@ -83,7 +88,7 @@
           "我的"
         ],
         "description": "我的信息\n 1-4我的",
-        "operationId": "get basic info",
+        "operationId": "getBasicInfo",
         "consumes": [
           "application/json"
         ],
@@ -109,7 +114,7 @@
           "工作台"
         ],
         "description": "工作台首页\n 1-3工作台",
-        "operationId": "get dashboard",
+        "operationId": "getDashboard",
         "consumes": [
           "application/json"
         ],
@@ -170,6 +175,38 @@
             "description": "成功\n返回结构见NursingTaskListDTO",
             "schema": {
               "$ref": "#/definitions/NursingTaskListDTO"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "护理任务"
+        ],
+        "description": "护理任务列表 \n1-6护理任务 10完成",
+        "operationId": "addNursingTasks",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "护理任务更新",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddNursingTaskOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回Result",
+            "schema": {
+              "$ref": "#/definitions/Result"
             }
           }
         }
@@ -248,12 +285,104 @@
         }
       }
     },
+    "/tasks/service-items": {
+      "get": {
+        "tags": [
+          "护理任务"
+        ],
+        "description": "服务项目 1-6-10记录信息 获取服务项目列表",
+        "operationId": "getAllServiceItems",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ServiceItemListDTO",
+            "schema": {
+              "$ref": "#/definitions/ServiceItemListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/evaluation-tasks": {
+      "get": {
+        "tags": [
+          "评估任务"
+        ],
+        "description": "护理任务列表 \n1-5评估任务 1～2",
+        "operationId": "getAllEvaluationTasks",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见EvaluationTaskListDTO",
+            "schema": {
+              "$ref": "#/definitions/EvaluationTaskListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/evaluation-kits": {
+      "get": {
+        "tags": [
+          "评估任务"
+        ],
+        "description": "护理任务列表 \n1-5评估任务 1～2",
+        "operationId": "getAllEvaluationKits",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见EvaluationKitListDTO",
+            "schema": {
+              "$ref": "#/definitions/EvaluationKitListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/push-content-not-api": {
+      "get": {
+        "tags": [
+          "非接口"
+        ],
+        "description": "护理任务列表\n1-1-3通知中心 此数据项非接口 仅展示通知中心数据的格式",
+        "operationId": "pushContent",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "非接口",
+            "schema": {
+              "$ref": "#/definitions/TaskPushMessage"
+            }
+          }
+        }
+      }
+    },
     "/orders/{orderId}": {
       "get": {
         "tags": [
           "订单"
         ],
-        "description": "护理任务列表 \n1-6护理任务/7",
+        "description": "护理任务列表\n1-6护理任务/7",
         "operationId": "getOrderDetail",
         "consumes": [
           "application/json"
@@ -310,6 +439,7 @@
           "客户"
         ],
         "description": "根据机构人员id和客户id获取机构id 1-6护理任务/9",
+        "operationId": "getDepartmentList",
         "consumes": [
           "application/json"
         ],
@@ -341,11 +471,327 @@
           }
         }
       }
+    },
+    "/messages/feature": {
+      "get": {
+        "tags": [
+          "消息"
+        ],
+        "description": "消息页面\n",
+        "operationId": "getMessageFeatures",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见MessageFeatureDTO",
+            "schema": {
+              "$ref": "#/definitions/MessageFeatureDTO"
+            }
+          }
+        }
+      }
+    },
+    "/schedule": {
+      "get": {
+        "tags": [
+          "消息"
+        ],
+        "description": "工作日程页面\n",
+        "operationId": "getSchedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ScheduleDTO",
+            "schema": {
+              "$ref": "#/definitions/ScheduleDTO"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "ScheduleListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "机构列表数据",
+          "properties": {
+            "schedule": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ScheduleColumnGroup"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ScheduleColumnGroup": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "功能名字",
+          "enum": [
+            "今日日程",
+            "近日日程"
+          ]
+        },
+        "iconUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "图标地址"
+        },
+        "scheduleColumn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduleItem"
+          }
+        }
+      }
+    },
+    "ScheduleItem": {
+      "properties": {
+        "scheduleType": {
+          "type": "string",
+          "description": "日程类型",
+          "enum": [
+            "evaluation-tasks",
+            "nursing-tasks"
+          ]
+        },
+        "scheduleTypeName": {
+          "type": "string",
+          "description": "日程类型名字",
+          "enum": [
+            "评估任务",
+            "护理任务",
+            "排班"
+          ]
+        },
+        "scheduleName": {
+          "type": "string",
+          "description": "日程名称"
+        },
+        "stateName": {
+          "type": "string",
+          "description": "状态名称",
+          "enum": [
+            "已完成",
+            "未完成"
+          ]
+        }
+      }
+    },
+    "ScheduleCalenderDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "机构列表数据",
+          "properties": {
+            "schedule": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ScheduleCalenderItem"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ScheduleCalenderItem": {
+      "properties": {
+        "calenderItemColor": {
+          "type": "string",
+          "pattern": "^#6[0-9A-F]",
+          "description": "颜色html码"
+        },
+        "taskStartTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务开始时间"
+        },
+        "taskEndTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务结束时间"
+        },
+        "task": {
+          "$ref": "#/definitions/ScheduleCalenderItem"
+        }
+      }
+    },
+    "MessageFeatureDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "机构列表数据",
+          "properties": {
+            "messageFeature": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MessageFeature"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "MessageFeature": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "功能名字",
+          "enum": [
+            "工作日程",
+            "通知中心",
+            "公告"
+          ]
+        },
+        "iconUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "图标地址"
+        },
+        "hasNew": {
+          "type": "string",
+          "description": "是否有新消息"
+        }
+      }
+    },
+    "TaskPushMessage": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "任务id"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "name": {
+          "type": "string",
+          "description": "名称"
+        },
+        "taskStartTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务开始时间"
+        },
+        "taskEndTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务结束时间"
+        },
+        "taskAddress": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务地点"
+        }
+      }
+    },
+    "ServiceItemListDTO": {
+      "properties": {
+        "payerTypeName": {
+          "type": "string",
+          "description": "支付方类型",
+          "enum": [
+            "长护险项目",
+            "自费项目"
+          ]
+        },
+        "serviceTypeGroup": {
+          "type": "array",
+          "description": "服务类型分组",
+          "items": {
+            "$ref": "#/definitions/ServiceTypeGroupItem"
+          }
+        }
+      }
+    },
+    "ServiceTypeGroupItem": {
+      "properties": {
+        "serviceTypeName": {
+          "type": "string",
+          "description": "服务类型",
+          "enum": [
+            "医疗护理",
+            "生活照料"
+          ]
+        },
+        "serviceItem": {
+          "type": "array",
+          "description": "服务列表",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
+          }
+        }
+      }
+    },
+    "ServiceItem": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "服务项目id"
+        },
+        "name": {
+          "type": "string",
+          "description": "服务项目名称"
+        }
+      }
+    },
     "UpdateNursingTaskOption": {
       "properties": {
+        "startServiceTime": {
+          "type": "integer",
+          "description": "服务开始时间"
+        },
+        "endServiceTime": {
+          "type": "integer",
+          "description": "服务结束时间"
+        },
+        "remark": {
+          "type": "string",
+          "description": "备注"
+        }
+      }
+    },
+    "AddNursingTaskOption": {
+      "properties": {
+        "customerProfileId": {
+          "type": "integer",
+          "description": "客户信息id"
+        },
+        "departmentId": {
+          "type": "integer",
+          "description": "机构id"
+        },
+        "serviceItems": {
+          "type": "array",
+          "description": "服务项目id数组",
+          "items": {
+            "type": "integer"
+          }
+        },
         "startServiceTime": {
           "type": "integer",
           "description": "服务开始时间"
@@ -366,7 +812,7 @@
           "type": "object",
           "description": "机构列表数据",
           "properties": {
-            "nursingTask": {
+            "department": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/CustomerProfileInfo"
@@ -385,7 +831,7 @@
           "type": "object",
           "description": "客户列表数据列表",
           "properties": {
-            "CustomerProfileGroup": {
+            "customerProfileGroup": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/CustomerProfileNameGroup"
@@ -404,7 +850,7 @@
           "type": "object",
           "description": "订单详情数据",
           "properties": {
-            "nursingTask": {
+            "orderDetail": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/OrderDetail"
@@ -496,6 +942,108 @@
         }
       }
     },
+    "EvaluationTaskListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "评估任务列表",
+          "properties": {
+            "evaluationTask": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EvaluationTask"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "EvaluationTask": {
+      "type": "object",
+      "description": "机构功能",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务Id"
+        },
+        "no": {
+          "type": "string",
+          "description": "任务编号"
+        },
+        "taskAssignmentTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务时间（任务分派时间）"
+        },
+        "taskExecutionTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务时间"
+        },
+        "taskAddress": {
+          "type": "string",
+          "description": "任务地址"
+        },
+        "stateName": {
+          "type": "string",
+          "description": "状态名称",
+          "enum": [
+            "已完成",
+            "已取消",
+            "待完成"
+          ]
+        },
+        "orderId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "订单Id"
+        },
+        "evaluationKitName": {
+          "type": "string",
+          "description": "套件名称"
+        }
+      }
+    },
+    "EvaluationKitListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "护理任务列表",
+          "properties": {
+            "evaluationKit": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EvaluationKit"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "EvaluationKit": {
+      "description": "服务套件",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "服务套件id"
+        },
+        "name": {
+          "type": "string",
+          "description": "服务套件名称"
+        },
+        "uuid": {
+          "type": "string",
+          "description": "服务唯一标识"
+        }
+      }
+    },
     "NursingTaskListDTO": {
       "properties": {
         "data": {
@@ -529,14 +1077,16 @@
           "description": "任务编号"
         },
         "taskAssignmentTime": {
-          "type": "string",
+          "type": "integer",
+          "format": "int64",
           "description": "任务时间（任务分派时间）"
         },
         "taskExecutionTime": {
-          "type": "string",
+          "type": "integer",
+          "format": "int64",
           "description": "任务时间"
         },
-        "taskLocation": {
+        "taskAddress": {
           "type": "string",
           "description": "任务地址"
         },
@@ -851,6 +1401,28 @@
           "type": "integer",
           "format": "int32",
           "description": "机构id"
+        }
+      }
+    },
+    "ImAccount": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "im用identifier"
+        },
+        "signature": {
+          "type": "string",
+          "description": "im用signature"
+        },
+        "imName": {
+          "type": "string",
+          "description": "im用名字"
+        },
+        "imAvatarUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "im头像Url"
         }
       }
     },
