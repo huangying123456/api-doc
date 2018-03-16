@@ -291,7 +291,7 @@ paths:
     get:
       tags:
         - "客户"
-      description: "客户列表 \n1-6护理任务/8"
+      description: "客户列表 \n1-6护理任务/8 1-2-1"
       operationId: "getAllCustomers"
       consumes:
       - "application/json"
@@ -302,6 +302,94 @@ paths:
           description: "成功\n返回结构见CustomerListDTO"
           schema:
             $ref: "#/definitions/CustomerListDTO"
+  /customers/{customerId}:
+    get:
+      tags:
+        - "客户"
+      description: "客户详情 \n1-2-2"
+      operationId: "getCustomerDetail"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        description: "客户Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见CustomerDetailDTO"
+          schema:
+            $ref: "#/definitions/CustomerDetailDTO"
+  /customers/{customerId}/health-document:
+    get:
+      tags:
+        - "客户"
+      description: "客户详情 \n1-2-6"
+      operationId: "getCustomerHealthDocument"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        description: "客户Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见CustomerHealthDocumentDTO"
+          schema:
+            $ref: "#/definitions/CustomerHealthDocumentDTO"
+  /customers/{customerId}/nursing-tasks:
+    get:
+      tags:
+        - "客户"
+      description: "客户服务信息 \n1-2-7"
+      operationId: "getCustomerNursingTasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        description: "客户Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见NursingTaskListDTO"
+          schema:
+            $ref: "#/definitions/NursingTaskListDTO"
+  /customers/{customerId}/evaluation-tasks:
+    get:
+      tags:
+        - "客户"
+      description: "客户评估信息 \n1-2-5"
+      operationId: "getCustomerEvaluationTasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        description: "客户Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见EvaluationTaskListDTO"
+          schema:
+            $ref: "#/definitions/EvaluationTaskListDTO"
   /departments:
     get:
       tags:
@@ -626,6 +714,19 @@ definitions:
       result:
         $ref: "#/definitions/Result"
 
+  CustomerDetailDTO:
+    properties:
+      data:
+        type: "object"
+        description: "客户详情"
+        properties:
+          customerProfileGroup:
+            type: "array"
+            items:
+              $ref: "#/definitions/CustomerProfileDetail"
+      result:
+        $ref: "#/definitions/Result"
+
   OrderDetailDTO:
     properties:
       data:
@@ -679,9 +780,9 @@ definitions:
       CustomerProfileInfo:
         type: "array"
         items:
-          $ref: "#/definitions/CustomerProfileInfo"
+          $ref: "#/definitions/CustomerProfileBasicInfo"
 
-  CustomerProfileInfo:
+  CustomerProfileBasicInfo:
     properties:
       id:
         type: "integer"
@@ -698,6 +799,50 @@ definitions:
         type: "string"
         pattern: "^1(3[4-9]|4[7]|5[0-27-9]|7[08]|8[2-478])\\d{8}$"
         description: "联系电话"
+
+  CustomerProfileDetail:
+    properties:
+      basicInfo:
+        description: "im账户"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
+      imAccount:
+        description: "im账户"
+        $ref: "#/definitions/ImAccount"
+      healthInfo:
+        type: "array"
+        description: "健康档案信息"
+        items:
+          $ref: "#/definitions/CustomerProfileHealthInfoItem"
+
+  CustomerProfileHealthInfoDTO:
+    properties:
+      data:
+        type: "object"
+        description: "订单详情数据"
+        properties:
+          healthInfo:
+            type: "array"
+            description: "健康档案信息"
+            items:
+              $ref: "#/definitions/CustomerProfileHealthInfoItem"
+      result:
+        $ref: "#/definitions/Result"
+
+
+  CustomerProfileHealthInfoItem:
+    properties:
+      title:
+        type: "string"
+        description: "信息标题"
+        enum:
+          - "疾病史"
+          - "用药史"
+          - "过敏史"
+          - "手术史"
+      content:
+        type: "string"
+        description: "内容"
+
 
   EvaluationTaskListDTO:
     properties:
@@ -965,6 +1110,8 @@ definitions:
                 type: "integer"
                 format: "int64"
                 description: "使用者id"
+          ImAccount:
+            $ref: "#/definitions/ImAccount"
       result:
         $ref: "#/definitions/Result"
 
@@ -1054,14 +1201,14 @@ definitions:
         description: "im用identifier"
       signature:
         type: "string"
-        description: "im用signature"
+        description: "im用signature 仅知道自己的"
       imName:
         type: "string"
-        description: "im用名字"
+        description: "im用名字 仅与对方聊天时使用"
       imAvatarUrl:
         type: "string"
         format: "uri"
-        description: "im头像Url"
+        description: "im头像Url 仅与对方聊天时使用"
 
 
   Department:
