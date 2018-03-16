@@ -53,6 +53,40 @@
         "tags": [
           "登录"
         ],
+        "description": "发送获取手机验证码请求\n 0-0登录/1-1登录",
+        "operationId": "getPhoneCaptcha",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "获取手机验证码请求 这里只需提供手机号\n请求结构见PhoneCaptchaOption",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PhoneCaptchaOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见SimpleResponse",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/login/phone": {
+      "post": {
+        "tags": [
+          "登录"
+        ],
         "description": "手机验证码登录\n 0-0登录/1-1登录",
         "operationId": "phoneCaptchaLogin",
         "consumes": [
@@ -206,7 +240,7 @@
           "200": {
             "description": "成功\n返回Result",
             "schema": {
-              "$ref": "#/definitions/Result"
+              "$ref": "#/definitions/SimpleResponse"
             }
           }
         }
@@ -510,9 +544,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见ScheduleDTO",
+            "description": "成功\n返回结构见ScheduleListDTO",
             "schema": {
-              "$ref": "#/definitions/ScheduleDTO"
+              "$ref": "#/definitions/ScheduleListDTO"
             }
           }
         }
@@ -549,9 +583,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见ScheduleDTO",
+            "description": "成功\n返回结构见ScheduleCalenderDTO",
             "schema": {
-              "$ref": "#/definitions/ScheduleDTO"
+              "$ref": "#/definitions/ScheduleCalenderDTO"
             }
           }
         }
@@ -1493,6 +1527,13 @@
           "type": "string",
           "format": "uri",
           "description": "机构图标地址"
+        }
+      }
+    },
+    "SimpleResponse": {
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Result"
         }
       }
     },
