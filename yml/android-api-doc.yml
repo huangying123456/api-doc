@@ -49,7 +49,7 @@ paths:
           description: "成功\n返回结构见SimpleResponse"
           schema:
             $ref: "#/definitions/SimpleResponse"
-  /login/phone:
+  /login:
     post:
       tags:
         - "登录"

@@ -82,7 +82,7 @@
         }
       }
     },
-    "/login/phone": {
+    "/login": {
       "post": {
         "tags": [
           "登录"
