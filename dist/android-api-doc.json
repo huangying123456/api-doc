@@ -525,9 +525,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见CustomerHealthDocumentDTO",
+            "description": "成功\n返回结构见CustomerProfileHealthInfoDTO",
             "schema": {
-              "$ref": "#/definitions/CustomerHealthDocumentDTO"
+              "$ref": "#/definitions/CustomerProfileHealthInfoDTO"
             }
           }
         }
@@ -836,6 +836,11 @@
           "format": "int64",
           "description": "任务结束时间"
         },
+        "taskName": {
+          "type": "integer",
+          "format": "int64",
+          "description": "任务名称"
+        },
         "task": {
           "$ref": "#/definitions/ScheduleCalenderItem"
         }
@@ -914,6 +919,25 @@
       }
     },
     "ServiceItemListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "服务项目列表",
+          "properties": {
+            "serviceList": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ServiceItemListItem"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ServiceItemListItem": {
       "properties": {
         "payerTypeName": {
           "type": "string",
@@ -1075,10 +1099,7 @@
           "description": "订单详情数据",
           "properties": {
             "orderDetail": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/OrderDetail"
-              }
+              "$ref": "#/definitions/OrderDetail"
             }
           }
         },
@@ -1169,11 +1190,9 @@
     "CustomerProfileDetail": {
       "properties": {
         "basicInfo": {
-          "description": "im账户",
           "$ref": "#/definitions/CustomerProfileBasicInfo"
         },
         "imAccount": {
-          "description": "im账户",
           "$ref": "#/definitions/ImAccount"
         },
         "healthInfo": {
@@ -1595,7 +1614,6 @@
           "description": "Specialist信息",
           "properties": {
             "basicInfo": {
-              "description": "Specialist基本信息",
               "$ref": "#/definitions/SpecialistBasicInfo"
             },
             "department": {
