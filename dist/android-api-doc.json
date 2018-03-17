@@ -674,6 +674,15 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "startTime",
+            "in": "query",
+            "description": "查询日期时间戳",
+            "required": true,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "成功\n返回结构见ScheduleListDTO",
@@ -699,16 +708,16 @@
         ],
         "parameters": [
           {
-            "name": "weekoffset",
+            "name": "startTime",
             "in": "query",
-            "description": "星期偏移（相较于本周晚于本周加一早于本周减一）",
+            "description": "开始时间",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "startingTime",
+            "name": "endTime",
             "in": "query",
-            "description": "本周开始时间（周一零点毫秒级）此参数优先级高",
+            "description": "结束时间",
             "required": true,
             "type": "integer"
           }
@@ -734,36 +743,13 @@
             "schedule": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ScheduleColumnGroup"
+                "$ref": "#/definitions/ScheduleItem"
               }
             }
           }
         },
         "result": {
           "$ref": "#/definitions/Result"
-        }
-      }
-    },
-    "ScheduleColumnGroup": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "功能名字",
-          "enum": [
-            "今日日程",
-            "近日日程"
-          ]
-        },
-        "iconUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "图标地址"
-        },
-        "scheduleColumn": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ScheduleItem"
-          }
         }
       }
     },
@@ -806,43 +792,18 @@
           "type": "object",
           "description": "机构列表数据",
           "properties": {
-            "schedule": {
+            "scheduleMarkTime": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ScheduleCalenderItem"
+                "type": "integer",
+                "format": "int64",
+                "description": "有任务日期时间戳"
               }
             },
             "result": {
               "$ref": "#/definitions/Result"
             }
           }
-        }
-      }
-    },
-    "ScheduleCalenderItem": {
-      "properties": {
-        "calenderItemColor": {
-          "type": "string",
-          "pattern": "^#6[0-9A-F]",
-          "description": "颜色html码"
-        },
-        "taskStartTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务开始时间"
-        },
-        "taskEndTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务结束时间"
-        },
-        "taskName": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务名称"
-        },
-        "task": {
-          "$ref": "#/definitions/ScheduleCalenderItem"
         }
       }
     },
@@ -1044,7 +1005,7 @@
             "department": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CustomerProfileInfo"
+                "$ref": "#/definitions/Department"
               }
             }
           }
