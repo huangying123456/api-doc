@@ -770,7 +770,7 @@ definitions:
         type: "integer"
         description: "服务项目简介"
       customerProfileInfo:
-        $ref: "#/definitions/CustomerProfileInfo"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
   CustomerProfileNameGroup:
     properties:
