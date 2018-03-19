@@ -747,6 +747,171 @@
           }
         }
       }
+    },
+    "/departments": {
+      "post": {
+        "tags": [
+          "机构管理"
+        ],
+        "description": "新建机构",
+        "operationId": "createDepartment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "平台新建机构的参数",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DepartmentCreateOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DepartmentDTO"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "机构管理"
+        ],
+        "description": "获取机构列表",
+        "operationId": "getDepartments",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DepartmentListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/platformAdmins": {
+      "post": {
+        "tags": [
+          "平台账号管理"
+        ],
+        "description": "新建平台账号",
+        "operationId": "createPlatformAdmin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "新建平台账号的参数",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PlatformAdminCreateOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformAdminDTO"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "平台账号管理"
+        ],
+        "description": "获取平台账号列表",
+        "operationId": "getPlatformAdmins",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformAdminListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/informations": {
+      "post": {
+        "tags": [
+          "资讯管理"
+        ],
+        "description": "新建资讯",
+        "operationId": "createInfromation",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "新建资讯的参数",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InformationCreateOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/InformationDTO"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "资讯管理"
+        ],
+        "description": "获取资讯列表",
+        "operationId": "getInformations",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/InformationListDTO"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1823,6 +1988,259 @@
         "displayMsg": {
           "type": "string",
           "description": "显示消息 用于前端或客户端显示"
+        }
+      }
+    },
+    "DepartmentCreateOption": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "机构名称"
+        },
+        "platformAdminName": {
+          "type": "string",
+          "description": "管理员姓名"
+        },
+        "platformAdminPhone": {
+          "type": "string",
+          "description": "管理员手机号"
+        },
+        "address": {
+          "type": "object",
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "机构类型"
+        },
+        "remark": {
+          "type": "string",
+          "description": "备注"
+        }
+      }
+    },
+    "DepartmentListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "机构列表数据",
+          "properties": {
+            "departmentList": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Department"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "PlatformAdminCreateOption": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "用户姓名"
+        },
+        "phone": {
+          "type": "string",
+          "description": "手机号"
+        },
+        "permission": {
+          "type": "array",
+          "description": "管理权限",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "具体权限"
+            }
+          }
+        },
+        "remark": {
+          "type": "string",
+          "description": "备注"
+        }
+      }
+    },
+    "PlatformAdminDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "账户详情",
+          "properties": {
+            "department": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/PlatformAdmin"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "PlatformAdminListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "账户列表",
+          "properties": {
+            "departmentList": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlatformAdmin"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "PlatformAdmin": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "用户id"
+        },
+        "name": {
+          "type": "string",
+          "description": "用户姓名"
+        },
+        "phone": {
+          "type": "string",
+          "description": "手机号"
+        },
+        "permission": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Permission"
+          }
+        },
+        "remark": {
+          "type": "string",
+          "description": "备注"
+        }
+      }
+    },
+    "InformationCreateOption": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "资讯标题"
+        },
+        "desc": {
+          "type": "string",
+          "description": "资讯简介"
+        },
+        "link": {
+          "type": "string",
+          "description": "资讯链接"
+        },
+        "picture": {
+          "type": "string",
+          "description": "图片"
+        }
+      }
+    },
+    "Permission": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "具体权限"
+        }
+      }
+    },
+    "Information": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "资讯id"
+        },
+        "title": {
+          "type": "string",
+          "description": "资讯标题"
+        },
+        "desc": {
+          "type": "string",
+          "description": "资讯简介"
+        },
+        "link": {
+          "type": "string",
+          "description": "资讯链接"
+        },
+        "picture": {
+          "type": "string",
+          "description": "图片"
+        }
+      }
+    },
+    "InformationDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "资讯详情",
+          "properties": {
+            "department": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Information"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "InformationListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "资讯列表",
+          "properties": {
+            "departmentList": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Information"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "Address": {
+      "properties": {
+        "province": {
+          "type": "string",
+          "description": "省"
+        },
+        "city": {
+          "type": "string",
+          "description": "市"
+        },
+        "district": {
+          "type": "string",
+          "description": "区"
+        },
+        "street": {
+          "type": "string",
+          "description": "街道"
+        },
+        "detail": {
+          "type": "string",
+          "description": "详细地址"
         }
       }
     }

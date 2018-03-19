@@ -3,7 +3,7 @@ info:
   description: ""
   version: "1.0.0"
   title: "蜂邻项目C端"
-basePath: "/-end/v1/"
+basePath: "/C-end/v1/"
 tags:
 
 - name: "首页"
