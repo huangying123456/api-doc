@@ -1651,16 +1651,6 @@
           "type": "string",
           "description": "手机号"
         },
-        "permission": {
-          "type": "array",
-          "description": "管理权限",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "具体权限"
-            }
-          }
-        },
         "remark": {
           "type": "string",
           "description": "备注"
@@ -1719,16 +1709,6 @@
           "type": "string",
           "description": "手机号"
         },
-        "permission": {
-          "type": "array",
-          "description": "管理权限",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "具体权限"
-            }
-          }
-        },
         "remark": {
           "type": "string",
           "description": "备注"
@@ -1760,7 +1740,7 @@
     "RefundOption": {
       "type": "object",
       "properties": {
-        "idCard": {
+        "refund": {
           "type": "integer",
           "format": "int64",
           "description": "退款金额"
