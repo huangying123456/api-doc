@@ -546,8 +546,8 @@ definitions:
               type: "integer"
               format: "int64"
               description: "有任务日期时间戳"
-          result:
-            $ref: "#/definitions/Result"
+      result:
+        $ref: "#/definitions/Result"
 
 
   MessageFeatureDTO:
