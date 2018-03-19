@@ -116,6 +116,29 @@
         }
       }
     },
+    "/logout": {
+      "post": {
+        "tags": [
+          "登录"
+        ],
+        "description": "登出",
+        "operationId": "Logout",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见SimpleResponse",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        }
+      }
+    },
     "/specialists/info": {
       "get": {
         "tags": [
@@ -1692,6 +1715,11 @@
     "Department": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "机构Id"
+        },
         "name": {
           "type": "string",
           "description": "机构名称"
