@@ -993,7 +993,7 @@ definitions:
         type: "object"
         description: "员工列表"
         properties:
-          specialistList:
+          specialist:
             type: "array"
             items:
               $ref: "#/definitions/SpecialistBasicInfo"
@@ -1392,7 +1392,7 @@ definitions:
         type: "object"
         description: "费用列表"
         properties:
-          paymentList:
+          payment:
             type: "array"
             items:
               $ref: "#/definitions/PaymentDetail"
@@ -1461,7 +1461,7 @@ definitions:
         type: "object"
         description: "订单列表"
         properties:
-          orderList:
+          order:
             type: "array"
             items:
               $ref: "#/definitions/OrderDetail"
@@ -1637,7 +1637,7 @@ definitions:
         type: "object"
         description: "管理员列表"
         properties:
-          departmentAdminList:
+          departmentAdmin:
             type: "array"
             items:
               $ref: "#/definitions/DepartmentAdmin"
@@ -1798,7 +1798,7 @@ definitions:
         type: "object"
         description: "机构列表数据"
         properties:
-          departmentList:
+          department:
             type: "array"
             items:
               $ref: "#/definitions/Department"
@@ -1836,7 +1836,7 @@ definitions:
         type: "object"
         description: "账户列表"
         properties:
-          platformAdminList:
+          platformAdmin:
             type: "array"
             items:
               $ref: "#/definitions/PlatformAdmin"
@@ -1916,7 +1916,7 @@ definitions:
         type: "object"
         description: "资讯列表"
         properties:
-          informationList:
+          information:
             type: "array"
             items:
               $ref: "#/definitions/Information"
