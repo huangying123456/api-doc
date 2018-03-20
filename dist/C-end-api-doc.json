@@ -590,6 +590,45 @@
         }
       }
     },
+    "/departments/{departmentId}/orders/{orderId}/pay": {
+      "patch": {
+        "tags": [
+          "首页"
+        ],
+        "description": "支付订单",
+        "operationId": "cancelOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OrderDetailDTO"
+            }
+          }
+        }
+      }
+    },
     "/departments/{departmentId}/orders/{orderId}/review": {
       "patch": {
         "tags": [
