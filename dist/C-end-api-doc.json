@@ -261,13 +261,13 @@
         }
       }
     },
-    "/user/{userId}/verify-customer": {
-      "post": {
+    "/articles/{articleId}": {
+      "get": {
         "tags": [
           "首页"
         ],
-        "description": "会员用户信息验证",
-        "operationId": "verifyCustomer",
+        "description": "获取文章详情",
+        "operationId": "getArticles",
         "consumes": [
           "application/json"
         ],
@@ -276,26 +276,18 @@
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "articleId",
             "in": "path",
             "required": true,
             "type": "integer",
             "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VerifyCustomerOption"
-            }
           }
         ],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/VerifyCustomerDTO"
+              "$ref": "#/definitions/ArticleDTO"
             }
           }
         }
@@ -306,7 +298,7 @@
         "tags": [
           "首页"
         ],
-        "description": "机构列表",
+        "description": "平台下的所有机构列表",
         "operationId": "getDepartments",
         "consumes": [
           "application/json"
@@ -722,9 +714,9 @@
     "/customers/{customerId}/nursing-tasks": {
       "get": {
         "tags": [
-          "客户"
+          "护理任务"
         ],
-        "description": "客户服务信息 \n1-2-7",
+        "description": "护理任务列表",
         "operationId": "getCustomerNursingTasks",
         "consumes": [
           "application/json"
@@ -785,13 +777,13 @@
         }
       }
     },
-    "/messages/feature": {
+    "/messages/specialists": {
       "get": {
         "tags": [
           "消息"
         ],
-        "description": "消息页面\n",
-        "operationId": "getMessageFeatures",
+        "description": "获取可聊天的健康师信息列表",
+        "operationId": "getMessageSpecialists",
         "consumes": [
           "application/json"
         ],
@@ -800,9 +792,73 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见MessageFeatureDTO",
+            "description": "成功\n返回结构见 ChatNurseListDTO",
             "schema": {
-              "$ref": "#/definitions/MessageFeatureDTO"
+              "$ref": "#/definitions/ChatSpecialistListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/messages/users": {
+      "get": {
+        "tags": [
+          "消息"
+        ],
+        "description": "获取聊天用户自己的信息",
+        "operationId": "getMessageUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见 UserChatDTO",
+            "schema": {
+              "$ref": "#/definitions/UserChatDTO"
+            }
+          }
+        }
+      }
+    },
+    "/messages/{userId}/user-to-specialist/{specialistId}/chat": {
+      "get": {
+        "tags": [
+          "消息"
+        ],
+        "description": "发起聊天",
+        "operationId": "chatToSpecialist",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "任务Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "specialistId",
+            "in": "path",
+            "description": "任务Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见 ChatDTO",
+            "schema": {
+              "$ref": "#/definitions/ChatDTO"
             }
           }
         }
@@ -836,10 +892,7 @@
           "type": "object",
           "properties": {
             "user": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/User"
-              }
+              "$ref": "#/definitions/User"
             }
           }
         },
@@ -853,10 +906,19 @@
         "data": {
           "type": "object",
           "properties": {
-            "componentList": {
+            "specialist": {
+              "$ref": "#/definitions/Specialist"
+            },
+            "healthInfo": {
+              "$ref": "#/definitions/HealthInfo"
+            },
+            "article": {
+              "$ref": "#/definitions/Article"
+            },
+            "banner": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Componet"
+                "$ref": "#/definitions/Banner"
               }
             }
           }
@@ -872,10 +934,7 @@
           "type": "object",
           "properties": {
             "user": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/User"
-              }
+              "$ref": "#/definitions/User"
             }
           }
         },
@@ -908,10 +967,7 @@
           "type": "object",
           "properties": {
             "customer": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/Customer"
-              }
+              "$ref": "#/definitions/Customer"
             },
             "exist": {
               "type": "integer",
@@ -950,25 +1006,13 @@
         }
       }
     },
-    "VerifyCustomerOption": {
-      "properties": {
-        "Id": {
-          "type": "integer",
-          "description": "会员id"
-        },
-        "captcha": {
-          "type": "string",
-          "description": "验证码"
-        }
-      }
-    },
     "DepartmentListDTO": {
       "properties": {
         "data": {
           "type": "object",
           "properties": {
             "department": {
-              "type": "object",
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/Department"
               }
@@ -986,10 +1030,7 @@
           "type": "object",
           "properties": {
             "department": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/Department"
-              }
+              "$ref": "#/definitions/Department"
             },
             "component": {
               "type": "array",
@@ -1146,10 +1187,7 @@
           "description": "Specialist信息",
           "properties": {
             "basicInfo": {
-              "$ref": "#/definitions/SpecialistBasicInfo"
-            },
-            "imAccount": {
-              "$ref": "#/definitions/ImAccount"
+              "$ref": "#/definitions/Specialist"
             }
           }
         },
@@ -1175,7 +1213,7 @@
               "type": "array",
               "description": "健康档案信息",
               "items": {
-                "$ref": "#/definitions/CustomerProfileHealthInfoItem"
+                "$ref": "#/definitions/HealthInfo"
               }
             }
           }
@@ -1189,7 +1227,7 @@
       "properties": {
         "data": {
           "type": "object",
-          "description": "健康档案信息",
+          "description": "获取客服电话",
           "properties": {
             "phone": {
               "type": "string"
@@ -1201,17 +1239,14 @@
         }
       }
     },
-    "MessageFeatureDTO": {
+    "ArticleDTO": {
       "properties": {
         "data": {
           "type": "object",
-          "description": "消息列表",
+          "description": "文章详情",
           "properties": {
-            "messageFeature": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/MessageFeature"
-              }
+            "article": {
+              "$ref": "#/definitions/Article"
             }
           }
         },
@@ -1220,52 +1255,94 @@
         }
       }
     },
-    "Componet": {
+    "UserChatDTO": {
       "properties": {
-        "id": {
-          "type": "integer"
+        "data": {
+          "type": "object",
+          "description": "用户聊天信息",
+          "properties": {
+            "chatAccount": {
+              "$ref": "#/definitions/ChatAccount"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ChatDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "用户聊天信息",
+          "properties": {
+            "fromChatAccount": {
+              "$ref": "#/definitions/ChatAccount"
+            },
+            "toChatAccount": {
+              "$ref": "#/definitions/ChatAccount"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ChatSpecialistListDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "用户聊天信息",
+          "properties": {
+            "specialistChatAccount": {
+              "$ref": "#/definitions/ChatAccount"
+            },
+            "chatGroup": {
+              "$ref": "#/definitions/ChatGroup"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ChatAccount": {
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "avatarUrl": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        }
+      }
+    },
+    "ChatGroup": {
+      "properties": {
+        "groupId": {
+          "type": "string"
         },
         "name": {
           "type": "string"
         },
-        "rank": {
-          "type": "integer"
+        "departmentId": {
+          "type": "string"
         }
       }
     },
-    "MessageFeature": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "功能名字",
-          "enum": [
-            "订单提醒",
-            "服务信息",
-            "健康档案"
-          ]
-        },
-        "iconUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "图标地址"
-        },
-        "hasNew": {
-          "type": "string",
-          "description": "是否有新消息"
-        }
-      }
-    },
-    "CustomerProfileHealthInfoItem": {
+    "HealthInfo": {
       "properties": {
         "title": {
           "type": "string",
-          "description": "信息标题",
-          "enum": [
-            "疾病史",
-            "用药史",
-            "过敏史",
-            "手术史"
-          ]
+          "description": "信息标题"
         },
         "content": {
           "type": "string",
@@ -1273,7 +1350,7 @@
         }
       }
     },
-    "SpecialistBasicInfo": {
+    "Specialist": {
       "type": "object",
       "properties": {
         "id": {
@@ -1322,12 +1399,9 @@
           "type": "string",
           "description": "个人二维码"
         },
-        "departmentTitle": {
-          "type": "array",
-          "description": "机构角色（机构职称）列表",
-          "items": {
-            "$ref": "#/definitions/SpecialistDepartmentTitle"
-          }
+        "title": {
+          "type": "string",
+          "description": "职称"
         }
       }
     },
@@ -1581,21 +1655,46 @@
         },
         "phone": {
           "type": "string"
+        },
+        "avatar": {
+          "type": "string"
         }
       }
     },
-    "specialist": {
+    "Banner": {
       "properties": {
         "id": {
           "type": "integer"
         },
-        "name": {
+        "type": {
           "type": "string"
         },
-        "gender": {
+        "name": {
           "type": "integer"
         },
-        "phone": {
+        "brief": {
+          "type": "string"
+        },
+        "bannerUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "Article": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string"
+        },
+        "name": {
+          "type": "integer"
+        },
+        "brief": {
+          "type": "string"
+        },
+        "bannerUrl": {
           "type": "string"
         }
       }
@@ -1631,6 +1730,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/ItemProp"
+          }
+        },
+        "serviceItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
           }
         }
       }
@@ -1735,28 +1840,6 @@
         "picture": {
           "type": "string",
           "description": "机构类型"
-        }
-      }
-    },
-    "ImAccount": {
-      "type": "object",
-      "properties": {
-        "identifier": {
-          "type": "string",
-          "description": "im用identifier"
-        },
-        "signature": {
-          "type": "string",
-          "description": "im用signature 仅知道自己的"
-        },
-        "imName": {
-          "type": "string",
-          "description": "im用名字 仅与对方聊天时使用"
-        },
-        "imAvatarUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "im头像Url 仅与对方聊天时使用"
         }
       }
     },
