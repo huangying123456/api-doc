@@ -596,7 +596,7 @@
           "首页"
         ],
         "description": "支付订单",
-        "operationId": "cancelOrder",
+        "operationId": "payOrder",
         "consumes": [
           "application/json"
         ],
@@ -1040,7 +1040,7 @@
             "article": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Departments"
+                "$ref": "#/definitions/Department"
               }
             },
             "banner": {

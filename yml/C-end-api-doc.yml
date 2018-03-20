@@ -395,7 +395,7 @@ paths:
       tags:
         - "首页"
       description: "支付订单"
-      operationId: "cancelOrder"
+      operationId: "payOrder"
       consumes:
         - "application/json"
       produces:
@@ -693,7 +693,7 @@ definitions:
           article:
             type: "array"
             items:
-              $ref: "#/definitions/Departments"
+              $ref: "#/definitions/Department"
           banner:
             type: "array"
             items:
