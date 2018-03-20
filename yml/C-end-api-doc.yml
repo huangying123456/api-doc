@@ -3,7 +3,7 @@ info:
   description: ""
   version: "1.0.0"
   title: "蜂邻项目C端"
-basePath: "/C-end/v1/canaveral"
+basePath: "/weixin/v1/canaveral"
 tags:
 
 - name: "首页"
@@ -53,7 +53,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/RegisterDTO"
-  /user/{userId}/userInfo:
+  /users/userInfo:
     get:
       tags:
         - "我的"
@@ -63,18 +63,12 @@ paths:
         - "application/json"
       produces:
         - "application/json"
-      parameters:
-      - name: "userId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       responses:
         200:
           description: ""
           schema:
             $ref: "#/definitions/UserInfoDTO"
-  /user/{userId}/Customers:
+  /users/Customers:
     get:
       tags:
         - "首页"
@@ -84,19 +78,13 @@ paths:
         - "application/json"
       produces:
         - "application/json"
-      parameters:
-      - name: "userId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       responses:
         200:
           description: ""
           schema:
             $ref: "#/definitions/CustomerListDTO"
 
-  /user/{userId}/Customer/{customerId}:
+  /users/Customer/{customerId}:
     get:
       tags:
         - "首页"
@@ -107,11 +95,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: "userId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       - name: "customerId"
         in: "path"
         required: true
@@ -122,7 +105,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/CustomerDTO"
-  /user/{userId}/Customer:
+  /users/Customer:
     post:
       tags:
         - "首页"
@@ -318,7 +301,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/TakenInfoDTO"
-  /departments/{departmentId}/orders:
+  /orders:
     post:
       tags:
         - "首页"
@@ -364,7 +347,28 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/OrderListDTO"
-  /departments/{departmentId}/orders/{orderId}/cancel:
+  /orders/{orderId}:
+    get:
+      tags:
+        - "首页"
+      description: "取消订单"
+      operationId: "getOrderById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "orderId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/OrderDetailDTO"
+  /orders/{orderId}/cancel:
     patch:
       tags:
         - "首页"
@@ -375,11 +379,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       - name: "orderId"
         in: "path"
         required: true
@@ -390,7 +389,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/OrderDetailDTO"
-  /departments/{departmentId}/orders/{orderId}/pay:
+  /orders/{orderId}/pay:
     patch:
       tags:
         - "首页"
@@ -401,11 +400,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       - name: "orderId"
         in: "path"
         required: true
@@ -415,8 +409,8 @@ paths:
         200:
           description: ""
           schema:
-            $ref: "#/definitions/OrderDetailDTO"
-  /departments/{departmentId}/orders/{orderId}/review:
+            $ref: "#/definitions/InitiateChargeResultDTO"
+  /orders/{orderId}/review:
     patch:
       tags:
         - "首页"
@@ -427,11 +421,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       - name: "orderId"
         in: "path"
         required: true
@@ -447,7 +436,8 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/OrderDetailDTO"
-  /departments/{departmentId}/orders/{customerId}:
+
+  /orders/customer/{customerId}:
     get:
       tags:
         - "首页"
@@ -494,21 +484,6 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/SpecialistInfoDTO"
-  /specialists/contact:
-    get:
-      tags:
-        - "首页"
-      description: "获取客服电话"
-      operationId: "getcontact"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/ContactDTO"
   /specialists/scan-qrcode-binding:
     post:
       tags:
@@ -530,7 +505,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/SpecialistInfoDTO"
-  /customers/{customerId}/health-document:
+  /users/customers/{customerId}/health-document:
     get:
       tags:
         - "客户"
@@ -553,7 +528,7 @@ paths:
           schema:
             $ref: "#/definitions/CustomerProfileHealthInfoDTO"
 
-  /customers/{customerId}/nursing-tasks:
+  /users/customers/{customerId}/nursing-tasks:
     get:
       tags:
         - "护理任务"
@@ -575,11 +550,11 @@ paths:
           description: "成功\n返回结构见NursingTaskListDTO"
           schema:
             $ref: "#/definitions/NursingTaskListDTO"
-  /tasks/nursing-tasks/{taskId}:
+  /users/customers/nursing-tasks/nursing-tasks/{taskId}:
     get:
       tags:
         - "护理任务"
-      description: "护理任务列表 \n1-6护理任务/4~6"
+      description: "护理任务详情"
       operationId: "getNursingTaskById"
       consumes:
       - "application/json"
@@ -609,7 +584,7 @@ paths:
       - "application/json"
       responses:
         200:
-          description: "成功\n返回结构见 ChatNurseListDTO"
+          description: "成功\n返回结构见 ChatSpecialistListDTO"
           schema:
             $ref: "#/definitions/ChatSpecialistListDTO"
   /messages/users:
@@ -627,7 +602,7 @@ paths:
           description: "成功\n返回结构见 UserChatDTO"
           schema:
             $ref: "#/definitions/UserChatDTO"
-  /messages/{userId}/user-to-specialist/{specialistId}/chat:
+  /messages/user-to-specialist/{specialistId}/chat:
     get:
       tags:
         - "消息"
@@ -655,6 +630,21 @@ paths:
           description: "成功\n返回结构见 ChatDTO"
           schema:
             $ref: "#/definitions/ChatDTO"
+  /messages/wx-config:
+    get:
+      tags:
+        - "消息"
+      description: "获取聊天配置"
+      operationId: "getWxConfig"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见 WxJsConfigDTO"
+          schema:
+            $ref: "#/definitions/WxJsConfigDTO"
 
 definitions:
   RegisterOption:
@@ -842,6 +832,8 @@ definitions:
 
   CreateOrderOption:
     properties:
+      departmentId:
+        type: "integer"
       ItemId:
         type: "integer"
       serviceItemId:
@@ -859,6 +851,15 @@ definitions:
         properties:
           orderDetali:
             $ref: "#/definitions/OrderDetail"
+      result:
+        $ref: "#/definitions/Result"
+
+  InitiateChargeResultDTO:
+    properties:
+      data:
+        properties:
+          chargeJson:
+            type: "string"
       result:
         $ref: "#/definitions/Result"
 
@@ -900,17 +901,6 @@ definitions:
             description: "健康档案信息"
             items:
               $ref: "#/definitions/HealthInfo"
-      result:
-        $ref: "#/definitions/Result"
-
-  ContactDTO:
-    properties:
-      data:
-        type: "object"
-        description: "获取客服电话"
-        properties:
-          phone:
-            type: "string"
       result:
         $ref: "#/definitions/Result"
 
@@ -961,12 +951,35 @@ definitions:
               $ref: "#/definitions/ChatGroup"
       result:
         $ref: "#/definitions/Result"
+  WxJsConfigDTO:
+    properties:
+      data:
+        type: "object"
+        description: "用户聊天信息"
+        properties:
+          Config:
+              $ref: "#/definitions/Config"
+      result:
+        $ref: "#/definitions/Result"
 
   ReviewOrderOption:
     properties:
       score:
         type: "string"
       comment:
+        type: "string"
+
+  Config:
+    properties:
+      nonceStr:
+        type: "string"
+      timestamp:
+        type: "string"
+      url:
+        type: "string"
+      signature:
+        type: "string"
+      appId:
         type: "string"
 
   ChatAccount:

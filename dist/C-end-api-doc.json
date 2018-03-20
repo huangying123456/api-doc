@@ -965,15 +965,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "url",
-            "description": "一个url，",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "成功\n返回结构见 WxJsConfigDTO",
