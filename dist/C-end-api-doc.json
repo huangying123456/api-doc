@@ -551,6 +551,92 @@
         }
       }
     },
+    "/departments/{departmentId}/orders/{orderId}/cancel": {
+      "patch": {
+        "tags": [
+          "首页"
+        ],
+        "description": "取消订单",
+        "operationId": "cancelOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OrderDetailDTO"
+            }
+          }
+        }
+      }
+    },
+    "/departments/{departmentId}/orders/{orderId}/review": {
+      "patch": {
+        "tags": [
+          "首页"
+        ],
+        "description": "订单评价",
+        "operationId": "reviewOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReviewOrderOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OrderDetailDTO"
+            }
+          }
+        }
+      }
+    },
     "/departments/{departmentId}/orders/{customerId}": {
       "get": {
         "tags": [
@@ -913,7 +999,10 @@
               "$ref": "#/definitions/HealthInfo"
             },
             "article": {
-              "$ref": "#/definitions/Article"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Departments"
+              }
             },
             "banner": {
               "type": "array",
@@ -1306,6 +1395,16 @@
         },
         "result": {
           "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ReviewOrderOption": {
+      "properties": {
+        "score": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
         }
       }
     },
