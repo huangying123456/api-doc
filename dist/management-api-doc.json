@@ -9,19 +9,15 @@
   "tags": [
     {
       "name": "客户",
-      "description": "客户管理接口"
+      "description": "客户接口"
     },
     {
       "name": "登录",
       "description": "登录接口"
     },
     {
-      "name": "护理任务",
-      "description": "护理任务接口"
-    },
-    {
-      "name": "评估任务",
-      "description": "评估任务接口"
+      "name": "任务",
+      "description": "任务接口"
     },
     {
       "name": "订单",
@@ -42,6 +38,10 @@
     {
       "name": "机构",
       "description": "机构接口"
+    },
+    {
+      "name": "资讯",
+      "description": "资讯接口"
     }
   ],
   "schemes": [
@@ -116,6 +116,79 @@
         }
       }
     },
+    "/customers/{customerProfileId}": {
+      "patch": {
+        "tags": [
+          "客户"
+        ],
+        "description": "更新客户信息",
+        "operationId": "updateCustomerProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "更新客户信息",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerProfileOption"
+            }
+          },
+          {
+            "in": "path",
+            "name": "customerProfileId",
+            "description": "客户Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CustomerProfileDTO"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "客户"
+        ],
+        "description": "客户详情",
+        "operationId": "getCustomerProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerProfileId",
+            "description": "客户Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见CustomerProfileDTO",
+            "schema": {
+              "$ref": "#/definitions/CustomerProfileDTO"
+            }
+          }
+        }
+      }
+    },
     "/customers": {
       "get": {
         "tags": [
@@ -131,9 +204,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见CustomerListDTO",
+            "description": "成功\n返回结构见CustomerProfileListDTO",
             "schema": {
-              "$ref": "#/definitions/CustomerListDTO"
+              "$ref": "#/definitions/CustomerProfileListDTO"
             }
           }
         }
@@ -208,7 +281,7 @@
     "/tasks/evaluation-tasks": {
       "get": {
         "tags": [
-          "评估任务"
+          "任务"
         ],
         "description": "评估任务列表 \n1-5评估任务 1～2",
         "operationId": "getAllEvaluationTasks",
@@ -228,10 +301,43 @@
         }
       }
     },
+    "/tasks/evaluation-tasks/{evaluationTaskId}": {
+      "get": {
+        "tags": [
+          "任务"
+        ],
+        "description": "评估任务详情",
+        "operationId": "getEvaluationTask",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "evaluationTaskId",
+            "description": "评估任务Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见EvaluationTaskDTO",
+            "schema": {
+              "$ref": "#/definitions/EvaluationTaskDTO"
+            }
+          }
+        }
+      }
+    },
     "/tasks/nursing-tasks": {
       "get": {
         "tags": [
-          "护理任务"
+          "任务"
         ],
         "description": "护理任务列表 \n1-6护理任务 1～2",
         "operationId": "getAllNursingTasks",
@@ -246,6 +352,39 @@
             "description": "成功\n返回结构见NursingTaskListDTO",
             "schema": {
               "$ref": "#/definitions/NursingTaskListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/nursing-tasks/{nursingTaskId}": {
+      "get": {
+        "tags": [
+          "任务"
+        ],
+        "description": "护理任务详情",
+        "operationId": "getNursingTask",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nursingTaskId",
+            "description": "护理任务Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见NursingTaskDetailDTO",
+            "schema": {
+              "$ref": "#/definitions/NursingTaskDetailDTO"
             }
           }
         }
@@ -306,6 +445,39 @@
         }
       }
     },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "订单"
+        ],
+        "description": "订单详情",
+        "operationId": "getOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "description": "订单Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见OrderDTO",
+            "schema": {
+              "$ref": "#/definitions/OrderDTO"
+            }
+          }
+        }
+      }
+    },
     "/payments": {
       "get": {
         "tags": [
@@ -356,6 +528,39 @@
             "description": "成功\n返回Result",
             "schema": {
               "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/payments/{paymentId}": {
+      "get": {
+        "tags": [
+          "费用"
+        ],
+        "description": "费用详情",
+        "operationId": "getPayment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paymentId",
+            "description": "费用Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见PaymentDTO",
+            "schema": {
+              "$ref": "#/definitions/PaymentDTO"
             }
           }
         }
@@ -746,12 +951,43 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "机构"
+        ],
+        "description": "删除机构",
+        "operationId": "deleteDepartment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "departmentId",
+            "description": "机构Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回Result",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        }
       }
     },
     "/departments": {
       "post": {
         "tags": [
-          "机构管理"
+          "机构"
         ],
         "description": "新建机构",
         "operationId": "createDepartment",
@@ -783,7 +1019,7 @@
       },
       "get": {
         "tags": [
-          "机构管理"
+          "机构"
         ],
         "description": "获取机构列表",
         "operationId": "getDepartments",
@@ -806,9 +1042,9 @@
     "/platformAdmins": {
       "post": {
         "tags": [
-          "平台账号管理"
+          "管理员"
         ],
-        "description": "新建平台账号",
+        "description": "新建平台管理员",
         "operationId": "createPlatformAdmin",
         "consumes": [
           "application/json"
@@ -838,9 +1074,9 @@
       },
       "get": {
         "tags": [
-          "平台账号管理"
+          "管理员"
         ],
-        "description": "获取平台账号列表",
+        "description": "获取平台管理员列表",
         "operationId": "getPlatformAdmins",
         "consumes": [
           "application/json"
@@ -858,10 +1094,74 @@
         }
       }
     },
+    "/platformAdmins/{platformAdminId}": {
+      "delete": {
+        "tags": [
+          "管理员"
+        ],
+        "description": "删除平台管理员",
+        "operationId": "deletePlatformAdmin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "platformAdminId",
+            "description": "管理员Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回Result",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "管理员"
+        ],
+        "description": "平台管理员详情",
+        "operationId": "getPlatformAdminInfo",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "platformAdminId",
+            "description": "管理员Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见PlatformAdminDTO",
+            "schema": {
+              "$ref": "#/definitions/PlatformAdminDTO"
+            }
+          }
+        }
+      }
+    },
     "/informations": {
       "post": {
         "tags": [
-          "资讯管理"
+          "资讯"
         ],
         "description": "新建资讯",
         "operationId": "createInfromation",
@@ -893,7 +1193,7 @@
       },
       "get": {
         "tags": [
-          "资讯管理"
+          "资讯"
         ],
         "description": "获取资讯列表",
         "operationId": "getInformations",
@@ -912,9 +1212,123 @@
           }
         }
       }
+    },
+    "/informations/{informationId}": {
+      "delete": {
+        "tags": [
+          "资讯"
+        ],
+        "description": "删除资讯",
+        "operationId": "deleteInformation",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "informationId",
+            "description": "资讯Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回Result",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "资讯"
+        ],
+        "description": "资讯详情",
+        "operationId": "getInformation",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "informationId",
+            "description": "资讯Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见InformationDTO",
+            "schema": {
+              "$ref": "#/definitions/InformationDTO"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "ContactProfileOption": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer"
+        },
+        "relation": {
+          "type": "string",
+          "description": "与客户关系"
+        },
+        "isGuardian": {
+          "type": "integer",
+          "description": "是否为客户监护人"
+        },
+        "address": {
+          "type": "object",
+          "description": "地址",
+          "properties": {
+            "province": {
+              "type": "string",
+              "description": "省"
+            },
+            "city": {
+              "type": "string",
+              "description": "市"
+            },
+            "district": {
+              "type": "string",
+              "description": "区"
+            },
+            "street": {
+              "type": "string",
+              "description": "街道"
+            },
+            "detail": {
+              "type": "string",
+              "description": "详细地址"
+            }
+          }
+        }
+      }
+    },
     "DepartmentOption": {
       "properties": {
         "address": {
@@ -962,25 +1376,6 @@
         }
       }
     },
-    "DepartmentDTO": {
-      "properties": {
-        "data": {
-          "type": "object",
-          "description": "机构详情",
-          "properties": {
-            "department": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/Department"
-              }
-            }
-          }
-        },
-        "result": {
-          "$ref": "#/definitions/Result"
-        }
-      }
-    },
     "Department": {
       "type": "object",
       "properties": {
@@ -1020,7 +1415,7 @@
         },
         "type": {
           "type": "integer",
-          "format": "int32",
+          "format": "int64",
           "description": "机构类型"
         },
         "typeName": {
@@ -1048,7 +1443,7 @@
           "type": "object",
           "description": "员工列表",
           "properties": {
-            "specialistList": {
+            "specialist": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/SpecialistBasicInfo"
@@ -1107,7 +1502,7 @@
         },
         "age": {
           "type": "integer",
-          "format": "int32",
+          "format": "int64",
           "description": "年龄显示以此字段为准"
         },
         "idCard": {
@@ -1173,7 +1568,7 @@
         },
         "departmentId": {
           "type": "integer",
-          "format": "int32",
+          "format": "int64",
           "description": "用户机构id"
         },
         "name": {
@@ -1200,7 +1595,7 @@
         },
         "age": {
           "type": "integer",
-          "format": "int32",
+          "format": "int64",
           "description": "年龄显示以此字段为准"
         },
         "idCard": {
@@ -1328,19 +1723,27 @@
         },
         "avatarUrl": {
           "type": "string"
+        },
+        "contactList": {
+          "type": "string",
+          "description": "联系人列表"
+        },
+        "healthInfo": {
+          "type": "string",
+          "description": "健康档案信息"
         }
       }
     },
-    "CustomerListDTO": {
+    "CustomerProfileListDTO": {
       "properties": {
         "data": {
           "type": "object",
           "description": "客户列表数据列表",
           "properties": {
-            "CustomerProfiles": {
+            "CustomerProfile": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CustomerProfileListInfo"
+                "$ref": "#/definitions/CustomerProfileInfo"
               }
             }
           }
@@ -1350,7 +1753,26 @@
         }
       }
     },
-    "CustomerProfileListInfo": {
+    "CustomerProfileDTO": {
+      "type": "object",
+      "description": "客户详情",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "客户详情",
+          "properties": {
+            "customerProfileInfo": {
+              "description": "客户详情",
+              "$ref": "#/definitions/CustomerProfileInfo"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "CustomerProfileInfo": {
       "properties": {
         "CustomerProfileBaseInfo": {
           "$ref": "#/definitions/CustomerProfileBaseInfo",
@@ -1426,7 +1848,11 @@
         },
         "contactList": {
           "type": "string",
-          "description": "基本信息"
+          "description": "联系人列表"
+        },
+        "healthInfo": {
+          "type": "string",
+          "description": "健康档案信息"
         }
       }
     },
@@ -1449,9 +1875,25 @@
         }
       }
     },
+    "EvaluationTaskDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "评估任务详情",
+          "properties": {
+            "evaluationTask": {
+              "$ref": "#/definitions/EvaluationTask"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
     "EvaluationTask": {
       "type": "object",
-      "description": "机构功能",
+      "description": "评估任务详情",
       "properties": {
         "id": {
           "type": "integer",
@@ -1535,11 +1977,30 @@
           "type": "object",
           "description": "费用列表",
           "properties": {
-            "paymentList": {
+            "payment": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/PaymentDetail"
               }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "PaymentDTO": {
+      "type": "object",
+      "description": "费用详情",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "费用详情",
+          "properties": {
+            "payment": {
+              "description": "费用详情",
+              "$ref": "#/definitions/PaymentDetail"
             }
           }
         },
@@ -1610,7 +2071,7 @@
           "type": "object",
           "description": "订单列表",
           "properties": {
-            "orderList": {
+            "order": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/OrderDetail"
@@ -1641,6 +2102,25 @@
         },
         "remark": {
           "type": "string"
+        }
+      }
+    },
+    "OrderDTO": {
+      "type": "object",
+      "description": "订单详情",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "订单详情",
+          "properties": {
+            "order": {
+              "description": "订单详情",
+              "$ref": "#/definitions/OrderDetail"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
         }
       }
     },
@@ -1756,7 +2236,7 @@
       "properties": {
         "data": {
           "type": "object",
-          "description": "护理任务列表",
+          "description": "护理任务详情",
           "properties": {
             "nursingTaskDetail": {
               "$ref": "#/definitions/NursingTaskDetail"
@@ -1770,7 +2250,7 @@
     },
     "NursingTaskDetail": {
       "type": "object",
-      "description": "机构功能",
+      "description": "护理任务详情",
       "properties": {
         "nursingTaskInfo": {
           "$ref": "#/definitions/NursingTask"
@@ -1828,7 +2308,7 @@
           "type": "object",
           "description": "管理员列表",
           "properties": {
-            "departmentList": {
+            "departmentAdmin": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/DepartmentAdmin"
@@ -1958,7 +2438,7 @@
         },
         "code": {
           "type": "integer",
-          "format": "int32",
+          "format": "int64",
           "description": "成功时为0 其他时为状态码 可用于状态记录"
         },
         "msg": {
@@ -1977,11 +2457,11 @@
           "type": "string",
           "description": "机构名称"
         },
-        "platformAdminName": {
+        "departmentAdminName": {
           "type": "string",
           "description": "管理员姓名"
         },
-        "platformAdminPhone": {
+        "departmentAdminPhone": {
           "type": "string",
           "description": "管理员手机号"
         },
@@ -2001,13 +2481,49 @@
         }
       }
     },
+    "DepartmentDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "机构详情",
+          "properties": {
+            "department": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/DepartmentInfo"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "DepartmentInfo": {
+      "type": "object",
+      "description": "机构详情",
+      "properties": {
+        "department": {
+          "$ref": "#/definitions/Department"
+        },
+        "departmentAdminName": {
+          "type": "string",
+          "description": "管理员姓名"
+        },
+        "departmentAdminPhone": {
+          "type": "string",
+          "description": "管理员手机号"
+        }
+      }
+    },
     "DepartmentListDTO": {
       "properties": {
         "data": {
           "type": "object",
           "description": "机构列表数据",
           "properties": {
-            "departmentList": {
+            "department": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Department"
@@ -2030,16 +2546,6 @@
           "type": "string",
           "description": "手机号"
         },
-        "permission": {
-          "type": "array",
-          "description": "管理权限",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "具体权限"
-            }
-          }
-        },
         "remark": {
           "type": "string",
           "description": "备注"
@@ -2052,7 +2558,7 @@
           "type": "object",
           "description": "账户详情",
           "properties": {
-            "department": {
+            "platformAdmin": {
               "type": "object",
               "items": {
                 "$ref": "#/definitions/PlatformAdmin"
@@ -2071,7 +2577,7 @@
           "type": "object",
           "description": "账户列表",
           "properties": {
-            "departmentList": {
+            "platformAdmin": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/PlatformAdmin"
@@ -2097,12 +2603,6 @@
         "phone": {
           "type": "string",
           "description": "手机号"
-        },
-        "permission": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Permission"
-          }
         },
         "remark": {
           "type": "string",
@@ -2168,7 +2668,7 @@
           "type": "object",
           "description": "资讯详情",
           "properties": {
-            "department": {
+            "information": {
               "type": "object",
               "items": {
                 "$ref": "#/definitions/Information"
@@ -2187,7 +2687,7 @@
           "type": "object",
           "description": "资讯列表",
           "properties": {
-            "departmentList": {
+            "information": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Information"
