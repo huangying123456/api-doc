@@ -258,9 +258,9 @@ paths:
           format: "int64"
       responses:
         200:
-          description: "成功\n返回结构见NursingTaskDTO"
+          description: "成功\n返回结构见NursingTaskDetailDTO"
           schema:
-            $ref: "#/definitions/NursingTaskDTO"
+            $ref: "#/definitions/NursingTaskDetailDTO"
 
   /orders:
     get:
@@ -1215,7 +1215,7 @@ definitions:
         type: "object"
         description: "客户列表数据列表"
         properties:
-          CustomerProfiles:
+          CustomerProfile:
             type: "array"
             items:
               $ref: "#/definitions/CustomerProfileInfo"
@@ -1385,6 +1385,7 @@ definitions:
       remark:
         type: "string"
         description: "备注"
+
 
   PaymentListDTO:
     properties:
