@@ -71,6 +71,21 @@ paths:
           description: "成功\n返回结构见LoginResultDTO"
           schema:
             $ref: "#/definitions/LoginResultDTO"
+  /logout:
+    post:
+      tags:
+        - "登录"
+      description: "登出"
+      operationId: "Logout"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见SimpleResponse"
+          schema:
+            $ref: "#/definitions/SimpleResponse"
   /specialists/info:
     get:
       tags:
@@ -531,8 +546,8 @@ definitions:
               type: "integer"
               format: "int64"
               description: "有任务日期时间戳"
-          result:
-            $ref: "#/definitions/Result"
+      result:
+        $ref: "#/definitions/Result"
 
 
   MessageFeatureDTO:
@@ -755,7 +770,7 @@ definitions:
         type: "integer"
         description: "服务项目简介"
       customerProfileInfo:
-        $ref: "#/definitions/CustomerProfileInfo"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
   CustomerProfileNameGroup:
     properties:
@@ -1206,6 +1221,10 @@ definitions:
   Department:
     type: "object"
     properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "机构Id"
       name:
         type: "string"
         description: "机构名称"
