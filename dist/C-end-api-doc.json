@@ -1570,11 +1570,11 @@
         "order": {
           "$ref": "#/definitions/Order"
         },
-        "item": {
-          "$ref": "#/definitions/Item"
-        },
         "serviceItem": {
-          "$ref": "#/definitions/ServiceItem"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
+          }
         },
         "customer": {
           "$ref": "#/definitions/Customer"
@@ -1606,20 +1606,6 @@
             },
             "reviewAt": {
               "type": "integer"
-            }
-          }
-        },
-        "refundDetail": {
-          "type": "object",
-          "properties": {
-            "reason": {
-              "type": "string"
-            },
-            "price": {
-              "type": "integer"
-            },
-            "explain": {
-              "type": "string"
             }
           }
         },
@@ -1785,6 +1771,9 @@
         "age": {
           "type": "integer"
         },
+        "phone": {
+          "type": "string"
+        },
         "gender": {
           "type": "integer"
         },
@@ -1797,8 +1786,31 @@
           "description": "头像"
         },
         "address": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "Address": {
+      "properties": {
+        "province": {
           "type": "string",
-          "description": "客户地址"
+          "description": "省"
+        },
+        "city": {
+          "type": "string",
+          "description": "市"
+        },
+        "district": {
+          "type": "string",
+          "description": "区"
+        },
+        "street": {
+          "type": "string",
+          "description": "街道"
+        },
+        "detail": {
+          "type": "string",
+          "description": "详细地址"
         }
       }
     },

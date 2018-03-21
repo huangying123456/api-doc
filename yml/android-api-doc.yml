@@ -2,42 +2,37 @@ swagger: "2.0"
 info:
   description: ""
   version: "1.0.0"
-  title: "蜂邻项目C端"
-basePath: "/weixin/v1/canaveral"
+  title: "蜂邻项目App"
+basePath: "/app/v1/"
 tags:
-
-- name: "首页"
-  description: "首页"
+- name: "我的"
+  description: "我的数据接口"
+- name: "登录"
+  description: "登录接口"
+- name: "工作台"
+  description: "工作台接口"
 - name: "消息"
   description: "消息接口"
-- name: "我的"
-  description: "客户详情接口"
-
+- name: "客户"
+  description: "客户接口"
+- name: "护理任务"
+  description: "护理任务接口"
+- name: "评估任务"
+  description: "评估任务接口"
+- name: "订单"
+  description: "订单接口"
+- name: "非接口"
+  description: "非接口"
 
 schemes:
 - "http"
 paths:
-  /home:
+  /login/phone-captcha:
     post:
       tags:
-        - "首页"
-      description: "获取主页详情"
-      operationId: "getHome"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/HomeInfoDTO"
-  /user/register:
-    post:
-      tags:
-        - "首页"
-      description: "用户注册"
-      operationId: "userRegister"
+        - "登录"
+      description: "发送获取手机验证码请求\n 0-0登录/1-1登录"
+      operationId: "getPhoneCaptcha"
       consumes:
         - "application/json"
       produces:
@@ -45,467 +40,306 @@ paths:
       parameters:
         - in: "body"
           name: "body"
+          description: "获取手机验证码请求 这里只需提供手机号\n请求结构见PhoneCaptchaOption"
           required: true
           schema:
-            $ref: "#/definitions/RegisterOption"
+            $ref: "#/definitions/PhoneCaptchaOption"
       responses:
         200:
-          description: ""
+          description: "成功\n返回结构见SimpleResponse"
           schema:
-            $ref: "#/definitions/RegisterDTO"
-  /users/userInfo:
-    get:
-      tags:
-        - "我的"
-      description: "用户信息"
-      operationId: "getUserInfo"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/UserInfoDTO"
-  /users/Customers:
-    get:
-      tags:
-        - "首页"
-      description: "获取会员列表"
-      operationId: "getCustomers"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/CustomerListDTO"
-
-  /users/Customer/{customerId}:
-    get:
-      tags:
-        - "首页"
-      description: "获取单个会员详情"
-      operationId: "getCustomer"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "customerId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/CustomerDTO"
-  /users/Customer:
+            $ref: "#/definitions/SimpleResponse"
+  /login:
     post:
       tags:
-        - "首页"
-      description: "添加自己或亲属为会员。即传入身份证号对该会员查找，如果存在，则下一步需要用户验证，如果不存在就新建会员，则下一步需要用户进行信息完善"
-      operationId: "createCustomer"
+        - "登录"
+      description: "手机验证码登录\n 0-0登录/1-1登录"
+      operationId: "phoneCaptchaLogin"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-      - name: "userId"
+        - in: "body"
+          name: "body"
+          description: "手机验证码登录\n请求结构见PhoneCaptchaOption"
+          required: true
+          schema:
+            $ref: "#/definitions/PhoneCaptchaOption"
+      responses:
+        200:
+          description: "成功\n返回结构见LoginResultDTO"
+          schema:
+            $ref: "#/definitions/LoginResultDTO"
+  /logout:
+    post:
+      tags:
+        - "登录"
+      description: "登出"
+      operationId: "Logout"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见SimpleResponse"
+          schema:
+            $ref: "#/definitions/SimpleResponse"
+  /specialists/info:
+    get:
+      tags:
+      - "我的"
+      description: "我的信息\n 1-4我的"
+      operationId: "getBasicInfo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见SpecialistInfoDTO"
+          schema:
+            $ref: "#/definitions/SpecialistInfoDTO"
+        404:
+          description: "个人资料未找到"
+  /specialists/dashboard:
+    get:
+      tags:
+        - "工作台"
+      description: "工作台首页\n 1-3工作台"
+      operationId: "getDashboard"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见DepartmentDashboardDTO"
+          schema:
+            $ref: "#/definitions/DepartmentDashboardDTO"
+        404:
+          description: "个人资料未找到"
+  /specialists/colleagues:
+    get:
+      tags:
+        - "消息"
+      description: "同事沟通列表\n 1-3工作台/1-10发起沟通 "
+      operationId: "getAllColleagues"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见ColleagueDTO"
+          schema:
+            $ref: "#/definitions/ColleagueDTO"
+  /tasks/nursing-tasks:
+    get:
+      tags:
+        - "护理任务"
+      description: "护理任务列表 \n1-6护理任务 1～2"
+      operationId: "getAllNursingTasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见NursingTaskListDTO"
+          schema:
+            $ref: "#/definitions/NursingTaskListDTO"
+    post:
+      tags:
+        - "护理任务"
+      description: "护理任务列表 \n1-6护理任务 10完成"
+      operationId: "addNursingTasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "护理任务更新"
+        required: true
+        schema:
+          $ref: "#/definitions/AddNursingTaskOption"
+      responses:
+        200:
+          description: "成功\n返回Result"
+          schema:
+            $ref: "#/definitions/SimpleResponse"
+  /tasks/nursing-tasks/{taskId}:
+    get:
+      tags:
+        - "护理任务"
+      description: "护理任务列表 \n1-6护理任务/4~6"
+      operationId: "getNursingTaskById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "taskId"
         in: "path"
+        description: "任务Id"
         required: true
         type: "integer"
         format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/CreateCustomerOption"
       responses:
         200:
-          description: ""
+          description: "成功\n返回结构见NursingTaskDetailDTO"
           schema:
-            $ref: "#/definitions/CustomerDTO"
+            $ref: "#/definitions/NursingTaskDetailDTO"
     patch:
       tags:
-        - "首页"
-      description: "完善会员用户信息"
-      operationId: "updateCustomer"
+        - "护理任务"
+      description: "更新护理任务信息"
+      operationId: "updateNursingTaskById"
       consumes:
-        - "application/json"
+      - "application/json"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "userId"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/UpdateCustomerOption"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/CustomerDTO"
-  /articles/{articleId}:
-    get:
-      tags:
-        - "首页"
-      description: "获取文章详情"
-      operationId: "getArticles"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "articleId"
+      - name: "taskId"
         in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/ArticleDTO"
-  /departments:
-    get:
-      tags:
-        - "首页"
-      description: "平台下的所有机构列表"
-      operationId: "getDepartments"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/DepartmentListDTO"
-  /departments/user-binding:
-    get:
-      tags:
-        - "首页"
-      description: "获取用户下绑定的机构"
-      operationId: "getDepartmentsByUser"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/DepartmentListDTO"
-  /departments/{departmentId}/home:
-    get:
-      tags:
-        - "首页"
-      description: "机构主页，感觉这个接口现在还不需要"
-      operationId: "getDepartment"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/DepartmentHomeDTO"
-  /departments/{departmentId}/items:
-    get:
-      tags:
-        - "首页"
-      description: "服务列表"
-      operationId: "getItems"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/ItemListDTO"
-  /departments/{departmentId}/items/{itemId}:
-    get:
-      tags:
-        - "首页"
-      description: "服务详情"
-      operationId: "getItem"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "itemId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/ItemDTO"
-  /departments/{departmentId}/items/{itemId}/taken-info:
-    get:
-      tags:
-        - "首页"
-      description: "获取下单前准备信息"
-      operationId: "getTakenInfo"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "itemId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/TakenInfoDTO"
-  /orders:
-    post:
-      tags:
-        - "首页"
-      description: "创建订单"
-      operationId: "createOrder"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "departmentId"
-        in: "path"
+        description: "任务Id"
         required: true
         type: "integer"
         format: "int64"
       - in: "body"
         name: "body"
+        description: "护理任务更新"
         required: true
         schema:
-          $ref: "#/definitions/CreateOrderOption"
+          $ref: "#/definitions/UpdateNursingTaskOption"
       responses:
         200:
-          description: ""
+          description: "成功\n返回Result"
           schema:
-            $ref: "#/definitions/OrderDetailDTO"
+            $ref: "#/definitions/Result"
+  /tasks/service-items:
     get:
       tags:
-        - "首页"
-      description: "获取订单列表,该接口是获取该用户下的所有订单列表"
-      operationId: "getOrderList"
+        - "护理任务"
+      description: "服务项目 1-6-10记录信息 获取服务项目列表"
+      operationId: "getAllServiceItems"
       consumes:
-        - "application/json"
+      - "application/json"
       produces:
-        - "application/json"
-      parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
+      - "application/json"
       responses:
         200:
-          description: ""
+          description: "成功\n返回结构见ServiceItemListDTO"
           schema:
-            $ref: "#/definitions/OrderListDTO"
+            $ref: "#/definitions/ServiceItemListDTO"
+  /tasks/evaluation-tasks:
+    get:
+      tags:
+        - "评估任务"
+      description: "护理任务列表 \n1-5评估任务 1～2"
+      operationId: "getAllEvaluationTasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见EvaluationTaskListDTO"
+          schema:
+            $ref: "#/definitions/EvaluationTaskListDTO"
+  /tasks/evaluation-kits:
+    get:
+      tags:
+        - "评估任务"
+      description: "护理任务列表 \n1-5评估任务 1～2"
+      operationId: "getAllEvaluationKits"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见EvaluationKitListDTO"
+          schema:
+            $ref: "#/definitions/EvaluationKitListDTO"
+  /push-content-not-api:
+    get:
+      tags:
+        - "非接口"
+      description: "护理任务列表\n1-1-3通知中心 此数据项非接口 仅展示通知中心数据的格式"
+      operationId: "pushContent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "非接口"
+          schema:
+            $ref: "#/definitions/TaskPushMessage"
   /orders/{orderId}:
     get:
       tags:
-        - "首页"
-      description: "取消订单"
-      operationId: "getOrderById"
+        - "订单"
+      description: "护理任务列表\n1-6护理任务/7"
+      operationId: "getOrderDetail"
       consumes:
-        - "application/json"
+      - "application/json"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
       - name: "orderId"
         in: "path"
+        description: "订单Id"
         required: true
         type: "integer"
         format: "int64"
       responses:
         200:
-          description: ""
+          description: "成功\n返回结构见OrderDetailDTO"
           schema:
             $ref: "#/definitions/OrderDetailDTO"
-  /orders/{orderId}/cancel:
-    patch:
-      tags:
-        - "首页"
-      description: "取消订单"
-      operationId: "cancelOrder"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/OrderDetailDTO"
-  /orders/{orderId}/pay:
-    patch:
-      tags:
-        - "首页"
-      description: "支付订单"
-      operationId: "payOrder"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/InitiateChargeResultDTO"
-  /orders/{orderId}/review:
-    patch:
-      tags:
-        - "首页"
-      description: "订单评价"
-      operationId: "reviewOrder"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/ReviewOrderOption"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/OrderDetailDTO"
-
-  /orders/customer/{customerId}:
+  /customers:
     get:
       tags:
-        - "首页"
-      description: "获取订单列表,该接口是获取一个会员下的所有订单列表"
-      operationId: "getOrderListByCustomerId"
+        - "客户"
+      description: "客户列表 \n1-6护理任务/8 1-2-1"
+      operationId: "getAllCustomers"
       consumes:
-        - "application/json"
+      - "application/json"
       produces:
-        - "application/json"
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见CustomerListDTO"
+          schema:
+            $ref: "#/definitions/CustomerListDTO"
+  /customers/{customerId}:
+    get:
+      tags:
+        - "客户"
+      description: "客户详情 \n1-2-2"
+      operationId: "getCustomerDetail"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
       parameters:
-      - name: "departmentId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
       - name: "customerId"
         in: "path"
+        description: "客户Id"
         required: true
         type: "integer"
         format: "int64"
       responses:
         200:
-          description: ""
+          description: "成功\n返回结构见CustomerDetailDTO"
           schema:
-            $ref: "#/definitions/OrderListDTO"
-  /specialists/{specialistId}:
-    get:
-      tags:
-        - "首页"
-      description: "健康管理师详细信息"
-      operationId: "getSpecialistInfo"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "specialistId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/SpecialistInfoDTO"
-  /specialists/scan-qrcode-binding:
-    post:
-      tags:
-        - "首页"
-      description: "扫码绑定健康管理师"
-      operationId: "createScanQrCodeBinding"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/ScanQrCodeBindingOption"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/SpecialistInfoDTO"
-  /users/customers/{customerId}/health-document:
+            $ref: "#/definitions/CustomerDetailDTO"
+  /customers/{customerId}/health-document:
     get:
       tags:
         - "客户"
@@ -527,12 +361,11 @@ paths:
           description: "成功\n返回结构见CustomerProfileHealthInfoDTO"
           schema:
             $ref: "#/definitions/CustomerProfileHealthInfoDTO"
-
-  /users/customers/{customerId}/nursing-tasks:
+  /customers/{customerId}/nursing-tasks:
     get:
       tags:
-        - "护理任务"
-      description: "护理任务列表"
+        - "客户"
+      description: "客户服务信息 \n1-2-7"
       operationId: "getCustomerNursingTasks"
       consumes:
       - "application/json"
@@ -550,160 +383,324 @@ paths:
           description: "成功\n返回结构见NursingTaskListDTO"
           schema:
             $ref: "#/definitions/NursingTaskListDTO"
-  /users/customers/nursing-tasks/nursing-tasks/{taskId}:
+  /customers/{customerId}/evaluation-tasks:
     get:
       tags:
-        - "护理任务"
-      description: "护理任务详情"
-      operationId: "getNursingTaskById"
+        - "客户"
+      description: "客户评估信息 \n1-2-5"
+      operationId: "getCustomerEvaluationTasks"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "taskId"
+      - name: "customerId"
         in: "path"
-        description: "任务Id"
+        description: "客户Id"
         required: true
         type: "integer"
         format: "int64"
       responses:
         200:
-          description: "成功\n返回结构见NursingTaskDetailDTO"
+          description: "成功\n返回结构见EvaluationTaskListDTO"
           schema:
-            $ref: "#/definitions/NursingTaskDetailDTO"
-  /messages/specialists:
+            $ref: "#/definitions/EvaluationTaskListDTO"
+  /departments:
     get:
       tags:
-        - "消息"
-      description: "获取可聊天的健康师信息列表"
-      operationId: "getMessageSpecialists"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "成功\n返回结构见 ChatSpecialistListDTO"
-          schema:
-            $ref: "#/definitions/ChatSpecialistListDTO"
-  /messages/users:
-    get:
-      tags:
-        - "消息"
-      description: "获取聊天用户自己的信息"
-      operationId: "getMessageUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "成功\n返回结构见 UserChatDTO"
-          schema:
-            $ref: "#/definitions/UserChatDTO"
-  /messages/user-to-specialist/{specialistId}/chat:
-    get:
-      tags:
-        - "消息"
-      description: "发起聊天"
-      operationId: "chatToSpecialist"
+        - "客户"
+      description: "根据机构人员id和客户id获取机构id 1-6护理任务/9"
+      operationId: "getDepartmentList"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "任务Id"
+      - name: "customerId"
+        in: "query"
+        description: "客户Id"
         required: true
         type: "integer"
-        format: "int64"
       - name: "specialistId"
-        in: "path"
-        description: "任务Id"
+        in: "query"
+        description: "机构人员Id"
         required: true
         type: "integer"
-        format: "int64"
       responses:
         200:
-          description: "成功\n返回结构见 ChatDTO"
+          description: "成功\n返回结构见DepartmentListDTO"
           schema:
-            $ref: "#/definitions/ChatDTO"
-  /messages/wx-config:
+            $ref: "#/definitions/DepartmentListDTO"
+  /messages/feature:
     get:
       tags:
         - "消息"
-      description: "获取聊天配置"
-      operationId: "getWxConfig"
+      description: "消息页面\n"
+      operationId: "getMessageFeatures"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见MessageFeatureDTO"
+          schema:
+            $ref: "#/definitions/MessageFeatureDTO"
+  /schedule:
+    get:
+      tags:
+        - "消息"
+      description: "工作日程页面\n"
+      operationId: "getSchedule"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "url"
-        description: "一个url，"
+      - name: "startTime"
+        in: "query"
+        description: "查询日期时间戳"
         required: true
-        type: "string"
-        format: "string"
+        type: "integer"
       responses:
         200:
-          description: "成功\n返回结构见 WxJsConfigDTO"
+          description: "成功\n返回结构见ScheduleListDTO"
           schema:
-            $ref: "#/definitions/WxJsConfigDTO"
+            $ref: "#/definitions/ScheduleListDTO"
+  /schedule/calender:
+    get:
+      tags:
+        - "消息"
+      description: "工作日程页面\n"
+      operationId: "getScheduleCalender"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "startTime"
+        in: "query"
+        description: "开始时间"
+        required: true
+        type: "integer"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "成功\n返回结构见ScheduleCalenderDTO"
+          schema:
+            $ref: "#/definitions/ScheduleCalenderDTO"
+
 
 definitions:
-  RegisterOption:
+
+  ScheduleListDTO:
+    properties:
+      data:
+        type: "object"
+        description: "机构列表数据"
+        properties:
+          schedule:
+            type: "array"
+            items:
+              $ref: "#/definitions/ScheduleItem"
+      result:
+        $ref: "#/definitions/Result"
+  ScheduleItem:
+    properties:
+      scheduleType:
+        type: "string"
+        description: "日程类型"
+        enum:
+          - "evaluation-tasks"
+          - "nursing-tasks"
+      scheduleTypeName:
+        type: "string"
+        description: "日程类型名字"
+        enum:
+          - "评估任务"
+          - "护理任务"
+          - "排班"
+      scheduleName:
+        type: "string"
+        description: "日程名称"
+      stateName:
+        type: "string"
+        description: "状态名称"
+        enum:
+          - "已完成"
+          - "未完成"
+
+  ScheduleCalenderDTO:
+    properties:
+      data:
+        type: "object"
+        description: "机构列表数据"
+        properties:
+          scheduleMarkTime:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
+              description: "有任务日期时间戳"
+      result:
+        $ref: "#/definitions/Result"
+
+
+  MessageFeatureDTO:
+    properties:
+      data:
+        type: "object"
+        description: "机构列表数据"
+        properties:
+          messageFeature:
+            type: "array"
+            items:
+              $ref: "#/definitions/MessageFeature"
+      result:
+        $ref: "#/definitions/Result"
+
+  MessageFeature:
+    properties:
+      name:
+        type: "string"
+        description: "功能名字"
+        enum:
+          - "工作日程"
+          - "通知中心"
+          - "公告"
+      iconUrl:
+        type: "string"
+        format: "uri"
+        description: "图标地址"
+      hasNew:
+        type: "string"
+        description: "是否有新消息"
+
+  TaskPushMessage:
     properties:
       id:
         type: "integer"
+        description: "任务id"
+      title:
+        type: "string"
+        description: "标题"
       name:
         type: "string"
-      gender:
+        description: "名称"
+      taskStartTime:
         type: "integer"
-      phone:
-        type: "string"
-      captcha:
-        type: "string"
-        description: "验证码"
+        format: "int64"
+        description: "任务开始时间"
+      taskEndTime:
+        type: "integer"
+        format: "int64"
+        description: "任务结束时间"
+      taskAddress:
+        type: "integer"
+        format: "int64"
+        description: "任务地点"
 
-  RegisterDTO:
+  ServiceItemListDTO:
     properties:
       data:
         type: "object"
+        description: "服务项目列表"
         properties:
-          user:
-              $ref: "#/definitions/User"
+          serviceList:
+            type: "array"
+            items:
+              $ref: "#/definitions/ServiceItemListItem"
       result:
         $ref: "#/definitions/Result"
 
-  HomeInfoDTO:
+
+  ServiceItemListItem:
+    properties:
+      payerTypeName:
+        type: "string"
+        description: "支付方类型"
+        enum:
+          - "长护险项目"
+          - "自费项目"
+      serviceTypeGroup:
+        type: "array"
+        description: "服务类型分组"
+        items:
+          $ref: "#/definitions/ServiceTypeGroupItem"
+
+  ServiceTypeGroupItem:
+    properties:
+      serviceTypeName:
+        type: "string"
+        description: "服务类型"
+        enum:
+          - "医疗护理"
+          - "生活照料"
+      serviceItem:
+        type: "array"
+        description: "服务列表"
+        items:
+          $ref: "#/definitions/ServiceItem"
+
+  ServiceItem:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "服务项目id"
+      name:
+        type: "string"
+        description: "服务项目名称"
+
+  UpdateNursingTaskOption:
+    properties:
+      startServiceTime:
+        type: "integer"
+        description: "服务开始时间"
+      endServiceTime:
+        type: "integer"
+        description: "服务结束时间"
+      remark:
+        type: "string"
+        description: "备注"
+
+  AddNursingTaskOption:
+    properties:
+      customerProfileId:
+        type: "integer"
+        description: "客户信息id"
+      departmentId:
+        type: "integer"
+        description: "机构id"
+      serviceItems:
+        type: "array"
+        description: "服务项目id数组"
+        items:
+          type: "integer"
+      startServiceTime:
+        type: "integer"
+        description: "服务开始时间"
+      endServiceTime:
+        type: "integer"
+        description: "服务结束时间"
+      remark:
+        type: "string"
+        description: "备注"
+
+  DepartmentListDTO:
     properties:
       data:
         type: "object"
+        description: "机构列表数据"
         properties:
-          specialist:
-              $ref: "#/definitions/Specialist"
-          healthInfo:
-              $ref: "#/definitions/HealthInfo"
-          article:
+          department:
             type: "array"
             items:
               $ref: "#/definitions/Department"
-          banner:
-            type: "array"
-            items:
-              $ref: "#/definitions/Banner"
-      result:
-        $ref: "#/definitions/Result"
-
-  UserInfoDTO:
-    properties:
-      data:
-        type: "object"
-        properties:
-          user:
-              $ref: "#/definitions/User"
       result:
         $ref: "#/definitions/Result"
 
@@ -711,71 +708,216 @@ definitions:
     properties:
       data:
         type: "object"
+        description: "客户列表数据列表"
         properties:
-          customer:
+          customerProfileGroup:
             type: "array"
             items:
-              $ref: "#/definitions/Customer"
+              $ref: "#/definitions/CustomerProfileNameGroup"
       result:
         $ref: "#/definitions/Result"
 
-  CustomerDTO:
+  CustomerDetailDTO:
     properties:
       data:
         type: "object"
+        description: "客户详情"
         properties:
-          customer:
-              $ref: "#/definitions/Customer"
-          exist:
-            type: "integer"
-            description: "会员是否存在，0 1 || false true || 不存在 存在"
+          customerProfileGroup:
+            type: "array"
+            items:
+              $ref: "#/definitions/CustomerProfileDetail"
       result:
         $ref: "#/definitions/Result"
 
-  CreateCustomerOption:
+  OrderDetailDTO:
     properties:
-      relation:
-        type: "string"
-        description: "亲属关系"
-      idCard:
-        type: "string"
+      data:
+        type: "object"
+        description: "订单详情数据"
+        properties:
+          orderDetail:
+            $ref: "#/definitions/OrderDetail"
+      result:
+        $ref: "#/definitions/Result"
 
-  UpdateCustomerOption:
+  OrderDetail:
     properties:
-      Id:
+      id:
         type: "integer"
-        description: "会员id"
-      Name:
+        format: "int64"
+        description: "订单id"
+      no:
         type: "string"
-        description: "会员姓名"
-      gender:
+        description: "订单编号"
+      serviceItemImageUrl:
         type: "string"
+        format: "uri"
+        description: "服务项目图片Url"
+      name:
+        type: "string"
+      stateName:
+        type: "string"
+        description: "状态名称"
+        enum:
+        - "已完成"
+        - "已取消"
+        - "待完成"
+      price:
+        type: "integer"
+        description: "价格（以分为单位）"
+      introduction:
+        type: "integer"
+        description: "服务项目简介"
+      customerProfileInfo:
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
-  DepartmentListDTO:
+  CustomerProfileNameGroup:
+    properties:
+      NameGroupPrefix:
+        type: "string"
+        description: "首字母"
+        pattern: "^1[A_Z]"
+      CustomerProfileInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/CustomerProfileBasicInfo"
+
+  CustomerProfileBasicInfo:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "客户id"
+      name:
+        type: "string"
+        description: "客户姓名"
+      avatarUrl:
+        type: "string"
+        format: "uri"
+        description: "头像uri"
+      phone:
+        type: "string"
+        pattern: "^1(3[4-9]|4[7]|5[0-27-9]|7[08]|8[2-478])\\d{8}$"
+        description: "联系电话"
+
+  CustomerProfileDetail:
+    properties:
+      basicInfo:
+        $ref: "#/definitions/CustomerProfileBasicInfo"
+      imAccount:
+        $ref: "#/definitions/ImAccount"
+      healthInfo:
+        type: "array"
+        description: "健康档案信息"
+        items:
+          $ref: "#/definitions/CustomerProfileHealthInfoItem"
+
+  CustomerProfileHealthInfoDTO:
     properties:
       data:
         type: "object"
+        description: "订单详情数据"
         properties:
-          department:
+          healthInfo:
             type: "array"
+            description: "健康档案信息"
             items:
-              $ref: "#/definitions/Department"
+              $ref: "#/definitions/CustomerProfileHealthInfoItem"
       result:
         $ref: "#/definitions/Result"
 
-  DepartmentHomeDTO:
+
+  CustomerProfileHealthInfoItem:
+    properties:
+      title:
+        type: "string"
+        description: "信息标题"
+        enum:
+          - "疾病史"
+          - "用药史"
+          - "过敏史"
+          - "手术史"
+      content:
+        type: "string"
+        description: "内容"
+
+
+  EvaluationTaskListDTO:
     properties:
       data:
         type: "object"
+        description: "评估任务列表"
         properties:
-          department:
-              $ref: "#/definitions/Department"
-          component:
+          evaluationTask:
             type: "array"
             items:
-              $ref: "#/definitions/Component"
+              $ref: "#/definitions/EvaluationTask"
       result:
         $ref: "#/definitions/Result"
+
+  EvaluationTask:
+    type: "object"
+    description: "机构功能"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "任务Id"
+      no:
+        type: "string"
+        description: "任务编号"
+      taskAssignmentTime:
+        type: "integer"
+        format: "int64"
+        description: "任务时间（任务分派时间）"
+      taskExecutionTime:
+        type: "integer"
+        format: "int64"
+        description: "任务时间"
+      taskAddress:
+        type: "string"
+        description: "任务地址"
+      stateName:
+        type: "string"
+        description: "状态名称"
+        enum:
+        - "已完成"
+        - "已取消"
+        - "待完成"
+      orderId:
+        type: "integer"
+        format: "int64"
+        description: "订单Id"
+      evaluationKitName:
+        type: "string"
+        description: "套件名称"
+
+  EvaluationKitListDTO:
+    properties:
+      data:
+        type: "object"
+        description: "护理任务列表"
+        properties:
+          evaluationKit:
+            type: "array"
+            items:
+              $ref: "#/definitions/EvaluationKit"
+      result:
+        $ref: "#/definitions/Result"
+
+  EvaluationKit:
+    description: "服务套件"
+    properties:
+      id:
+        type: "integer"
+        description: "服务套件id"
+      name:
+        type: "string"
+        description: "服务套件名称"
+      uuid:
+        type: "string"
+        description: "服务唯一标识"
 
   NursingTaskListDTO:
     properties:
@@ -790,6 +932,40 @@ definitions:
       result:
         $ref: "#/definitions/Result"
 
+  NursingTask:
+    type: "object"
+    description: "机构功能"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "任务Id"
+      no:
+        type: "string"
+        description: "任务编号"
+      taskAssignmentTime:
+        type: "integer"
+        format: "int64"
+        description: "任务时间（任务分派时间）"
+      taskExecutionTime:
+        type: "integer"
+        format: "int64"
+        description: "任务时间"
+      taskAddress:
+        type: "string"
+        description: "任务地址"
+      stateName:
+        type: "string"
+        description: "状态名称"
+        enum:
+        - "已完成"
+        - "已取消"
+        - "待完成"
+      orderId:
+        type: "integer"
+        format: "int64"
+        description: "订单Id"
+
   NursingTaskDetailDTO:
     properties:
       data:
@@ -801,80 +977,140 @@ definitions:
       result:
         $ref: "#/definitions/Result"
 
-  ItemListDTO:
+  NursingTaskDetail:
+    type: "object"
+    description: "机构功能"
     properties:
-      data:
-        type: "object"
-        description: "服务列表"
-        properties:
-          itemList:
-            type: "array"
-            items:
-              $ref: "#/definitions/Item"
-      result:
-        $ref: "#/definitions/Result"
-
-  ItemDTO:
-    properties:
-      data:
-        type: "object"
-        description: "服务详情"
-        properties:
-          item:
-            $ref: "#/definitions/Item"
-      result:
-        $ref: "#/definitions/Result"
-
-  TakenInfoDTO:
-    properties:
-      data:
-        type: "object"
-        description: "下单前准备信息"
-        properties:
-          takenInfo:
-            $ref: "#/definitions/TakenInfo"
-      result:
-        $ref: "#/definitions/Result"
-
-  CreateOrderOption:
-    properties:
-      departmentId:
+      nursingTaskInfo:
+        $ref: "#/definitions/NursingTask"
+      nursingTaskAction:
+        type: "array"
+        items:
+          type: "string"
+          description: "服务项目名称"
+      executeSpecialist:
+        type: "string"
+        description: "执行人"
+      departmentName:
+        type: "string"
+        description: "创建机构名称"
+      startServiceTime:
         type: "integer"
-      ItemId:
+        format: "int64"
+        description: "服务开始时间(时间戳毫秒)"
+      endServiceTime:
         type: "integer"
-      serviceItemId:
-        type: "integer"
-      customerId:
-        type: "integer"
-      servingTime:
-        $ref: "#/definitions/ServingTime"
+        format: "int64"
+        description: "服务结束时间(时间戳毫秒)"
       remark:
         type: "string"
+        description: "备注"
 
-  OrderDetailDTO:
+  ColleagueDTO:
     properties:
       data:
+        type: "object"
+        description: "同事列表"
         properties:
-          orderDetali:
-            $ref: "#/definitions/OrderDetail"
+          departmentColleague:
+            type: "array"
+            items:
+              $ref: "#/definitions/DepartmentColleagueItem"
       result:
         $ref: "#/definitions/Result"
 
-  InitiateChargeResultDTO:
+  DepartmentColleagueItem:
+    type: "object"
+    description: "机构同事数据项"
+    properties:
+      departmentName:
+        type: "string"
+        description: "机构名称"
+      colleagueNumber:
+        type: "integer"
+        format: "int64"
+        description: "同事数"
+      colleagueIm:
+        type: "array"
+        description: "同事聊天项"
+        items:
+          $ref: "#/definitions/ColleagueImItem"
+
+  ColleagueImItem:
+    type: "object"
+    description: "同事聊天项"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "id"
+      avatarUrl:
+        type: "string"
+        format: "uri"
+        description: "头像"
+      name:
+        type: "string"
+        description: "姓名"
+
+  DepartmentDashboardDTO:
+    type: "object"
+    description: "工作台数据"
     properties:
       data:
+        type: "object"
+        description: "工作台"
         properties:
-          chargeJson:
-            type: "string"
+          feature:
+            type: "array"
+            items:
+              $ref: "#/definitions/DepartmentFeature"
       result:
         $ref: "#/definitions/Result"
 
-  OrderListDTO:
+  DepartmentFeature:
+    type: "object"
+    description: "机构功能"
+    properties:
+      name:
+        type: "string"
+        description: "功能名称"
+      iconUrl:
+        type: "string"
+        description: "功能图标"
+      feature:
+        type: "string"
+        description: "功能标识（标识作用）"
+
+  PhoneCaptchaOption:
+    type: "object"
+    properties:
+      phone:
+        type: "string"
+        description: "手机号"
+      captcha:
+        type: "string"
+        description: "验证码"
+
+  LoginResultDTO:
+    type: "object"
+    description: "登录结果数据"
     properties:
       data:
+        type: "object"
+        description: "登录结果"
         properties:
-          item:
-            $ref: "#/definitions/OrderDetail"
+          loginResult:
+            type: "object"
+            properties:
+              token:
+                type: "string"
+                description: "登录后token"
+              id:
+                type: "integer"
+                format: "int64"
+                description: "使用者id"
+          ImAccount:
+            $ref: "#/definitions/ImAccount"
       result:
         $ref: "#/definitions/Result"
 
@@ -887,137 +1123,16 @@ definitions:
         description: "Specialist信息"
         properties:
           basicInfo:
-            $ref: "#/definitions/Specialist"
-      result:
-        $ref: "#/definitions/Result"
-
-  ScanQrCodeBindingOption:
-    properties:
-      qeCode:
-        type: "string"
-
-  CustomerProfileHealthInfoDTO:
-    properties:
-      data:
-        type: "object"
-        description: "健康档案信息"
-        properties:
-          healthInfo:
-            type: "array"
-            description: "健康档案信息"
+            $ref: "#/definitions/SpecialistBasicInfo"
+          department:
+            description: "Specialist机构信息"
+            type: array
             items:
-              $ref: "#/definitions/HealthInfo"
+              $ref: "#/definitions/Department"
       result:
         $ref: "#/definitions/Result"
 
-  ArticleDTO:
-    properties:
-      data:
-        type: "object"
-        description: "文章详情"
-        properties:
-          article:
-            $ref: "#/definitions/Article"
-      result:
-        $ref: "#/definitions/Result"
-
-  UserChatDTO:
-    properties:
-      data:
-        type: "object"
-        description: "用户聊天信息"
-        properties:
-          chatAccount:
-              $ref: "#/definitions/ChatAccount"
-      result:
-        $ref: "#/definitions/Result"
-
-  ChatDTO:
-    properties:
-      data:
-        type: "object"
-        description: "用户聊天信息"
-        properties:
-          fromChatAccount:
-              $ref: "#/definitions/ChatAccount"
-          toChatAccount:
-              $ref: "#/definitions/ChatAccount"
-      result:
-        $ref: "#/definitions/Result"
-
-  ChatSpecialistListDTO:
-    properties:
-      data:
-        type: "object"
-        description: "用户聊天信息"
-        properties:
-          specialistChatAccount:
-              $ref: "#/definitions/ChatAccount"
-          chatGroup:
-              $ref: "#/definitions/ChatGroup"
-      result:
-        $ref: "#/definitions/Result"
-  WxJsConfigDTO:
-    properties:
-      data:
-        type: "object"
-        description: "用户聊天信息"
-        properties:
-          Config:
-              $ref: "#/definitions/Config"
-      result:
-        $ref: "#/definitions/Result"
-
-  ReviewOrderOption:
-    properties:
-      score:
-        type: "string"
-      comment:
-        type: "string"
-
-  Config:
-    properties:
-      nonceStr:
-        type: "string"
-      timestamp:
-        type: "string"
-      url:
-        type: "string"
-      signature:
-        type: "string"
-      appId:
-        type: "string"
-
-  ChatAccount:
-    properties:
-      identifier:
-        type: "string"
-      signature:
-        type: "string"
-      avatarUrl:
-        type: "string"
-      nickname:
-        type: "string"
-
-  ChatGroup:
-    properties:
-      groupId:
-        type: "string"
-      name:
-        type: "string"
-      departmentId:
-        type: "string"
-
-  HealthInfo:
-    properties:
-      title:
-        type: "string"
-        description: "信息标题"
-      content:
-        type: "string"
-        description: "内容"
-
-  Specialist:
+  SpecialistBasicInfo:
     type: "object"
     properties:
       id:
@@ -1056,328 +1171,91 @@ definitions:
       qrCode:
         type: "string"
         description: "个人二维码"
-      title:
-        type: "string"
-        description: "职称"
+      departmentTitle:
+        type: "array"
+        description: "机构角色（机构职称）列表"
+        items:
+          $ref: "#/definitions/SpecialistDepartmentTitle"
 
-  OrderDetail:
+  SpecialistDepartmentTitle:
+    type: "object"
     properties:
-      order:
-        $ref: "#/definitions/Order"
-      item:
-        $ref: "#/definitions/Item"
-      serviceItem:
-        $ref: "#/definitions/ServiceItem"
-      customer:
-        $ref: "#/definitions/Customer"
-
-  Order:
-    properties:
-      id:
-        type: "integer"
-      orderNo:
+      titleName:
         type: "string"
-      statusName:
+        description: "职称名称"
+      departmentName:
         type: "string"
-      servingTime:
-        type: "integer"
-      review:
-        type: "object"
-        properties:
-          reviewSocre:
-            type: "integer"
-          reviewComment:
-            type: "string"
-          reviewAt:
-            type: "integer"
-      refundDetail:
-        type: "object"
-        properties:
-          reason:
-            type: "string"
-          price:
-            type: "integer"
-          explain:
-            type: "string"
+        description: "机构名称"
       departmentId:
         type: "integer"
-      departmentName:
-        type: "string"
-      createAt:
-        type: "integer"
+        format: "int32"
+        description: "机构id"
 
-  TakenInfo:
-    properties:
-      customerList:
-        type: "array"
-        items:
-          $ref: "#/definitions/Customer"
-      servingTime:
-        type: "array"
-        items:
-          $ref: "#/definitions/ServingTime"
-
-  ServingTime:
-    properties:
-      date:
-        type: "string"
-      weekdays:
-        type: "string"
-      choose:
-        type: "boolean"
-      time:
-        $ref: "#/definitions/Time"
-
-  Time:
-    properties:
-      title:
-        type: "string"
-      detailTime:
-        type: "integer"
-      choose:
-        type: "boolean"
-
-  NursingTaskDetail:
+  ImAccount:
     type: "object"
-    description: "机构功能"
     properties:
-      nursingTaskInfo:
-        $ref: "#/definitions/NursingTask"
-      nursingTaskAction:
-        type: "array"
-        items:
-          type: "string"
-          description: "服务项目名称"
-      executeSpecialist:
+      identifier:
         type: "string"
-        description: "执行人"
-      departmentName:
+        description: "im用identifier"
+      signature:
         type: "string"
-        description: "创建机构名称"
-      startServiceTime:
-        type: "integer"
-        format: "int64"
-        description: "服务开始时间(时间戳毫秒)"
-      endServiceTime:
-        type: "integer"
-        format: "int64"
-        description: "服务结束时间(时间戳毫秒)"
-      remark:
+        description: "im用signature 仅知道自己的"
+      imName:
         type: "string"
-        description: "备注"
+        description: "im用名字 仅与对方聊天时使用"
+      imAvatarUrl:
+        type: "string"
+        format: "uri"
+        description: "im头像Url 仅与对方聊天时使用"
 
-  NursingTask:
-    type: "object"
-    description: "机构功能"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-        description: "任务Id"
-      no:
-        type: "string"
-        description: "任务编号"
-      taskAssignmentTime:
-        type: "integer"
-        format: "int64"
-        description: "任务时间（任务分派时间）"
-      taskExecutionTime:
-        type: "integer"
-        format: "int64"
-        description: "任务时间"
-      taskAddress:
-        type: "string"
-        description: "任务地址"
-      stateName:
-        type: "string"
-        description: "状态名称"
-        enum:
-        - "已完成"
-        - "已取消"
-        - "待完成"
-      orderId:
-        type: "integer"
-        format: "int64"
-        description: "订单Id"
-
-  Component:
-    properties:
-      id:
-        type: "integer"
-      type:
-        type: "string"
-      rank:
-        type: "integer"
-        description: "组件的位置"
-
-  Customer:
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      age:
-        type: "integer"
-      gender:
-        type: "integer"
-      relation:
-        type: "string"
-        description: "与本人的关系"
-      avatar:
-        type: "string"
-        description: "头像"
-      address:
-        type: "string"
-        description: "客户地址"
-
-  User:
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      gender:
-        type: "integer"
-      phone:
-        type: "string"
-      avatar:
-        type: "string"
-
-  Banner:
-    properties:
-      id:
-        type: "integer"
-      type:
-        type: "string"
-      name:
-        type: "integer"
-      brief:
-        type: "string"
-      bannerUrl:
-        type: "string"
-
-  Article:
-    properties:
-      id:
-        type: "integer"
-      content:
-        type: "string"
-      name:
-        type: "integer"
-      brief:
-        type: "string"
-      bannerUrl:
-        type: "string"
-
-  Item:
-    properties:
-      id:
-        type: "integer"
-      title:
-        type: "string"
-        description: "服务名称"
-      price:
-        type: "integer"
-      desc:
-        type: "string"
-        description: "服务描述"
-      serviceDetail:
-        type: "string"
-        description: "服务详情"
-      picture:
-        type: "string"
-        description: "图片"
-      period:
-        type: "integer"
-      itemProp:
-        type: "array"
-        items:
-          $ref: "#/definitions/ItemProp"
-      serviceItem:
-        type: "array"
-        items:
-          $ref: "#/definitions/ServiceItem"
-
-  ItemProp:
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      itemPropValue:
-        type: "array"
-        items:
-          $ref: "#/definitions/ItemPropValue"
-
-  ItemPropValue:
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-
-  ServiceItem:
-    properties:
-      id:
-        type: "integer"
-      desc:
-        type: "string"
-        description: "服务描述"
-      price:
-        type: "integer"
-      originPrice:
-        type: "integer"
-      name:
-        type: "string"
-      picture:
-        type: "string"
-        description: "图片"
-      status:
-        type: "integer"
-      itemId:
-        type: "integer"
-      createAt:
-        type: "integer"
-      updateAt:
-        type: "integer"
-      serviceItemProp:
-        type: "array"
-        items:
-          $ref: "#/definitions/ServiceItemPropValue"
-
-  ServiceItemPropValue:
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      valueId:
-        type: "integer"
-      valueName:
-        type: "string"
 
   Department:
+    type: "object"
     properties:
       id:
         type: "integer"
-        description: "机构id"
+        format: "int64"
+        description: "机构Id"
       name:
         type: "string"
         description: "机构名称"
-      desc:
+      address:
         type: "string"
-      picture:
-        type: "string"
+        description: "机构地址"
+      type:
+        type: "integer"
+        format: "int32"
         description: "机构类型"
+      typeName:
+        type: "string"
+        description: "机构类型名称（显示用）"
+      introduction:
+        type: "string"
+        description: "机构简介"
+      avatarUrl:
+        type: "string"
+        format: "uri"
+        description: "机构图标地址"
+
+  SimpleResponse:
+    properties:
+      result:
+        $ref: "#/definitions/Result"
 
   Result:
     type: "object"
     properties:
       success:
         type: "boolean"
+        default: true
+        description: "是否成功"
       code:
         type: "integer"
+        format: "int32"
+        description: "成功时为0 其他时为状态码 可用于状态记录"
       msg:
         type: "string"
-      displamsg:
+        description: "消息 可用于log记录"
+      displayMsg:
         type: "string"
+        description: "显示消息 用于前端或客户端显示"
