@@ -103,6 +103,24 @@ paths:
             $ref: "#/definitions/SpecialistInfoDTO"
         404:
           description: "个人资料未找到"
+  /specialists/im-account:
+    get:
+      tags:
+      - "我的"
+      description: "使用者IM账户"
+      operationId: "getImAccount"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见ImAccountDTO"
+          schema:
+            $ref: "#/definitions/ImAccountDTO"
+        404:
+          description: "个人ImAccount"
+
   /specialists/dashboard:
     get:
       tags:
@@ -496,6 +514,18 @@ paths:
 
 
 definitions:
+
+  ImAccountDTO:
+    properties:
+      data:
+        type: "object"
+        description: "ImAccount"
+        properties:
+          imAccount:
+            $ref: "#/definitions/ImAccount"
+      result:
+        $ref: "#/definitions/Result"
+
 
   ScheduleListDTO:
     properties:
