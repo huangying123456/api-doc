@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "蜂邻项目C端"
   },
-  "basePath": "/C-end/v1/canaveral",
+  "basePath": "/weixin/v1/canaveral",
   "tags": [
     {
       "name": "首页",
@@ -80,7 +80,7 @@
         }
       }
     },
-    "/user/{userId}/userInfo": {
+    "/users/userInfo": {
       "get": {
         "tags": [
           "我的"
@@ -93,15 +93,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
         "responses": {
           "200": {
             "description": "",
@@ -112,7 +103,7 @@
         }
       }
     },
-    "/user/{userId}/Customers": {
+    "/users/Customers": {
       "get": {
         "tags": [
           "首页"
@@ -125,15 +116,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
         "responses": {
           "200": {
             "description": "",
@@ -144,7 +126,7 @@
         }
       }
     },
-    "/user/{userId}/Customer/{customerId}": {
+    "/users/Customer/{customerId}": {
       "get": {
         "tags": [
           "首页"
@@ -158,13 +140,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "customerId",
             "in": "path",
@@ -183,7 +158,7 @@
         }
       }
     },
-    "/user/{userId}/Customer": {
+    "/users/Customer": {
       "post": {
         "tags": [
           "首页"
@@ -481,7 +456,7 @@
         }
       }
     },
-    "/departments/{departmentId}/orders": {
+    "/orders": {
       "post": {
         "tags": [
           "首页"
@@ -551,7 +526,39 @@
         }
       }
     },
-    "/departments/{departmentId}/orders/{orderId}/cancel": {
+    "/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "首页"
+        ],
+        "description": "取消订单",
+        "operationId": "getOrderById",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OrderDetailDTO"
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/cancel": {
       "patch": {
         "tags": [
           "首页"
@@ -566,13 +573,6 @@
         ],
         "parameters": [
           {
-            "name": "departmentId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "orderId",
             "in": "path",
             "required": true,
@@ -590,7 +590,7 @@
         }
       }
     },
-    "/departments/{departmentId}/orders/{orderId}/pay": {
+    "/orders/{orderId}/pay": {
       "patch": {
         "tags": [
           "首页"
@@ -605,13 +605,6 @@
         ],
         "parameters": [
           {
-            "name": "departmentId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "orderId",
             "in": "path",
             "required": true,
@@ -623,13 +616,13 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/OrderDetailDTO"
+              "$ref": "#/definitions/InitiateChargeResultDTO"
             }
           }
         }
       }
     },
-    "/departments/{departmentId}/orders/{orderId}/review": {
+    "/orders/{orderId}/review": {
       "patch": {
         "tags": [
           "首页"
@@ -643,13 +636,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "departmentId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "orderId",
             "in": "path",
@@ -676,7 +662,7 @@
         }
       }
     },
-    "/departments/{departmentId}/orders/{customerId}": {
+    "/orders/customer/{customerId}": {
       "get": {
         "tags": [
           "首页"
@@ -747,29 +733,6 @@
         }
       }
     },
-    "/specialists/contact": {
-      "get": {
-        "tags": [
-          "首页"
-        ],
-        "description": "获取客服电话",
-        "operationId": "getcontact",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ContactDTO"
-            }
-          }
-        }
-      }
-    },
     "/specialists/scan-qrcode-binding": {
       "post": {
         "tags": [
@@ -803,7 +766,7 @@
         }
       }
     },
-    "/customers/{customerId}/health-document": {
+    "/users/customers/{customerId}/health-document": {
       "get": {
         "tags": [
           "客户"
@@ -836,7 +799,7 @@
         }
       }
     },
-    "/customers/{customerId}/nursing-tasks": {
+    "/users/customers/{customerId}/nursing-tasks": {
       "get": {
         "tags": [
           "护理任务"
@@ -869,12 +832,12 @@
         }
       }
     },
-    "/tasks/nursing-tasks/{taskId}": {
+    "/users/customers/nursing-tasks/nursing-tasks/{taskId}": {
       "get": {
         "tags": [
           "护理任务"
         ],
-        "description": "护理任务列表 \n1-6护理任务/4~6",
+        "description": "护理任务详情",
         "operationId": "getNursingTaskById",
         "consumes": [
           "application/json"
@@ -917,7 +880,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见 ChatNurseListDTO",
+            "description": "成功\n返回结构见 ChatSpecialistListDTO",
             "schema": {
               "$ref": "#/definitions/ChatSpecialistListDTO"
             }
@@ -948,7 +911,7 @@
         }
       }
     },
-    "/messages/{userId}/user-to-specialist/{specialistId}/chat": {
+    "/messages/user-to-specialist/{specialistId}/chat": {
       "get": {
         "tags": [
           "消息"
@@ -984,6 +947,29 @@
             "description": "成功\n返回结构见 ChatDTO",
             "schema": {
               "$ref": "#/definitions/ChatDTO"
+            }
+          }
+        }
+      }
+    },
+    "/messages/wx-config": {
+      "get": {
+        "tags": [
+          "消息"
+        ],
+        "description": "获取聊天配置",
+        "operationId": "getWxConfig",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见 WxJsConfigDTO",
+            "schema": {
+              "$ref": "#/definitions/WxJsConfigDTO"
             }
           }
         }
@@ -1261,6 +1247,9 @@
     },
     "CreateOrderOption": {
       "properties": {
+        "departmentId": {
+          "type": "integer"
+        },
         "ItemId": {
           "type": "integer"
         },
@@ -1284,6 +1273,20 @@
           "properties": {
             "orderDetali": {
               "$ref": "#/definitions/OrderDetail"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "InitiateChargeResultDTO": {
+      "properties": {
+        "data": {
+          "properties": {
+            "chargeJson": {
+              "type": "string"
             }
           }
         },
@@ -1343,22 +1346,6 @@
               "items": {
                 "$ref": "#/definitions/HealthInfo"
               }
-            }
-          }
-        },
-        "result": {
-          "$ref": "#/definitions/Result"
-        }
-      }
-    },
-    "ContactDTO": {
-      "properties": {
-        "data": {
-          "type": "object",
-          "description": "获取客服电话",
-          "properties": {
-            "phone": {
-              "type": "string"
             }
           }
         },
@@ -1437,12 +1424,47 @@
         }
       }
     },
+    "WxJsConfigDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "用户聊天信息",
+          "properties": {
+            "Config": {
+              "$ref": "#/definitions/Config"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
     "ReviewOrderOption": {
       "properties": {
         "score": {
           "type": "string"
         },
         "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "Config": {
+      "properties": {
+        "nonceStr": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "appId": {
           "type": "string"
         }
       }
@@ -1548,11 +1570,11 @@
         "order": {
           "$ref": "#/definitions/Order"
         },
-        "item": {
-          "$ref": "#/definitions/Item"
-        },
         "serviceItem": {
-          "$ref": "#/definitions/ServiceItem"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
+          }
         },
         "customer": {
           "$ref": "#/definitions/Customer"
@@ -1584,20 +1606,6 @@
             },
             "reviewAt": {
               "type": "integer"
-            }
-          }
-        },
-        "refundDetail": {
-          "type": "object",
-          "properties": {
-            "reason": {
-              "type": "string"
-            },
-            "price": {
-              "type": "integer"
-            },
-            "explain": {
-              "type": "string"
             }
           }
         },
@@ -1763,6 +1771,9 @@
         "age": {
           "type": "integer"
         },
+        "phone": {
+          "type": "string"
+        },
         "gender": {
           "type": "integer"
         },
@@ -1775,8 +1786,31 @@
           "description": "头像"
         },
         "address": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "Address": {
+      "properties": {
+        "province": {
           "type": "string",
-          "description": "客户地址"
+          "description": "省"
+        },
+        "city": {
+          "type": "string",
+          "description": "市"
+        },
+        "district": {
+          "type": "string",
+          "description": "区"
+        },
+        "street": {
+          "type": "string",
+          "description": "街道"
+        },
+        "detail": {
+          "type": "string",
+          "description": "详细地址"
         }
       }
     },
