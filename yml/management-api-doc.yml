@@ -23,10 +23,36 @@ tags:
   description: "机构接口"
 - name: "资讯"
   description: "资讯接口"
+- name: "商品"
+  description: "商品接口"
 
 schemes:
 - "http"
 paths:
+
+  /curvatureDrive/admin/{itemType}:
+    get:
+      tags:
+        - "商品"
+      description: "通过商品类型获取详情"
+      operationId: "getItemByType"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "itemType"
+          description: "商品类型"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见ItemWrapDTO"
+          schema:
+            $ref: "#/definitions/ItemWrapDTO"
+
   /login/phone-captcha:
     post:
       tags:
@@ -411,7 +437,7 @@ paths:
           schema:
             $ref: "#/definitions/SimpleResponse"
 
-  /departmentAdmins:
+  /department-admins:
     post:
       tags:
         - "管理员"
@@ -448,7 +474,7 @@ paths:
           schema:
             $ref: "#/definitions/DepartmentAdminListDTO"
 
-  /departmentAdmins/{departmentAdminId}:
+  /department-admins/{departmentAdminId}:
     delete:
       tags:
         - "管理员"
@@ -704,7 +730,7 @@ paths:
           schema:
             $ref: "#/definitions/DepartmentListDTO"
 
-  /platformAdmins:
+  /platform-admins:
     post:
       tags:
         - "管理员"
@@ -741,7 +767,7 @@ paths:
           schema:
             $ref: "#/definitions/PlatformAdminListDTO"
 
-  /platformAdmins/{platformAdminId}:
+  /platform-admins/{platformAdminId}:
     delete:
       tags:
         - "管理员"
@@ -1883,7 +1909,7 @@ definitions:
   Information:
     properties:
       id:
-        type: "string"
+        type: "integer"
         description: "资讯id"
       title:
         type: "string"
@@ -1941,3 +1967,114 @@ definitions:
       detail:
         type: "string"
         description: "详细地址"
+
+  Item:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      desc:
+        type: "string"
+        description: "简介"
+      picture:
+        type: "string"
+        description: "图片"
+      detailHTML:
+        type: "string"
+        description: "详情地址"
+      state:
+        type: "integer"
+      itemProp:
+        type: "array"
+        items:
+          $ref: "#/definitions/ItemProp"
+      category:
+        $ref: "#/definitions/Category"
+      serviceItem:
+        type: "array"
+        items:
+          $ref: "#/definitions/ServiceItem"
+      department:
+        $ref: "#/definitions/Department"
+      chargeMethod:
+        type: "integer"
+        description: "收款方式"
+      paymentMethod:
+        type: "integer"
+        description: "支付方式"
+      price:
+        type: "integer"
+      priceUnit:
+        type: "string"
+      type:
+        type: "integer"
+      creator:
+        type: "string"
+
+  ItemWrapDTO:
+    properties:
+      data:
+        type: "object"
+        description: "商品详情"
+        properties:
+          item:
+            type: "object"
+            items:
+              $ref: "#/definitions/Item"
+      result:
+        $ref: "#/definitions/Result"
+
+  ServiceItem:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      desc:
+        type: "string"
+        description: "简介"
+      picture:
+        type: "string"
+        description: "图片"
+      status:
+        type: "integer"
+      serviceItemProp:
+        type: "array"
+        items:
+          $ref: "#/definitions/ServiceItemProp"
+      createAt:
+        type: "integer"
+      updateAt:
+        type: "integer"
+      itemId:
+        type: "integer"
+
+  ServiceItemProp:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      valueId:
+        type: "integer"
+      valueName:
+        type: "string"
+
+  ItemProp:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      itemPropValue:
+        type: "array"
+        items:
+          $ref: "#/definitions/ItemPropValue"
+
+  ItemPropValue:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
