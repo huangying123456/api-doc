@@ -940,6 +940,9 @@ definitions:
       evaluationKitName:
         type: "string"
         description: "套件名称"
+      customerInfo:
+        description: "客户信息"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
   EvaluationKitListDTO:
     properties:
@@ -1016,6 +1019,9 @@ definitions:
         type: "integer"
         format: "int64"
         description: "订单Id"
+      customerInfo:
+        description: "客户信息"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
   NursingTaskDetailDTO:
     properties:

@@ -1106,10 +1106,7 @@
           "description": "客户详情",
           "properties": {
             "CustomerProfileDetail": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/CustomerProfileDetail"
-              }
+              "$ref": "#/definitions/CustomerProfileDetail"
             }
           }
         },
@@ -1357,6 +1354,10 @@
         "evaluationKitName": {
           "type": "string",
           "description": "套件名称"
+        },
+        "customerInfo": {
+          "description": "客户信息",
+          "$ref": "#/definitions/CustomerProfileBasicInfo"
         }
       }
     },
@@ -1459,6 +1460,10 @@
           "type": "integer",
           "format": "int64",
           "description": "订单Id"
+        },
+        "customerInfo": {
+          "description": "客户信息",
+          "$ref": "#/definitions/CustomerProfileBasicInfo"
         }
       }
     },
