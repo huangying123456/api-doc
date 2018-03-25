@@ -753,10 +753,8 @@ definitions:
         type: "object"
         description: "客户详情"
         properties:
-          customerProfileGroup:
-            type: "array"
-            items:
-              $ref: "#/definitions/CustomerProfileDetail"
+          CustomerProfileDetail:
+            $ref: "#/definitions/CustomerProfileDetail"
       result:
         $ref: "#/definitions/Result"
 
