@@ -103,6 +103,24 @@ paths:
             $ref: "#/definitions/SpecialistInfoDTO"
         404:
           description: "个人资料未找到"
+  /specialists/im-account:
+    get:
+      tags:
+      - "我的"
+      description: "使用者IM账户"
+      operationId: "getImAccount"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见ImAccountDTO"
+          schema:
+            $ref: "#/definitions/ImAccountDTO"
+        404:
+          description: "个人ImAccount"
+
   /specialists/dashboard:
     get:
       tags:
@@ -497,6 +515,18 @@ paths:
 
 definitions:
 
+  ImAccountDTO:
+    properties:
+      data:
+        type: "object"
+        description: "ImAccount"
+        properties:
+          imAccount:
+            $ref: "#/definitions/ImAccount"
+      result:
+        $ref: "#/definitions/Result"
+
+
   ScheduleListDTO:
     properties:
       data:
@@ -723,10 +753,8 @@ definitions:
         type: "object"
         description: "客户详情"
         properties:
-          customerProfileGroup:
-            type: "array"
-            items:
-              $ref: "#/definitions/CustomerProfileDetail"
+          CustomerProfileDetail:
+            $ref: "#/definitions/CustomerProfileDetail"
       result:
         $ref: "#/definitions/Result"
 
@@ -912,6 +940,9 @@ definitions:
       evaluationKitName:
         type: "string"
         description: "套件名称"
+      customerInfo:
+        description: "客户信息"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
   EvaluationKitListDTO:
     properties:
@@ -988,6 +1019,9 @@ definitions:
         type: "integer"
         format: "int64"
         description: "订单Id"
+      customerInfo:
+        description: "客户信息"
+        $ref: "#/definitions/CustomerProfileBasicInfo"
 
   NursingTaskDetailDTO:
     properties:
