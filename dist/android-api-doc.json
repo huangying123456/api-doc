@@ -1811,6 +1811,10 @@
           "type": "string",
           "description": "机构地址"
         },
+        "phone": {
+          "type": "string",
+          "description": "机构电话"
+        },
         "type": {
           "type": "integer",
           "format": "int32",
