@@ -52,7 +52,7 @@
     "http"
   ],
   "paths": {
-    "/curvatureDrive/admin/{itemType}": {
+    "/curvature-drive/admin/{itemType}": {
       "get": {
         "tags": [
           "商品"
@@ -70,6 +70,47 @@
             "in": "path",
             "name": "itemType",
             "description": "商品类型",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ItemWrapDTO",
+            "schema": {
+              "$ref": "#/definitions/ItemWrapDTO"
+            }
+          }
+        }
+      }
+    },
+    "/curvature-drive/admin/item/{itemId}": {
+      "get": {
+        "tags": [
+          "商品"
+        ],
+        "description": "更新商品（新增床位类型、餐饮等级...）",
+        "operationId": "UpdateItemByItemId",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/itemUpdateOption"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "商品Id",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -1777,7 +1818,7 @@
           "type": "object",
           "description": "客户列表数据列表",
           "properties": {
-            "CustomerProfile": {
+            "customerProfile": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/CustomerProfileInfo"
@@ -1811,17 +1852,17 @@
     },
     "CustomerProfileInfo": {
       "properties": {
-        "CustomerProfileBaseInfo": {
+        "customerProfileBaseInfo": {
           "$ref": "#/definitions/CustomerProfileBaseInfo",
           "description": "基础信息"
         },
-        "CustomerProfileSpecialistInfo": {
+        "customerProfileSpecialistInfo": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/SpecialistBasicInfo"
           }
         },
-        "CustomerProfileDepartmentInfo": {
+        "customerProfileDepartmentInfo": {
           "$ref": "#/definitions/CustomerProfileDepartmentInfo"
         }
       }
@@ -2824,6 +2865,100 @@
         }
       }
     },
+    "ItemAddOption": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string",
+          "description": "简介"
+        },
+        "picture": {
+          "type": "string",
+          "description": "图片"
+        },
+        "detailHTML": {
+          "type": "string",
+          "description": "详情地址"
+        },
+        "itemProp": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemProp"
+          }
+        },
+        "categoryId": {
+          "type": "integer"
+        },
+        "departmentId": {
+          "type": "integer"
+        },
+        "chargeMethod": {
+          "type": "integer",
+          "description": "收款方式"
+        },
+        "paymentMethod": {
+          "type": "integer",
+          "description": "支付方式"
+        },
+        "price": {
+          "type": "integer"
+        }
+      }
+    },
+    "ItemUpdateOption": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string",
+          "description": "简介"
+        },
+        "picture": {
+          "type": "string",
+          "description": "图片"
+        },
+        "detailHTML": {
+          "type": "string",
+          "description": "详情地址"
+        },
+        "itemProp": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemProp"
+          }
+        },
+        "categoryId": {
+          "type": "integer"
+        },
+        "serviceItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
+          }
+        },
+        "departmentId": {
+          "type": "integer"
+        },
+        "chargeMethod": {
+          "type": "integer",
+          "description": "收款方式"
+        },
+        "paymentMethod": {
+          "type": "integer",
+          "description": "支付方式"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "tab": {
+          "type": "string",
+          "description": "更新页签"
+        }
+      }
+    },
     "ItemWrapDTO": {
       "properties": {
         "data": {
@@ -2846,6 +2981,9 @@
     "ServiceItem": {
       "properties": {
         "id": {
+          "type": "integer"
+        },
+        "price": {
           "type": "integer"
         },
         "name": {
@@ -2918,6 +3056,23 @@
         },
         "name": {
           "type": "string"
+        }
+      }
+    },
+    "ServiceItemUpdateOption": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string",
+          "description": "备注"
         }
       }
     }
