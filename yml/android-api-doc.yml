@@ -845,6 +845,9 @@ definitions:
       isMine:
         type: "boolean"
         description: "是否为自己管理的"
+      imAccount:
+        $ref: "#/definitions/ImAccount"
+
 
   CustomerProfileDetail:
     properties:
@@ -1108,6 +1111,8 @@ definitions:
       name:
         type: "string"
         description: "姓名"
+      imAccount:
+        $ref: "#/definitions/ImAccount"
 
   DepartmentDashboardDTO:
     type: "object"
@@ -1166,7 +1171,7 @@ definitions:
                 type: "integer"
                 format: "int64"
                 description: "使用者id"
-          ImAccount:
+          imAccount:
             $ref: "#/definitions/ImAccount"
       result:
         $ref: "#/definitions/Result"

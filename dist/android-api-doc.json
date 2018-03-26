@@ -1229,6 +1229,9 @@
         "isMine": {
           "type": "boolean",
           "description": "是否为自己管理的"
+        },
+        "imAccount": {
+          "$ref": "#/definitions/ImAccount"
         }
       }
     },
@@ -1579,6 +1582,9 @@
         "name": {
           "type": "string",
           "description": "姓名"
+        },
+        "imAccount": {
+          "$ref": "#/definitions/ImAccount"
         }
       }
     },
@@ -1656,7 +1662,7 @@
                 }
               }
             },
-            "ImAccount": {
+            "imAccount": {
               "$ref": "#/definitions/ImAccount"
             }
           }
