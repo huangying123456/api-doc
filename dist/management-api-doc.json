@@ -104,7 +104,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/itemUpdateOption"
+              "$ref": "#/definitions/ItemUpdateOption"
             }
           },
           {
@@ -1457,35 +1457,17 @@
     "Department": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "integer",
+          "description": "机构id"
+        },
         "name": {
           "type": "string",
           "description": "机构名称"
         },
         "address": {
-          "type": "object",
-          "description": "地址",
-          "properties": {
-            "province": {
-              "type": "string",
-              "description": "省"
-            },
-            "city": {
-              "type": "string",
-              "description": "市"
-            },
-            "district": {
-              "type": "string",
-              "description": "区"
-            },
-            "street": {
-              "type": "string",
-              "description": "街道"
-            },
-            "detail": {
-              "type": "string",
-              "description": "详细地址"
-            }
-          }
+          "type": "string",
+          "description": "详细地址"
         },
         "phone": {
           "type": "string",
@@ -1906,6 +1888,11 @@
           "format": "int64",
           "description": "生日时间戳毫秒级"
         },
+        "age": {
+          "type": "integer",
+          "format": "int64",
+          "description": "年龄"
+        },
         "phone": {
           "type": "string",
           "pattern": "^1(3[4-9]|4[7]|5[0-27-9]|7[08]|8[2-478])\\d{8}$",
@@ -2098,6 +2085,11 @@
           "type": "integer",
           "format": "int64",
           "description": "费用类别"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "数量"
         },
         "stateName": {
           "type": "string",
@@ -2830,9 +2822,6 @@
           "items": {
             "$ref": "#/definitions/ItemProp"
           }
-        },
-        "category": {
-          "$ref": "#/definitions/Category"
         },
         "serviceItem": {
           "type": "array",
