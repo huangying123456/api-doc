@@ -194,7 +194,7 @@
         }
       }
     },
-    "/customers/{customerProfileId}": {
+    "/customers/{customerProfileId}/{infoTab}": {
       "post": {
         "tags": [
           "客户"
@@ -214,7 +214,7 @@
             "description": "更新客户信息",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CustomerProfileOption"
+              "$ref": "#/definitions/CustomerProfileUpdateOption"
             }
           },
           {
@@ -224,6 +224,13 @@
             "required": true,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "in": "path",
+            "name": "infoTab",
+            "description": "更新信息标签",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -234,7 +241,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/customers/{customerProfileId}": {
       "get": {
         "tags": [
           "客户"
@@ -309,40 +318,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/CustomerProfileOption"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功\n返回Result",
-            "schema": {
-              "$ref": "#/definitions/SimpleResponse"
-            }
-          }
-        }
-      }
-    },
-    "/customers/check": {
-      "post": {
-        "tags": [
-          "客户"
-        ],
-        "description": "新客户信息校验",
-        "operationId": "checkCustomer",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "客户身份证号校验",
-            "required": true,
-            "schema": {
-              "$ref": "'#/definitions/IdCardOption'"
             }
           }
         ],
@@ -1810,6 +1785,35 @@
         }
       }
     },
+    "CustomerProfileUpdateOption": {
+      "properties": {
+        "customerProfileBaseInfo": {
+          "$ref": "#/definitions/CustomerProfileBaseInfo",
+          "description": "基础信息"
+        },
+        "customerProfileConatactInfo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomerProfileContactInfoItem"
+          },
+          "description": "联系人信息"
+        },
+        "customerProfileDepartmentInfo": {
+          "description": "入住信息",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomerProfileDepartmentInfoItem"
+          }
+        },
+        "customerProfileHealthInfo": {
+          "type": "array",
+          "description": "健康档案",
+          "items": {
+            "$ref": "#/definitions/CustomerProfileHealthInfoItem"
+          }
+        }
+      }
+    },
     "CustomerProfileInfo": {
       "properties": {
         "customerProfileBaseInfo": {
@@ -2060,10 +2064,6 @@
           "type": "string",
           "description": "身份证号"
         },
-        "basicInfo": {
-          "type": "string",
-          "description": "基本信息"
-        },
         "type": {
           "type": "integer",
           "format": "int64",
@@ -2072,6 +2072,26 @@
         "contactList": {
           "type": "string",
           "description": "联系人列表"
+        },
+        "marital": {
+          "type": "string",
+          "description": "婚姻状况"
+        },
+        "education": {
+          "type": "string",
+          "description": "学历"
+        },
+        "incomeSource": {
+          "type": "string",
+          "description": "收入来源"
+        },
+        "hobby": {
+          "type": "string",
+          "description": "兴趣爱好"
+        },
+        "address": {
+          "type": "string",
+          "description": "地址"
         }
       }
     },
