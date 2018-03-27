@@ -68,7 +68,7 @@ paths:
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/itemUpdateOption"
+            $ref: "#/definitions/ItemUpdateOption"
         - in: "path"
           name: "itemId"
           description: "商品Id"
@@ -998,7 +998,7 @@ definitions:
     type: "object"
     properties:
       id:
-        type: "id"
+        type: "integer"
         description: "机构id"
       name:
         type: "string"
@@ -2030,8 +2030,8 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/ItemProp"
-      category:
-        $ref: "#/definitions/Category"
+      # category:
+      #   $ref: "#/definitions/Category"
       serviceItem:
         type: "array"
         items:
