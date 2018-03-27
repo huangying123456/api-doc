@@ -127,7 +127,7 @@ paths:
             $ref: "#/definitions/LoginResultDTO"
 
   /customers/{customerProfileId}:
-    patch:
+    post:
       tags:
         - "客户"
       description: "更新客户信息"
@@ -1240,24 +1240,26 @@ definitions:
         type: "string"
         description: "兴趣爱好"
       address:
-        type: "object"
+        type: "string"
         description: "地址"
-        properties:
-          province:
-            type: "string"
-            description: "省"
-          city:
-            type: "string"
-            description: "市"
-          district:
-            type: "string"
-            description: "区"
-          street:
-            type: "string"
-            description: "街道"
-          detail:
-            type: "string"
-            description: "详细地址"
+        # type: "object"
+        # description: "地址"
+        # properties:
+        #   province:
+        #     type: "string"
+        #     description: "省"
+        #   city:
+        #     type: "string"
+        #     description: "市"
+        #   district:
+        #     type: "string"
+        #     description: "区"
+        #   street:
+        #     type: "string"
+        #     description: "街道"
+        #   detail:
+        #     type: "string"
+        #     description: "详细地址"
       avatarUrl:
         type: "string"
       contactList:
@@ -1300,14 +1302,132 @@ definitions:
       customerProfileBaseInfo:
         $ref: "#/definitions/CustomerProfileBaseInfo"
         description: "基础信息"
-      customerProfileSpecialistInfo:
+      customerProfileConatactInfo:
         type: "array"
         items:
-          $ref: "#/definitions/SpecialistBasicInfo"
+          $ref: "#/definitions/CustomerProfileContactInfoItem"
+        description: "联系人信息"
       customerProfileDepartmentInfo:
-        $ref: "#/definitions/CustomerProfileDepartmentInfo"
+        description: "入住信息"
+        type: "array"
+        items:
+          $ref: "#/definitions/CustomerProfileDepartmentInfoItem"
+      customerProfileHealthInfo:
+        type: "array"
+        description: "健康档案"
+        items:
+          $ref: "#/definitions/CustomerProfileHealthInfoItem"
+      customerProfileSpecialistInfo:
+        type: "array"
+        description: "健康管理师"
+        items:
+          $ref: "#/definitions/SpecialistBasicInfo"
+      customerProfilePaymentInfo:
+        type: "array"
+        description: "费用管理"
+        items:
+          $ref: "#/definitions/PaymentInfoItem"
+      customerProfileEvalutionInfo:
+        type: "array"
+        description: "评估任务"
+        items:
+          $ref: "#/definitions/EvalutionInfoItem"
+      customerProfileNursingInfo:
+        type: "array"
+        description: "护理任务"
+        items:
+          $ref: "#/definitions/NursingInfoItem"
 
-  CustomerProfileDepartmentInfo:
+  PaymentInfoItem:
+    properties:
+      typeName:
+        type: "string"
+        description: "费用类别"
+      inCome:
+        type: "integer"
+        format: "int64"
+        description: "收款额"
+      refund:
+        type: "integer"
+        format: "int64"
+        description: "退款"
+      time:
+        type: "integer"
+        format: "int64"
+        description: "记录时间"
+      state:
+        type: "string"
+        description: "状态"
+      dealer:
+        type: "string"
+        description: "办理人"
+  EvalutionInfoItem:
+    properties:
+      expectedStartAt:
+        type: "integer"
+        format: "int64"
+        description: "任务时间"
+      expectedEndAt:
+        type: "integer"
+        format: "int64"
+        description: "任务时间"
+      executeStartAt:
+        type: "integer"
+        format: "int64"
+        description: "执行时间"
+      executeEndAt:
+        type: "integer"
+        format: "int64"
+        description: "执行时间"
+      state:
+        type: "string"
+        description: "状态"
+      evaluator:
+        type: "string"
+        description: "评估人"
+  NursingInfoItem:
+    properties:
+      expectedStartAt:
+        type: "integer"
+        format: "int64"
+        description: "任务起始时间"
+      expectedEndAt:
+        type: "integer"
+        format: "int64"
+        description: "任务结束时间"
+      executeStartAt:
+        type: "integer"
+        format: "int64"
+        description: "执行起始时间"
+      executeEndAt:
+        type: "integer"
+        format: "int64"
+        description: "执行结束时间"
+      state:
+        type: "string"
+        description: "状态"
+      evaluator:
+        type: "string"
+        description: "护理人员"
+
+  CustomerProfileHealthInfoItem:
+    properties:
+      title:
+        type: "string"
+        description: "信息标题"
+        enum:
+          - "疾病史"
+          - "用药史"
+          - "过敏史"
+          - "手术史"
+      remark:
+        type: "string"
+        description: "信息备注"
+      content:
+        type: "string"
+        description: "内容"
+
+  CustomerProfileDepartmentInfoItem:
     properties:
       state:
         type: "string"
@@ -1320,6 +1440,24 @@ definitions:
         type: "integer"
         format: "int64"
         description: "退住时间"
+
+  CustomerProfileContactInfoItem:
+    properties:
+      name:
+        type: "string"
+        description: "姓名"
+      phone:
+        type: "integer"
+        format: "int64"
+        description: "联系方式"
+      relation:
+        type: "integer"
+        format: "int64"
+        description: "与客户关系"
+      isGuardian:
+        type: "integer"
+        format: "int64"
+        description: "是否为监护人"
 
   CustomerProfileBaseInfo:
     properties:
@@ -1359,9 +1497,9 @@ definitions:
       contactList:
         type: "string"
         description: "联系人列表"
-      healthInfo:
-        type: "string"
-        description: "健康档案信息"
+      # healthInfo:
+      #   type: "string"
+      #   description: "健康档案信息"
 
   EvaluationTaskListDTO:
     properties:
@@ -1540,7 +1678,7 @@ definitions:
     properties:
       customerProfileId:
         type: "integer"
-      serviceItem:
+      serviceitems:
         type: "string"
         description: "服务项目"
       startServiceTime:
@@ -1577,7 +1715,7 @@ definitions:
       stateName:
         type: "string"
         description: "状态名称"
-      serviceItem:
+      serviceitems:
         type: "string"
         description: "服务项目"
       createdTime:
@@ -2009,7 +2147,7 @@ definitions:
         type: "string"
         description: "详细地址"
 
-  Item:
+  items:
     properties:
       id:
         type: "integer"
@@ -2032,7 +2170,7 @@ definitions:
           $ref: "#/definitions/ItemProp"
       # category:
       #   $ref: "#/definitions/Category"
-      serviceItem:
+      serviceitems:
         type: "array"
         items:
           $ref: "#/definitions/ServiceItem"
@@ -2102,7 +2240,7 @@ definitions:
           $ref: "#/definitions/ItemProp"
       categoryId:
         type: "integer"
-      serviceItem:
+      serviceitems:
         type: "array"
         items:
           $ref: "#/definitions/ServiceItem"
@@ -2128,14 +2266,14 @@ definitions:
         type: "object"
         description: "商品详情"
         properties:
-          item:
+          items:
             type: "object"
             items:
               $ref: "#/definitions/Item"
       result:
         $ref: "#/definitions/Result"
 
-  ServiceItem:
+  Serviceitems:
     properties:
       id:
         type: "integer"

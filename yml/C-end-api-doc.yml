@@ -3,7 +3,7 @@ info:
   description: ""
   version: "1.0.0"
   title: "蜂邻项目C端"
-basePath: "/weixin/v1/canaveral"
+basePath: "/weixin/v1"
 tags:
 
 - name: "首页"
