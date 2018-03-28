@@ -104,9 +104,63 @@ paths:
           format: "int64"
       responses:
         200:
-          description: "成功\n返回结构见ItemWrapDTO"
+          description: "成功\n返回结构见ServiceItemListDTO"
           schema:
-            $ref: "#/definitions/ItemWrapDTO"
+            $ref: "#/definitions/ServiceItemListDTO"
+    post:
+      tags:
+        - "商品"
+      description: "新建床位类型、护理等级类型、餐饮等级类型"
+      operationId: "createServiceItemByType"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "itemType"
+          description: "商品类型"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ServiceItemOption"
+      responses:
+        200:
+          description: "成功\n返回结构见ServiceItemListDTO"
+          schema:
+            $ref: "#/definitions/ServiceItemListDTO"
+
+    patch:
+      tags:
+        - "商品"
+      description: "更新床位类型、护理等级类型、餐饮等级类型"
+      operationId: "updateServiceItemByType"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "itemType"
+          description: "商品类型"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ServiceItemOption"
+      responses:
+        200:
+          description: "成功\n返回结构见ServiceItemListDTO"
+          schema:
+            $ref: "#/definitions/ServiceItemListDTO"
+
 
 
   /curvature-drive/admin/item/{itemId}:
@@ -2458,6 +2512,16 @@ definitions:
       result:
         $ref: "#/definitions/Result"
 
+  ServiceItemListDTO:
+    properties:
+      item:
+        type: "array"
+        properties:
+          serviceItems:
+            type: "array"
+            items:
+              $ref: "#/definitions/ServiceItem"
+
   ServiceItem:
     properties:
       id:
@@ -2514,7 +2578,7 @@ definitions:
       name:
         type: "string"
 
-  ServiceItemUpdateOption:
+  ServiceItemOption:
     properties:
       id:
         type: "integer"
