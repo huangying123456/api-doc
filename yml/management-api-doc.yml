@@ -89,8 +89,8 @@ paths:
     get:
       tags:
         - "商品"
-      description: "通过商品类型获取详情"
-      operationId: "getItemByType"
+      description: "通过商品类型获取serviceItemList"
+      operationId: "getServiceItemListByType"
       consumes:
         - "application/json"
       produces:
