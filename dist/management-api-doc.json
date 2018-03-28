@@ -278,7 +278,7 @@
         "tags": [
           "商品"
         ],
-        "description": "更新商品（新增床位类型、餐饮等级...）",
+        "description": "更新商品",
         "operationId": "updateItemByItemId",
         "consumes": [
           "application/json"
