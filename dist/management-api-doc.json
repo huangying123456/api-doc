@@ -347,6 +347,39 @@
         }
       }
     },
+    "/curvature-drive/admin/type/service/{departmentId}": {
+      "get": {
+        "tags": [
+          "商品"
+        ],
+        "description": "获取机构下所有serviceItem",
+        "operationId": "getNursingServiceListByDepartmentId",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "departmentId",
+            "description": "机构Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ServiceItemListDTO",
+            "schema": {
+              "$ref": "#/definitions/ServiceItemListDTO"
+            }
+          }
+        }
+      }
+    },
     "/login/phone-captcha": {
       "post": {
         "tags": [
@@ -552,36 +585,84 @@
         }
       }
     },
-    "/tasks/evaluation-tasks": {
+    "/tasks": {
       "get": {
         "tags": [
           "任务"
         ],
-        "description": "评估任务列表 \n1-5评估任务 1～2",
-        "operationId": "getAllEvaluationTasks",
+        "description": "任务列表",
+        "operationId": "queryTask",
         "consumes": [
           "application/json"
         ],
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "plantype",
+            "in": "query",
+            "description": "类型",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creatorDepartmentId",
+            "in": "query",
+            "description": "机构Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见EvaluationTaskListDTO",
+            "description": "成功\n返回结构见WGTaskListDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationTaskListDTO"
+              "$ref": "#/definitions/WGTaskListDTO"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "任务"
+        ],
+        "description": "新增任务",
+        "operationId": "createTask",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "新增任务\n请求结构见TaskAddOption",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskAddOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回Result",
+            "schema": {
+              "$ref": "#/definitions/WGTaskDTO"
             }
           }
         }
       }
     },
-    "/tasks/evaluation-tasks/{evaluationTaskId}": {
+    "/tasks/{taskId}": {
       "get": {
         "tags": [
           "任务"
         ],
-        "description": "评估任务详情",
-        "operationId": "getEvaluationTask",
+        "description": "任务详情",
+        "operationId": "getTaskById",
         "consumes": [
           "application/json"
         ],
@@ -591,8 +672,8 @@
         "parameters": [
           {
             "in": "path",
-            "name": "evaluationTaskId",
-            "description": "评估任务Id",
+            "name": "taskId",
+            "description": "任务Id",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -600,44 +681,21 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见EvaluationTaskDTO",
+            "description": "成功\n返回结构见WGTaskDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationTaskDTO"
+              "$ref": "#/definitions/WGTaskDTO"
             }
           }
         }
       }
     },
-    "/tasks/nursing-tasks": {
-      "get": {
+    "/tasks/{taskId}/update-state": {
+      "post": {
         "tags": [
           "任务"
         ],
-        "description": "护理任务列表 \n1-6护理任务 1～2",
-        "operationId": "getAllNursingTasks",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "成功\n返回结构见NursingTaskListDTO",
-            "schema": {
-              "$ref": "#/definitions/NursingTaskListDTO"
-            }
-          }
-        }
-      }
-    },
-    "/tasks/nursing-tasks/{nursingTaskId}": {
-      "get": {
-        "tags": [
-          "任务"
-        ],
-        "description": "护理任务详情",
-        "operationId": "getNursingTask",
+        "description": "修改任务状态",
+        "operationId": "updateTaskState",
         "consumes": [
           "application/json"
         ],
@@ -646,19 +704,27 @@
         ],
         "parameters": [
           {
+            "name": "taskId",
             "in": "path",
-            "name": "nursingTaskId",
-            "description": "护理任务Id",
+            "description": "任务Id",
             "required": true,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "'#/definitions/UpdateTaskStateOption'"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见NursingTaskDetailDTO",
+            "description": "成功\n返回WGTaskDTO",
             "schema": {
-              "$ref": "#/definitions/NursingTaskDetailDTO"
+              "$ref": "#/definitions/WGTaskDTO"
             }
           }
         }
@@ -2316,118 +2382,27 @@
         }
       }
     },
-    "EvaluationTaskListDTO": {
+    "UpdateTaskStateOption": {
       "properties": {
-        "data": {
-          "type": "object",
-          "description": "评估任务列表",
-          "properties": {
-            "evaluationTask": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/EvaluationTask"
-              }
-            }
-          }
-        },
-        "result": {
-          "$ref": "#/definitions/Result"
-        }
-      }
-    },
-    "EvaluationTaskDTO": {
-      "properties": {
-        "data": {
-          "type": "object",
-          "description": "评估任务详情",
-          "properties": {
-            "evaluationTask": {
-              "$ref": "#/definitions/EvaluationTask"
-            }
-          }
-        },
-        "result": {
-          "$ref": "#/definitions/Result"
-        }
-      }
-    },
-    "EvaluationTask": {
-      "type": "object",
-      "description": "评估任务详情",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务Id"
-        },
-        "no": {
-          "type": "string",
-          "description": "任务编号"
-        },
-        "customerName": {
-          "type": "string",
-          "description": "客户姓名"
-        },
-        "customerIdCard": {
-          "type": "string",
-          "description": "身份证号"
-        },
-        "taskAssignmentTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务时间（任务分派时间）"
-        },
-        "taskStartTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务开始时间"
-        },
-        "taskEndTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "任务完成时间"
-        },
-        "taskAddress": {
-          "type": "string",
-          "description": "任务地址"
-        },
-        "stateName": {
-          "type": "string",
-          "description": "状态名称",
-          "enum": [
-            "已完成",
-            "已取消",
-            "待完成"
-          ]
-        },
-        "orderId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "订单Id"
-        },
-        "evaluationKitName": {
-          "type": "string",
-          "description": "套件名称"
-        },
-        "evaluatorName": {
-          "type": "string",
-          "description": "评估人员"
-        }
-      }
-    },
-    "UpdateNursingTaskOption": {
-      "properties": {
-        "startServiceTime": {
+        "taskExecuteStartTime": {
           "type": "integer",
           "description": "服务开始时间"
         },
-        "endServiceTime": {
+        "taskExecuteEndTime": {
           "type": "integer",
           "description": "服务结束时间"
         },
         "remark": {
           "type": "string",
           "description": "备注"
+        },
+        "taskId": {
+          "type": "integer",
+          "description": "任务Id"
+        },
+        "action": {
+          "type": "integer",
+          "description": "0:取消任务，1:完成任务"
         }
       }
     },
@@ -2618,16 +2593,16 @@
         }
       }
     },
-    "NursingTaskListDTO": {
+    "WGTaskListDTO": {
       "properties": {
         "data": {
           "type": "object",
           "description": "护理任务列表",
           "properties": {
-            "nursingTask": {
+            "task": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/NursingTask"
+                "$ref": "#/definitions/Task"
               }
             }
           }
@@ -2637,7 +2612,7 @@
         }
       }
     },
-    "NursingTask": {
+    "Task": {
       "type": "object",
       "description": "机构功能",
       "properties": {
@@ -2691,20 +2666,53 @@
           "format": "int64",
           "description": "订单Id"
         },
-        "evaluatorName": {
+        "nurseName": {
           "type": "string",
           "description": "护理人员"
+        },
+        "nurseId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "planId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "planType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "customerId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "taskExecuteStartTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "taskExecuteEndTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "serviceItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
+          }
         }
       }
     },
-    "NursingTaskDetailDTO": {
+    "WGTaskDTO": {
       "properties": {
         "data": {
           "type": "object",
-          "description": "护理任务详情",
+          "description": "任务详情",
           "properties": {
-            "nursingTaskDetail": {
-              "$ref": "#/definitions/NursingTaskDetail"
+            "taskDetail": {
+              "$ref": "#/definitions/TaskDetail"
             }
           }
         },
@@ -2713,41 +2721,59 @@
         }
       }
     },
-    "NursingTaskDetail": {
+    "TaskDetail": {
       "type": "object",
-      "description": "护理任务详情",
+      "description": "任务详情",
       "properties": {
-        "nursingTaskInfo": {
-          "$ref": "#/definitions/NursingTask"
-        },
-        "nursingTaskAction": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "description": "服务项目名称"
-          }
-        },
-        "executeSpecialist": {
-          "type": "string",
-          "description": "执行人"
+        "taskInfo": {
+          "$ref": "#/definitions/Task"
         },
         "departmentName": {
           "type": "string",
           "description": "创建机构名称"
+        }
+      }
+    },
+    "TaskAddOption": {
+      "properties": {
+        "customerId": {
+          "type": "integer"
         },
-        "startServiceTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "服务开始时间(时间戳毫秒)"
+        "nurseId": {
+          "type": "integer"
         },
-        "endServiceTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": "服务结束时间(时间戳毫秒)"
+        "orderId": {
+          "type": "integer"
         },
-        "remark": {
-          "type": "string",
-          "description": "备注"
+        "taskAddress": {
+          "type": "string"
+        },
+        "taskStartTime": {
+          "type": "integer"
+        },
+        "taskEndTime": {
+          "type": "integer"
+        },
+        "nurseDepartmentId": {
+          "type": "integer"
+        },
+        "customerDepartmentId": {
+          "type": "integer"
+        },
+        "adminId": {
+          "type": "integer"
+        },
+        "adminDepartmentId": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "integer"
+        },
+        "serviceItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItem"
+          }
         }
       }
     },
