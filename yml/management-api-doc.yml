@@ -139,7 +139,7 @@ paths:
       tags:
         - "商品"
       description: "获取床位类型、护理等级类型、餐饮等级类型详情"
-      operationId: "getServiceItemByType"
+      operationId: "getServiceItemById"
       consumes:
         - "application/json"
       produces:
@@ -160,7 +160,7 @@ paths:
       tags:
         - "商品"
       description: "更新床位类型、护理等级类型、餐饮等级类型"
-      operationId: "updateServiceItemByType"
+      operationId: "updateServiceItemById"
       consumes:
         - "application/json"
       produces:
