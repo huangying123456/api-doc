@@ -203,7 +203,38 @@
         }
       }
     },
-    "/curvature-drive/admin/{itemType}/{serviceItemId}": {
+    "/curvature-drive/admin/serviceItem/{serviceItemId}": {
+      "get": {
+        "tags": [
+          "商品"
+        ],
+        "description": "获取床位类型、护理等级类型、餐饮等级类型详情",
+        "operationId": "getServiceItemByType",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "serviceItemId",
+            "description": "serviceItemId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ServiceItemDTO",
+            "schema": {
+              "$ref": "#/definitions/ServiceItemDTO"
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "商品"
@@ -217,14 +248,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "in": "path",
-            "name": "itemType",
-            "description": "商品类型",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "in": "path",
             "name": "serviceItemId",
@@ -244,9 +267,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见ServiceItemListDTO",
+            "description": "成功\n返回结构见ServiceItemDTO",
             "schema": {
-              "$ref": "#/definitions/ServiceItemListDTO"
+              "$ref": "#/definitions/ServiceItemDTO"
             }
           }
         }
@@ -3327,9 +3350,9 @@
           "description": "商品列表",
           "properties": {
             "items": {
-              "type": "object",
+              "type": "array",
               "items": {
-                "$ref": "#/definitions/ItemListDTO"
+                "$ref": "#/definitions/Item"
               }
             }
           }
@@ -3339,28 +3362,13 @@
         }
       }
     },
-    "ItemListDTO": {
-      "properties": {
-        "item": {
-          "type": "array",
-          "properties": {
-            "items": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Item"
-              }
-            }
-          }
-        }
-      }
-    },
     "ItemWrapDTO": {
       "properties": {
         "data": {
           "type": "object",
           "description": "商品详情",
           "properties": {
-            "items": {
+            "item": {
               "type": "object",
               "items": {
                 "$ref": "#/definitions/Item"
@@ -3375,8 +3383,8 @@
     },
     "ServiceItemListDTO": {
       "properties": {
-        "item": {
-          "type": "array",
+        "data": {
+          "type": "object",
           "properties": {
             "serviceItems": {
               "type": "array",
@@ -3385,6 +3393,28 @@
               }
             }
           }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      }
+    },
+    "ServiceItemDTO": {
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "serviceItem详情",
+          "properties": {
+            "serviceItem": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ServiceItem"
+              }
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
         }
       }
     },
