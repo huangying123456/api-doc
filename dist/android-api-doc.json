@@ -648,7 +648,7 @@
         }
       }
     },
-    "/departments": {
+    "/customers/departments": {
       "get": {
         "tags": [
           "客户"

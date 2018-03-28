@@ -423,7 +423,7 @@ paths:
           description: "成功\n返回结构见EvaluationTaskListDTO"
           schema:
             $ref: "#/definitions/EvaluationTaskListDTO"
-  /departments:
+  /customers/departments:
     get:
       tags:
         - "客户"
