@@ -30,6 +30,61 @@ schemes:
 - "http"
 paths:
 
+  /curvature-drive/admin/item:
+    post:
+      tags:
+        - "商品"
+      description: "新增商品"
+      operationId: "createItem"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ItemAddOption"
+        - name: "adminId"
+          in: "query"
+          description: "管理员Id"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "成功\n返回结构见ItemWrapDTO"
+          schema:
+            $ref: "#/definitions/ItemWrapDTO"
+
+  /curvature-drive/admin/items:
+    post:
+      tags:
+        - "商品"
+      description: "获取商品列表"
+      operationId: "getItemsByParams"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "departmentId"
+          in: "query"
+          description: "机构Id"
+          required: true
+          type: "string"
+        - name: "type"
+          in: "query"
+          description: "商品类型"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "成功\n返回结构见ItemListWrapDTO"
+          schema:
+            $ref: "#/definitions/ItemListWrapDTO"
+
+
   /curvature-drive/admin/{itemType}:
     get:
       tags:
@@ -53,8 +108,30 @@ paths:
           schema:
             $ref: "#/definitions/ItemWrapDTO"
 
+
   /curvature-drive/admin/item/{itemId}:
     get:
+      tags:
+        - "商品"
+      description: "通过Id获取商品详情"
+      operationId: "getItemById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "itemId"
+          description: "商品Id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见ItemWrapDTO"
+          schema:
+            $ref: "#/definitions/ItemWrapDTO"
+    patch:
       tags:
         - "商品"
       description: "更新商品（新增床位类型、餐饮等级...）"
@@ -2234,7 +2311,7 @@ definitions:
         type: "string"
         description: "详细地址"
 
-  items:
+  Item:
     properties:
       id:
         type: "integer"
@@ -2345,7 +2422,28 @@ definitions:
         type: "string"
         description: "更新页签"
 
+  ItemListWrapDTO:
+    properties:
+      data:
+        type: "object"
+        description: "商品列表"
+        properties:
+          items:
+            type: "object"
+            items:
+              $ref: "#/definitions/ItemListDTO"
+      result:
+        $ref: "#/definitions/Result"
 
+  ItemListDTO:
+    properties:
+      item:
+        type: "array"
+        properties:
+          items:
+            type: "array"
+            items:
+              $ref: "#/definitions/Item"
 
   ItemWrapDTO:
     properties:
@@ -2360,7 +2458,7 @@ definitions:
       result:
         $ref: "#/definitions/Result"
 
-  Serviceitems:
+  ServiceItem:
     properties:
       id:
         type: "integer"
