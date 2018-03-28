@@ -58,7 +58,7 @@ paths:
             $ref: "#/definitions/ItemWrapDTO"
 
   /curvature-drive/admin/items:
-    post:
+    get:
       tags:
         - "商品"
       description: "获取商品列表"
@@ -85,7 +85,7 @@ paths:
             $ref: "#/definitions/ItemListWrapDTO"
 
 
-  /curvature-drive/admin/{itemType}:
+  /curvature-drive/admin/type/{itemType}:
     get:
       tags:
         - "商品"

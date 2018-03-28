@@ -93,7 +93,7 @@
       }
     },
     "/curvature-drive/admin/items": {
-      "post": {
+      "get": {
         "tags": [
           "商品"
         ],
@@ -131,7 +131,7 @@
         }
       }
     },
-    "/curvature-drive/admin/{itemType}": {
+    "/curvature-drive/admin/type/{itemType}": {
       "get": {
         "tags": [
           "商品"
