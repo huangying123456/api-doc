@@ -135,7 +135,7 @@ paths:
       tags:
         - "商品"
       description: "更新商品（新增床位类型、餐饮等级...）"
-      operationId: "UpdateItemByItemId"
+      operationId: "updateItemByItemId"
       consumes:
         - "application/json"
       produces:
