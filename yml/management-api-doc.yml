@@ -461,7 +461,7 @@ paths:
       parameters:
         - name: "plantype"
           in: "query"
-          description: "类型"
+          description: "护理任务:9，评估任务:10"
           required: true
           type: "string"
         - name: "creatorDepartmentId"
