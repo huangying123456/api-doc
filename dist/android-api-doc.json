@@ -381,6 +381,16 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "deoartmentId",
+            "in": "query",
+            "description": "机构Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "成功\n返回结构见ServiceItemListDTO",
@@ -648,7 +658,7 @@
         }
       }
     },
-    "/departments": {
+    "/customers/departments": {
       "get": {
         "tags": [
           "客户"
