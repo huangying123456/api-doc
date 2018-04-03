@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "蜂邻项目web端业务管理系统"
   },
-  "basePath": "/management/v1/",
+  "basePath": "/management/v1",
   "tags": [
     {
       "name": "客户",
@@ -56,7 +56,7 @@
     "http"
   ],
   "paths": {
-    "/management/v1/living-record": {
+    "/living-record": {
       "post": {
         "tags": [
           "出入院"
@@ -110,7 +110,7 @@
         }
       }
     },
-    "/management/v1/living-record/{livingRecordId}": {
+    "/living-record/{livingRecordId}": {
       "get": {
         "tags": [
           "出入院"
@@ -174,7 +174,7 @@
         }
       }
     },
-    "/curvature-drive/admin/item": {
+    "/item": {
       "post": {
         "tags": [
           "商品"
@@ -251,7 +251,7 @@
         }
       }
     },
-    "/curvature-drive/admin/type/{itemType}": {
+    "/type/{itemType}": {
       "get": {
         "tags": [
           "商品"
@@ -323,7 +323,7 @@
         }
       }
     },
-    "/curvature-drive/admin/serviceItem/{serviceItemId}": {
+    "/serviceItem/{serviceItemId}": {
       "get": {
         "tags": [
           "商品"
@@ -395,7 +395,7 @@
         }
       }
     },
-    "/curvature-drive/admin/item/{itemId}": {
+    "/item/{itemId}": {
       "get": {
         "tags": [
           "商品"
@@ -467,7 +467,7 @@
         }
       }
     },
-    "/curvature-drive/admin/type/service/{departmentId}": {
+    "/type/service/{departmentId}": {
       "get": {
         "tags": [
           "商品"

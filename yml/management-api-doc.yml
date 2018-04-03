@@ -3,7 +3,7 @@ info:
   description: ""
   version: "1.0.0"
   title: "蜂邻项目web端业务管理系统"
-basePath: "/management/v1/"
+basePath: "/management/v1"
 tags:
 - name: "客户"
   description: "客户接口"
@@ -31,7 +31,7 @@ tags:
 schemes:
 - "http"
 paths:
-  /management/v1/living-record:
+  /living-record:
     post:
       tags:
         - "出入院"
@@ -68,7 +68,7 @@ paths:
           schema:
             $ref: "#/definitions/LivingRecordListDTO"
 
-  /management/v1/living-record/{livingRecordId}:
+  /living-record/{livingRecordId}:
     get:
       tags:
         - "出入院"
@@ -112,7 +112,7 @@ paths:
           schema:
             $ref: "#/definitions/LivingRecordDTO"
 
-  /curvature-drive/admin/item:
+  /item:
     post:
       tags:
         - "商品"
@@ -165,7 +165,7 @@ paths:
             $ref: "#/definitions/ItemListWrapDTO"
 
 
-  /curvature-drive/admin/type/{itemType}:
+  /type/{itemType}:
     get:
       tags:
         - "商品"
@@ -214,7 +214,7 @@ paths:
           schema:
             $ref: "#/definitions/ServiceItemListDTO"
 
-  /curvature-drive/admin/serviceItem/{serviceItemId}:
+  /serviceItem/{serviceItemId}:
     get:
       tags:
         - "商品"
@@ -265,7 +265,7 @@ paths:
 
 
 
-  /curvature-drive/admin/item/{itemId}:
+  /item/{itemId}:
     get:
       tags:
         - "商品"
@@ -314,7 +314,7 @@ paths:
           schema:
             $ref: "#/definitions/ItemWrapDTO"
 
-  /curvature-drive/admin/type/service/{departmentId}:
+  /type/service/{departmentId}:
     get:
       tags:
         - "商品"
