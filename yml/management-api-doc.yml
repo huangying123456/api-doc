@@ -1455,7 +1455,7 @@ definitions:
         type: "integer"
       age:
         type: "integer"
-      maritalStatus:
+      marital:
         type: "string"
         description: "婚姻状况"
       education:
