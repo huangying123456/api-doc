@@ -52,11 +52,10 @@ definitions:
     type: "object"
     properties:
       result:
-        schema:
-          $ref: "#/definitions/Result"
+        $ref: "#/definitions/Result"
       evaluationBundle:
         type: "array"
-        schema:
+        items:
           $ref: "#/definitions/EvaluationBundleListItem"
 
   EvaluationBundleListItem:
@@ -126,11 +125,10 @@ definitions:
     type: "object"
     properties:
       result:
-        schema:
-          $ref: "#/definitions/Result"
+        $ref: "#/definitions/Result"
       evaluationBundle:
         type: "array"
-        schema:
+        items:
           $ref: "#/definitions/EvaluationBundleDetail"
   Result:
     type: "object"
@@ -148,14 +146,13 @@ definitions:
     type: "object"
     properties:
       result:
-        schema:
-          $ref: "#/definitions/Result"
+        $ref: "#/definitions/Result"
       data:
         type: "object"
         properties:
           evaluateeList: 
             type: "array"
-            schema:
+            items:
               $ref: "#/definitions/EvaluateeDetail"
 
   EvaluateeDetail:
