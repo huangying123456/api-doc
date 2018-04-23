@@ -40,6 +40,16 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "query",
+            "description": "机构Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "成功\n返回结构见 EvaluationBundleListDTO",
@@ -55,7 +65,7 @@
         "tags": [
           "评估量表"
         ],
-        "description": "获取评估量表详情",
+        "description": "获取评估量表题目信息详情",
         "consumes": [
           "application/json"
         ],
@@ -102,6 +112,118 @@
             "required": true,
             "type": "integer",
             "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见 EvaluationSubmitRecordDTO",
+            "schema": {
+              "$ref": "#/definitions/EvaluationSubmitRecordDTO"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "评估记录"
+        ],
+        "description": "保存评估记录",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "evaluationSubmitRecordId",
+            "in": "path",
+            "description": "评估记录Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "\n请求结构见 EvaluationSubmitRecordOption",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationSubmitRecordOption"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见 EvaluationSubmitRecordDTO",
+            "schema": {
+              "$ref": "#/definitions/EvaluationSubmitRecordDTO"
+            }
+          }
+        }
+      }
+    },
+    "/evaluation_submit_record": {
+      "get": {
+        "tags": [
+          "评估记录"
+        ],
+        "description": "获取评估结果列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "query",
+            "description": "机构Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "evaluateeId",
+            "in": "query",
+            "description": "被评估人ID",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见 EvaluationSubmitRecordListDTO",
+            "schema": {
+              "$ref": "#/definitions/EvaluationSubmitRecordListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/evaluation_submit_record/init": {
+      "post": {
+        "tags": [
+          "评估记录"
+        ],
+        "description": "初始化评估记录",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "\n请求结构见 EvaluationSubmitRecordInitOption",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationSubmitRecordInitOption"
+            }
           }
         ],
         "responses": {
@@ -701,6 +823,182 @@
         "name": {
           "type": "string",
           "description": "measure 的名称"
+        }
+      }
+    },
+    "EvaluationSubmitRecordListDTO": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Result"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "evaluationSubmitRecordList": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EvaluationSubmitRecord"
+              }
+            }
+          }
+        }
+      }
+    },
+    "EvaluationSubmitRecord": {
+      "type": "object",
+      "properties": {
+        "evaluationSubmitRecordId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估记录ID"
+        },
+        "evaluateeId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "被评估人ID"
+        },
+        "evaluateeName": {
+          "type": "string",
+          "description": "被评估人姓名"
+        },
+        "evaluationBundleId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估量表ID"
+        },
+        "evaluationBundleName": {
+          "type": "string",
+          "description": "评估名称"
+        },
+        "state": {
+          "type": "string",
+          "description": "状态"
+        },
+        "stateName": {
+          "type": "string",
+          "description": "状态"
+        },
+        "departmentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "机构ID"
+        },
+        "departmentName": {
+          "type": "string",
+          "description": "机构名称"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "EvaluationSubmitRecordInitOption": {
+      "type": "object",
+      "properties": {
+        "evaluationBundleId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估量表ID"
+        },
+        "departmentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "机构ID"
+        },
+        "evaluateeId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "被评估人ID"
+        },
+        "taskId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估任务ID"
+        }
+      }
+    },
+    "EvaluationSubmitRecordInitDTO": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Result"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "evaluationSubmitRecord": {
+              "$ref": "#/definitions/EvaluationSubmitRecord"
+            }
+          }
+        }
+      }
+    },
+    "EvaluationSubmitRecordOption": {
+      "type": "object",
+      "properties": {
+        "evaluationBundleId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估量表ID"
+        },
+        "departmentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "机构ID"
+        },
+        "evaluateeId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "被评估人ID"
+        },
+        "evaluationSubmitRecordId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估记录ID"
+        },
+        "taskId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估任务ID"
+        },
+        "evaluationModule": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EvaluationModuleAnswer"
+          }
+        }
+      }
+    },
+    "EvaluationModuleAnswer": {
+      "type": "object",
+      "properties": {
+        "moduleOrder": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "answerList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/QuestionAnswer"
+          }
+        }
+      }
+    },
+    "QuestionAnswer": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "type": "integer",
+          "format": "int64",
+          "description": "题目序号"
+        },
+        "resultAnswer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResultAnswer"
+          }
         }
       }
     },
