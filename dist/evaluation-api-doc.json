@@ -3,9 +3,9 @@
   "info": {
     "description": "",
     "version": "1.0.0",
-    "title": "蜂邻项目C端"
+    "title": "评估中心"
   },
-  "basePath": "/weixin/v1",
+  "basePath": "/eva/v1",
   "tags": [
     {
       "name": "评估量表",
@@ -60,39 +60,7 @@
         }
       }
     },
-    "/evaluation-bundles/{evaluationBundleId}/question_info": {
-      "get": {
-        "tags": [
-          "评估量表"
-        ],
-        "description": "获取评估量表题目信息详情",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "evaluationBundleId",
-            "in": "path",
-            "description": "评估量表Id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功\n返回结构见 EvaluationBundleQuestionDTO",
-            "schema": {
-              "$ref": "#/definitions/EvaluationBundleQuestionDTO"
-            }
-          }
-        }
-      }
-    },
-    "/evaluation_submit_record/{evaluationSubmitRecordId}": {
+    "/evaluation-submit-record/{evaluationSubmitRecordId}": {
       "get": {
         "tags": [
           "评估记录"
@@ -163,7 +131,7 @@
         }
       }
     },
-    "/evaluation_submit_record": {
+    "/evaluation-submit-record": {
       "get": {
         "tags": [
           "评估记录"
@@ -201,9 +169,7 @@
             }
           }
         }
-      }
-    },
-    "/evaluation_submit_record/init": {
+      },
       "post": {
         "tags": [
           "评估记录"
@@ -219,10 +185,10 @@
           {
             "name": "body",
             "in": "body",
-            "description": "\n请求结构见 EvaluationSubmitRecordInitOption",
+            "description": "\n请求结构见 EvaluationSubmitRecordOption",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordInitOption"
+              "$ref": "#/definitions/EvaluationSubmitRecordOption"
             }
           }
         ],
@@ -359,6 +325,38 @@
           }
         }
       }
+    },
+    "/evaluatee/{evaluateeId}/scales": {
+      "get": {
+        "tags": [
+          "被评估人"
+        ],
+        "description": "被评估人标尺信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "evaluateeId",
+            "in": "path",
+            "description": "被评估人Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ScaleValueDTO",
+            "schema": {
+              "$ref": "#/definitions/ScaleValueDTO"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -374,8 +372,27 @@
         "msg": {
           "type": "string"
         },
-        "displamsg": {
+        "displaymsg": {
           "type": "string"
+        }
+      }
+    },
+    "ScaleValueDTO": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Result"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "scale": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ScaleValue"
+              }
+            }
+          }
         }
       }
     },
@@ -430,218 +447,23 @@
         }
       }
     },
-    "EvaluationBundleQuestionDTO": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "$ref": "#/definitions/Result"
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "evaluationBundle": {
-              "$ref": "#/definitions/EvaluationBundleQuestionDetail"
-            }
-          }
-        }
-      }
-    },
-    "EvaluationBundleQuestionDetail": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
-        },
-        "type": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "typeName": {
-          "type": "string"
-        },
-        "departmentId\"": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "state\"": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "stateName": {
-          "type": "string"
-        },
-        "identity": {
-          "type": "string",
-          "description": "量表标志编码"
-        },
-        "version": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "content": {
-          "$ref": "#/definitions/EvaluationBundleQuestionContent"
-        }
-      }
-    },
-    "EvaluationBundleQuestionContent": {
-      "type": "object",
-      "properties": {
-        "evaluationModule": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EvaluationModule"
-          }
-        }
-      }
-    },
     "EvaluationModule": {
       "type": "object",
       "properties": {
         "name": {
           "type": "string"
         },
-        "moduleOrder": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "questionList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Question"
-          }
-        }
-      }
-    },
-    "Question": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "type": {
-          "type": "string",
-          "description": "题目类型,有4种:completion(填空),single_choice(单选),multi_choice(多选),single_choice_matrix(矩阵题)"
-        },
-        "repeat": {
-          "type": "boolean",
-          "description": "题目是否需要重复"
-        },
-        "question": {
+        "code": {
           "type": "string"
         },
-        "questionDesc": {
+        "version": {
           "type": "string"
         },
-        "options": {
+        "sections": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CompletionOption"
+            "$ref": "#/definitions/EvaluationSection"
           }
-        },
-        "answer": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ChoiceAnswer"
-          }
-        },
-        "questionList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SingleChoiceMatrixQuestion"
-          }
-        }
-      }
-    },
-    "SingleChoiceMatrixQuestion": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "type": "integer"
-        },
-        "question": {
-          "type": "string"
-        },
-        "answerWeight": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "choice": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ChoiceAnswer": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "type": "integer"
-        },
-        "content": {
-          "type": "string",
-          "description": "选项内容"
-        },
-        "weight": {
-          "type": "integer"
-        }
-      }
-    },
-    "CompletionOption": {
-      "type": "object",
-      "properties": {
-        "require": {
-          "type": "boolean",
-          "description": "是否必填"
-        },
-        "textBefore": {
-          "type": "string",
-          "description": "填空前面的说明"
-        },
-        "blankType": {
-          "type": "string",
-          "description": "空的类型,有2种:SELECTION(带选项),TEXT(空白),NUM(只填数值的空白)"
-        },
-        "chosenValue": {
-          "type": "array",
-          "description": "选项",
-          "items": {
-            "type": "string"
-          }
-        },
-        "blankPlaceholder": {
-          "type": "string"
-        },
-        "textAfter": {
-          "type": "string",
-          "description": "填空后面的说明"
-        },
-        "newline": {
-          "type": "boolean",
-          "description": "是否需要换行"
-        },
-        "wikiNodeId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "关联的自然人节点ID"
         }
       }
     },
@@ -654,7 +476,7 @@
         "data": {
           "type": "object",
           "properties": {
-            "evaluationResult": {
+            "recordDetail": {
               "$ref": "#/definitions/EvaluationSubmitRecordDetail"
             }
           }
@@ -664,165 +486,17 @@
     "EvaluationSubmitRecordDetail": {
       "type": "object",
       "properties": {
-        "evaluationSubmitRecordId": {
+        "id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
         },
-        "evaluationBundleId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "评估量表ID"
-        },
-        "evaluationBundleName": {
-          "type": "string",
-          "description": "评估量表名称"
-        },
-        "state": {
-          "type": "string",
-          "description": "评估记录状态"
-        },
-        "stateName": {
-          "type": "string",
-          "description": "评估记录状态"
-        },
         "evaluationConclusion": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "type": "string",
+          "description": "结论"
         },
         "evaluationModule": {
-          "$ref": "#/definitions/EvaluationRecordModule"
-        },
-        "diagnoses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Diagnose"
-          }
-        },
-        "measureInfo": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MeasureInfo"
-          }
-        }
-      }
-    },
-    "EvaluationRecordModule": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "moduleOrder": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "questionList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RecordQuestion"
-          }
-        }
-      }
-    },
-    "RecordQuestion": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "type": {
-          "type": "string",
-          "description": "题目类型,有4种:completion(填空),single_choice(单选),multi_choice(多选),single_choice_matrix(矩阵题)"
-        },
-        "repeat": {
-          "type": "boolean",
-          "description": "题目是否需要重复"
-        },
-        "question": {
-          "type": "string"
-        },
-        "questionDesc": {
-          "type": "string"
-        },
-        "options": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CompletionOption"
-          }
-        },
-        "answer": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ChoiceAnswer"
-          }
-        },
-        "questionList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SingleChoiceMatrixQuestion"
-          }
-        },
-        "resultAnswer": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ResultAnswer"
-          }
-        }
-      }
-    },
-    "ResultAnswer": {
-      "type": "object",
-      "properties": {
-        "content": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "Diagnose": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "diagnose的 ID"
-        },
-        "name": {
-          "type": "string",
-          "description": "diagnose的名称"
-        },
-        "factor": {
-          "type": "string",
-          "description": "相关因素"
-        }
-      }
-    },
-    "MeasureInfo": {
-      "type": "object",
-      "properties": {
-        "diagnose": {
-          "$ref": "#/definitions/Diagnose"
-        },
-        "measures": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Measure"
-          }
-        }
-      }
-    },
-    "Measure": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "measure 的名称"
+          "$ref": "#/definitions/EvaluationModule"
         }
       }
     },
@@ -871,14 +545,6 @@
           "type": "string",
           "description": "评估名称"
         },
-        "state": {
-          "type": "string",
-          "description": "状态"
-        },
-        "stateName": {
-          "type": "string",
-          "description": "状态"
-        },
         "departmentId": {
           "type": "integer",
           "format": "int64",
@@ -891,47 +557,6 @@
         "updatedAt": {
           "type": "integer",
           "format": "int64"
-        }
-      }
-    },
-    "EvaluationSubmitRecordInitOption": {
-      "type": "object",
-      "properties": {
-        "evaluationBundleId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "评估量表ID"
-        },
-        "departmentId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "机构ID"
-        },
-        "evaluateeId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "被评估人ID"
-        },
-        "taskId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "评估任务ID"
-        }
-      }
-    },
-    "EvaluationSubmitRecordInitDTO": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "$ref": "#/definitions/Result"
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "evaluationSubmitRecord": {
-              "$ref": "#/definitions/EvaluationSubmitRecord"
-            }
-          }
         }
       }
     },
@@ -953,52 +578,10 @@
           "format": "int64",
           "description": "被评估人ID"
         },
-        "evaluationSubmitRecordId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "评估记录ID"
-        },
         "taskId": {
           "type": "integer",
           "format": "int64",
           "description": "评估任务ID"
-        },
-        "evaluationModule": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EvaluationModuleAnswer"
-          }
-        }
-      }
-    },
-    "EvaluationModuleAnswer": {
-      "type": "object",
-      "properties": {
-        "moduleOrder": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "answerList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/QuestionAnswer"
-          }
-        }
-      }
-    },
-    "QuestionAnswer": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "type": "integer",
-          "format": "int64",
-          "description": "题目序号"
-        },
-        "resultAnswer": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ResultAnswer"
-          }
         }
       }
     },
@@ -1124,6 +707,216 @@
         "address": {
           "type": "string",
           "description": "地址"
+        }
+      }
+    },
+    "Question": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "题目唯一标识"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "description": {
+          "type": "string",
+          "description": "描述"
+        },
+        "type": {
+          "type": "string",
+          "description": "题目类型,有4种:completion(填空),single_choice(单选),multi_choice(多选),bundle(量表题)"
+        },
+        "repeat": {
+          "type": "boolean",
+          "description": "题目是否需要重复"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CompletionProperty"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChoiceOption"
+          }
+        },
+        "content": {
+          "$ref": "#/definitions/EvaluationSection"
+        }
+      }
+    },
+    "ChoiceOption": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string",
+          "description": "选项内容"
+        },
+        "weight": {
+          "type": "integer"
+        }
+      }
+    },
+    "CompletionProperty": {
+      "type": "object",
+      "properties": {
+        "require": {
+          "type": "boolean",
+          "description": "是否必填"
+        },
+        "text_before": {
+          "type": "string",
+          "description": "填空前面的说明"
+        },
+        "blank_type": {
+          "type": "string",
+          "description": "空的类型,有2种:SELECTION(带选项),TEXT(空白),NUM(只填数值的空白)"
+        },
+        "chosen_value": {
+          "type": "array",
+          "description": "选项",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blank_placeholder": {
+          "type": "string"
+        },
+        "text_after": {
+          "type": "string",
+          "description": "填空后面的说明"
+        },
+        "newline": {
+          "type": "boolean",
+          "description": "是否需要换行"
+        }
+      }
+    },
+    "EvaluationSection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "名称"
+        },
+        "type": {
+          "type": "string",
+          "description": "类型"
+        },
+        "is_grouped": {
+          "type": "boolean",
+          "description": "是否分组"
+        },
+        "group": {
+          "type": "array",
+          "description": "有分组时",
+          "items": {
+            "$ref": "#/definitions/QuestionGroup"
+          }
+        },
+        "questions": {
+          "type": "array",
+          "description": "题目列表（无分组时）",
+          "items": {
+            "$ref": "#/definitions/Question"
+          }
+        }
+      }
+    },
+    "QuestionGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "名称"
+        },
+        "code": {
+          "type": "string",
+          "description": "标识"
+        },
+        "questions": {
+          "type": "array",
+          "description": "题目列表",
+          "items": {
+            "$ref": "#/definitions/Question"
+          }
+        }
+      }
+    },
+    "ScaleValue": {
+      "type": "object",
+      "properties": {
+        "latest": {
+          "description": "最近一次标尺数据",
+          "$ref": "#/definitions/ScaleValueHistoryItem"
+        },
+        "history": {
+          "description": "标尺历史数据",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScaleValueHistoryItem"
+          }
+        },
+        "scale_mark": {
+          "description": "标尺刻度",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScaleMark"
+          }
+        },
+        "scale_max_value": {
+          "type": "integer",
+          "description": "标尺刻度最大值"
+        }
+      }
+    },
+    "ScaleValueHistoryItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "description": "标尺值"
+        },
+        "description": {
+          "type": "string",
+          "description": "标尺值描述"
+        },
+        "date": {
+          "type": "integer",
+          "description": "标尺值时间"
+        },
+        "default_color": {
+          "type": "string",
+          "description": "默认颜色"
+        }
+      }
+    },
+    "ScaleMark": {
+      "type": "object",
+      "properties": {
+        "mark": {
+          "type": "string",
+          "description": "标尺刻度值区间"
+        },
+        "description": {
+          "type": "string",
+          "description": "标尺值描述"
+        },
+        "default_color": {
+          "type": "string",
+          "description": "默认颜色"
         }
       }
     }
