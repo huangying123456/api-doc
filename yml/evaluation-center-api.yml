@@ -24,6 +24,7 @@ paths:
       tags:
         - "评估量表"
       description: "获取评估量表列表"
+      operationId: "getEvaluationBundleList"
       consumes:
       - "application/json"
       produces:
@@ -46,6 +47,7 @@ paths:
       tags:
         - "评估记录"
       description: "获取评估结果详情"
+      operationId: "getEvaluationBundleRecordDetail"
       consumes:
       - "application/json"
       produces:
@@ -71,6 +73,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "updateEvaluationBundleRecordDetail"
       parameters:
         - name: "evaluationSubmitRecordId"
           in: "path"
@@ -99,6 +102,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "getEvaluationBundleRecordList"
       parameters:
         - name: "departmentId"
           in: "query"
@@ -125,6 +129,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "getEvaluationBundleRecordList"
       parameters:
         - name: "body"
           in: "body"
@@ -147,6 +152,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "getEvaluateeList"
       responses:
         200:
           description: "成功\n返回结构见 EvaluateeListDTO"
@@ -161,6 +167,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "addEvaluatee"
       parameters:
         - in: "body"
           name: "body"
@@ -183,6 +190,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "getEvaluateeDetail"
       parameters:
       - name: "evaluateeId"
         in: "path"
@@ -203,6 +211,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "updateEvaluateeDetail"
       parameters:
       - name: "evaluateeId"
         in: "path"
@@ -231,6 +240,7 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      operationId: "updateEvaluateeScales"
       parameters:
       - name: "evaluateeId"
         in: "path"
