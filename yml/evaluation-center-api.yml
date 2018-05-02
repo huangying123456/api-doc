@@ -394,6 +394,12 @@ definitions:
       departmentName:
         type: "string"
         description: "机构名称"
+      state:
+        type: "string"
+        description: "状态"
+      stateName:
+        type: "string"
+        description: "状态" 
       updatedAt:
         type: "integer"
         format: "int64"
