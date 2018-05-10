@@ -18,10 +18,6 @@
     {
       "name": "被评估人",
       "description": "被评估人"
-    },
-    {
-      "name": "健康标尺",
-      "description": "健康标尺 & 健康标尺记录"
     }
   ],
   "schemes": [
@@ -43,7 +39,7 @@
         ],
         "parameters": [
           {
-            "name": "departmentId",
+            "name": "department_id",
             "in": "query",
             "description": "机构Id",
             "required": true,
@@ -61,7 +57,7 @@
         }
       }
     },
-    "/evaluation-submit-record/{evaluationSubmitRecordId}": {
+    "/evaluation-submit-record/{evaluation_submit_record_id}": {
       "get": {
         "tags": [
           "评估记录"
@@ -76,7 +72,7 @@
         ],
         "parameters": [
           {
-            "name": "evaluationSubmitRecordId",
+            "name": "evaluation_submit_record_id",
             "in": "path",
             "description": "评估记录Id",
             "required": true,
@@ -107,7 +103,7 @@
         "operationId": "updateEvaluationBundleRecordDetail",
         "parameters": [
           {
-            "name": "evaluationSubmitRecordId",
+            "name": "evaluation_submit_record_id",
             "in": "path",
             "description": "评估记录Id",
             "required": true,
@@ -149,7 +145,7 @@
         "operationId": "addEvaluationBundleRecord",
         "parameters": [
           {
-            "name": "departmentId",
+            "name": "department_id",
             "in": "query",
             "description": "机构Id",
             "required": true,
@@ -157,7 +153,7 @@
             "format": "int64"
           },
           {
-            "name": "evaluateeId",
+            "name": "evaluatee_id",
             "in": "query",
             "description": "被评估人ID",
             "required": false,
@@ -202,6 +198,39 @@
             "description": "成功\n返回结构见 EvaluationSubmitRecordDTO",
             "schema": {
               "$ref": "#/definitions/EvaluationSubmitRecordDTO"
+            }
+          }
+        }
+      }
+    },
+    "/evaluation-submit-record/{evaluation_submit_record_id}/scales": {
+      "get": {
+        "tags": [
+          "评估记录"
+        ],
+        "description": "评估记录标尺信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "getEvaluationBundleRecordScales",
+        "parameters": [
+          {
+            "name": "evaluation_submit_record_id",
+            "in": "path",
+            "description": "评估记录Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功\n返回结构见ScaleValueDTO",
+            "schema": {
+              "$ref": "#/definitions/ScaleValueDTO"
             }
           }
         }
@@ -262,7 +291,7 @@
         }
       }
     },
-    "/evaluatee/{evaluateeId}": {
+    "/evaluatee/{evaluatee_id}": {
       "get": {
         "tags": [
           "被评估人"
@@ -277,7 +306,7 @@
         "operationId": "getEvaluateeDetail",
         "parameters": [
           {
-            "name": "evaluateeId",
+            "name": "evaluatee_id",
             "in": "path",
             "description": "被评估人Id",
             "required": true,
@@ -308,7 +337,7 @@
         "operationId": "updateEvaluateeDetail",
         "parameters": [
           {
-            "name": "evaluateeId",
+            "name": "evaluatee_id",
             "in": "path",
             "description": "被评估人Id",
             "required": true,
@@ -335,7 +364,7 @@
         }
       }
     },
-    "/evaluatee/{evaluateeId}/scales": {
+    "/evaluatee/{evaluatee_id}/scales": {
       "get": {
         "tags": [
           "被评估人"
@@ -350,7 +379,7 @@
         "operationId": "updateEvaluateeScales",
         "parameters": [
           {
-            "name": "evaluateeId",
+            "name": "evaluatee_id",
             "in": "path",
             "description": "被评估人Id",
             "required": true,
@@ -444,14 +473,14 @@
         "state": {
           "type": "string"
         },
-        "stateName": {
+        "state_name": {
           "type": "string"
         },
-        "createdAt": {
+        "created_at": {
           "type": "integer",
           "format": "int64"
         },
-        "updatedAt": {
+        "updated_at": {
           "type": "integer",
           "format": "int64"
         }
@@ -501,11 +530,11 @@
           "format": "int64",
           "description": "评估记录ID"
         },
-        "evaluationConclusion": {
+        "evaluation_conclusion": {
           "type": "string",
           "description": "结论"
         },
-        "evaluationModule": {
+        "evaluation_module": {
           "$ref": "#/definitions/EvaluationModule"
         }
       }
@@ -532,35 +561,35 @@
     "EvaluationSubmitRecord": {
       "type": "object",
       "properties": {
-        "evaluationSubmitRecordId": {
+        "evaluationu_sbmit_record_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
         },
-        "evaluateeId": {
+        "evaluatee_id": {
           "type": "integer",
           "format": "int64",
           "description": "被评估人ID"
         },
-        "evaluateeName": {
+        "evaluatee_name": {
           "type": "string",
           "description": "被评估人姓名"
         },
-        "evaluationBundleId": {
+        "evaluation_bundle_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估量表ID"
         },
-        "evaluationBundleName": {
+        "evaluation_bundle_name": {
           "type": "string",
           "description": "评估名称"
         },
-        "departmentId": {
+        "department_id": {
           "type": "integer",
           "format": "int64",
           "description": "机构ID"
         },
-        "departmentName": {
+        "department_name": {
           "type": "string",
           "description": "机构名称"
         },
@@ -568,11 +597,11 @@
           "type": "string",
           "description": "状态"
         },
-        "stateName": {
+        "state_name": {
           "type": "string",
           "description": "状态"
         },
-        "updatedAt": {
+        "updated_at": {
           "type": "integer",
           "format": "int64"
         }
@@ -581,22 +610,22 @@
     "EvaluationSubmitRecordOption": {
       "type": "object",
       "properties": {
-        "evaluationBundleId": {
+        "evaluation_bundle_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估量表ID"
         },
-        "departmentId": {
+        "department_id": {
           "type": "integer",
           "format": "int64",
           "description": "机构ID"
         },
-        "evaluateeId": {
+        "evaluatee_id": {
           "type": "integer",
           "format": "int64",
           "description": "被评估人ID"
         },
-        "taskId": {
+        "task_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估任务ID"
@@ -654,11 +683,11 @@
           "type": "string",
           "description": "手机号"
         },
-        "idCard": {
+        "id_card": {
           "type": "string",
           "description": "身份证号码"
         },
-        "socialCard": {
+        "social_card": {
           "type": "string",
           "description": "社保卡号"
         },
@@ -666,11 +695,11 @@
           "type": "string",
           "description": "地址"
         },
-        "createdAt": {
+        "created_at": {
           "type": "integer",
           "format": "int64"
         },
-        "updatedAt": {
+        "updated_at": {
           "type": "integer",
           "format": "int64"
         }
@@ -714,11 +743,11 @@
           "type": "string",
           "description": "手机号"
         },
-        "idCard": {
+        "id_card": {
           "type": "string",
           "description": "身份证号码"
         },
-        "socialCard": {
+        "social_card": {
           "type": "string",
           "description": "社保卡号"
         },
@@ -897,6 +926,10 @@
         "scale_max_value": {
           "type": "integer",
           "description": "标尺刻度最大值"
+        },
+        "scale_name": {
+          "type": "string",
+          "description": "标尺名称"
         }
       }
     },

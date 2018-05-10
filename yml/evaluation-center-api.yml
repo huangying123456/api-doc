@@ -12,8 +12,6 @@ tags:
   description: "评估记录"
 - name: "被评估人"
   description: "被评估人"
-- name: "健康标尺"
-  description: "健康标尺 & 健康标尺记录"
 
 
 schemes:
@@ -30,7 +28,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-        - name: "departmentId"
+        - name: "department_id"
           in: "query"
           description: "机构Id"
           required: true
@@ -42,7 +40,7 @@ paths:
           schema:
             $ref: "#/definitions/EvaluationBundleListDTO"
   
-  /evaluation-submit-record/{evaluationSubmitRecordId}:
+  /evaluation-submit-record/{evaluation_submit_record_id}:
     get:
       tags:
         - "评估记录"
@@ -53,7 +51,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-        - name: "evaluationSubmitRecordId"
+        - name: "evaluation_submit_record_id"
           in: "path"
           description: "评估记录Id"
           required: true
@@ -75,7 +73,7 @@ paths:
       - "application/json"
       operationId: "updateEvaluationBundleRecordDetail"
       parameters:
-        - name: "evaluationSubmitRecordId"
+        - name: "evaluation_submit_record_id"
           in: "path"
           description: "评估记录Id"
           required: true
@@ -104,13 +102,13 @@ paths:
       - "application/json"
       operationId: "addEvaluationBundleRecord"
       parameters:
-        - name: "departmentId"
+        - name: "department_id"
           in: "query"
           description: "机构Id"
           required: true
           type: "integer"
           format: "int64"
-        - name: "evaluateeId"
+        - name: "evaluatee_id"
           in: "query"
           description: "被评估人ID"
           required: false
@@ -142,6 +140,29 @@ paths:
           description: "成功\n返回结构见 EvaluationSubmitRecordDTO"
           schema:
             $ref: "#/definitions/EvaluationSubmitRecordDTO"
+
+  /evaluation-submit-record/{evaluation_submit_record_id}/scales:
+    get:
+      tags:
+        - "评估记录"
+      description: "评估记录标尺信息"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      operationId: "getEvaluationBundleRecordScales"
+      parameters:
+      - name: "evaluation_submit_record_id"
+        in: "path"
+        description: "评估记录Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见ScaleValueDTO"
+          schema:
+            $ref: "#/definitions/ScaleValueDTO" 
 
   /evaluatee:
     get:
@@ -181,7 +202,7 @@ paths:
           schema:
             $ref: "#/definitions/EvaluateeDTO"
 
-  /evaluatee/{evaluateeId}:
+  /evaluatee/{evaluatee_id}:
     get:
       tags:
         - "被评估人"
@@ -192,7 +213,7 @@ paths:
       - "application/json"
       operationId: "getEvaluateeDetail"
       parameters:
-      - name: "evaluateeId"
+      - name: "evaluatee_id"
         in: "path"
         description: "被评估人Id"
         required: true
@@ -213,7 +234,7 @@ paths:
       - "application/json"
       operationId: "updateEvaluateeDetail"
       parameters:
-      - name: "evaluateeId"
+      - name: "evaluatee_id"
         in: "path"
         description: "被评估人Id"
         required: true
@@ -231,7 +252,7 @@ paths:
           schema:
             $ref: "#/definitions/EvaluateeDTO"
 
-  /evaluatee/{evaluateeId}/scales:
+  /evaluatee/{evaluatee_id}/scales:
     get:
       tags:
         - "被评估人"
@@ -242,7 +263,7 @@ paths:
       - "application/json"
       operationId: "updateEvaluateeScales"
       parameters:
-      - name: "evaluateeId"
+      - name: "evaluatee_id"
         in: "path"
         description: "被评估人Id"
         required: true
@@ -306,12 +327,12 @@ definitions:
         type: "string"
       state:
         type: "string"
-      stateName:
+      state_name:
         type: "string"
-      createdAt:
+      created_at:
         type: "integer"
         format: "int64"
-      updatedAt:
+      updated_at:
         type: "integer"
         format: "int64"
         
@@ -347,10 +368,10 @@ definitions:
         type: "integer"
         format: "int64"
         description: "评估记录ID"
-      evaluationConclusion:
+      evaluation_conclusion:
         type: "string"
         description: "结论"
-      evaluationModule:
+      evaluation_module:
         $ref: "#/definitions/EvaluationModule"
   
   EvaluationSubmitRecordListDTO:
@@ -369,57 +390,57 @@ definitions:
   EvaluationSubmitRecord:
     type: "object"
     properties:
-      evaluationSubmitRecordId:
+      evaluationu_sbmit_record_id:
         type: "integer"
         format: "int64"
         description: "评估记录ID"
-      evaluateeId:
+      evaluatee_id:
         type: "integer"
         format: "int64"
         description: "被评估人ID"
-      evaluateeName:
+      evaluatee_name:
         type: "string"
         description: "被评估人姓名"
-      evaluationBundleId:
+      evaluation_bundle_id:
         type: "integer"
         format: "int64"
         description: "评估量表ID"
-      evaluationBundleName:
+      evaluation_bundle_name:
         type: "string"
         description: "评估名称"
-      departmentId:
+      department_id:
         type: "integer"
         format: "int64"
         description: "机构ID"
-      departmentName:
+      department_name:
         type: "string"
         description: "机构名称"
       state:
         type: "string"
         description: "状态"
-      stateName:
+      state_name:
         type: "string"
         description: "状态" 
-      updatedAt:
+      updated_at:
         type: "integer"
         format: "int64"
 
   EvaluationSubmitRecordOption:
     type: "object"
     properties:
-      evaluationBundleId:
+      evaluation_bundle_id:
         type: "integer"
         format: "int64"
         description: "评估量表ID"
-      departmentId:
+      department_id:
         type: "integer"
         format: "int64"
         description: "机构ID"
-      evaluateeId:
+      evaluatee_id:
         type: "integer"
         format: "int64"
         description: "被评估人ID"
-      taskId:
+      task_id:
         type: "integer"
         format: "int64"
         description: "评估任务ID"     
@@ -463,19 +484,19 @@ definitions:
       phone:
         type: "string"
         description: "手机号"
-      idCard:
+      id_card:
         type: "string"
         description: "身份证号码"
-      socialCard:
+      social_card:
         type: "string"
         description: "社保卡号"
       address:
         type: "string"
         description: "地址"
-      createdAt:
+      created_at:
         type: "integer"
         format: "int64"
-      updatedAt:
+      updated_at:
         type: "integer"
         format: "int64"
 
@@ -508,10 +529,10 @@ definitions:
       phone:
         type: "string"
         description: "手机号"
-      idCard:
+      id_card:
         type: "string"
         description: "身份证号码"
-      socialCard:
+      social_card:
         type: "string"
         description: "社保卡号"
       address:
@@ -586,10 +607,6 @@ definitions:
       newline:
         type: "boolean"
         description: "是否需要换行"
-      # wikiNodeId:
-      #   type: "integer"
-      #   format: "int64"
-      #   description: "关联的自然人节点ID"
  
   EvaluationSection:
     type: "object"
@@ -648,6 +665,9 @@ definitions:
       scale_max_value:
         type: "integer"
         description: "标尺刻度最大值"
+      scale_name:
+        type: "string"
+        description: "标尺名称"
         
   
   ScaleValueHistoryItem:
