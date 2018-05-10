@@ -228,9 +228,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见ScaleValueDTO",
+            "description": "成功\n返回结构见 RecordScaleValueDTO",
             "schema": {
-              "$ref": "#/definitions/ScaleValueDTO"
+              "$ref": "#/definitions/RecordScaleValueDTO"
             }
           }
         }
@@ -429,6 +429,25 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/ScaleValue"
+              }
+            }
+          }
+        }
+      }
+    },
+    "RecordScaleValueDTO": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Result"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "scale": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordScaleValue"
               }
             }
           }
@@ -915,6 +934,30 @@
           "items": {
             "$ref": "#/definitions/ScaleValueHistoryItem"
           }
+        },
+        "scale_mark": {
+          "description": "标尺刻度",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScaleMark"
+          }
+        },
+        "scale_max_value": {
+          "type": "integer",
+          "description": "标尺刻度最大值"
+        },
+        "scale_name": {
+          "type": "string",
+          "description": "标尺名称"
+        }
+      }
+    },
+    "RecordScaleValue": {
+      "type": "object",
+      "properties": {
+        "latest": {
+          "description": "最近一次标尺数据",
+          "$ref": "#/definitions/ScaleValueHistoryItem"
         },
         "scale_mark": {
           "description": "标尺刻度",
