@@ -463,7 +463,7 @@
         "data": {
           "type": "object",
           "properties": {
-            "evaluationBundleList": {
+            "evaluation_bundle_list": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/EvaluationBundleListItem"
@@ -534,7 +534,7 @@
         "data": {
           "type": "object",
           "properties": {
-            "recordDetail": {
+            "evaluation_submit_record": {
               "$ref": "#/definitions/EvaluationSubmitRecordDetail"
             }
           }
@@ -544,7 +544,7 @@
     "EvaluationSubmitRecordDetail": {
       "type": "object",
       "properties": {
-        "id": {
+        "evaluationu_sbmit_record_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
@@ -552,6 +552,25 @@
         "evaluation_conclusion": {
           "type": "string",
           "description": "结论"
+        },
+        "evaluatee_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "被评估人ID"
+        },
+        "evaluatee_name": {
+          "type": "string",
+          "description": "被评估人姓名"
+        },
+        "state": {
+          "type": "string"
+        },
+        "state_name": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64"
         },
         "evaluation_module": {
           "$ref": "#/definitions/EvaluationModule"
@@ -567,7 +586,7 @@
         "data": {
           "type": "object",
           "properties": {
-            "evaluationSubmitRecordList": {
+            "evaluation_submit_record_list": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/EvaluationSubmitRecord"
@@ -660,7 +679,7 @@
         "data": {
           "type": "object",
           "properties": {
-            "evaluateeList": {
+            "evaluatee_list": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/EvaluateeDetail"
