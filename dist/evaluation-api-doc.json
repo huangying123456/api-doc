@@ -113,10 +113,10 @@
           {
             "name": "body",
             "in": "body",
-            "description": "\n请求结构见 EvaluationSubmitRecordOption",
+            "description": "\n请求结构见 EvaluateeDetail",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordOption"
+              "$ref": "#/definitions/EvaluateeDetail"
             }
           }
         ],
@@ -836,6 +836,28 @@
         },
         "content": {
           "$ref": "#/definitions/EvaluationSection"
+        },
+        "answer": {
+          "$ref": "#/definitions/QuestionAnswer"
+        }
+      }
+    },
+    "QuestionAnswer": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "type": "array",
+          "description": "所选选项",
+          "items": {
+            "type": "string"
+          }
+        },
+        "content": {
+          "type": "array",
+          "description": "所选选项",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -844,6 +866,10 @@
       "properties": {
         "order": {
           "type": "integer"
+        },
+        "code": {
+          "type": "string",
+          "description": "选项标示"
         },
         "content": {
           "type": "string",
