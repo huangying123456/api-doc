@@ -603,16 +603,19 @@ definitions:
   QuestionAnswer:
     type: "object"
     properties:
-      order:
+      options:
         type: "array"
         description: "所选选项"
         items:
           type: "string"
-      content:
+      contents:
         type: "array"
         description: "所选选项"
         items:
-          type: "string"
+          type: "array"
+          description: "所选选项"
+          items:
+            type: "string"
 
   ChoiceOption:
     type: "object"
