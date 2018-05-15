@@ -660,6 +660,21 @@ definitions:
   EvaluationSection:
     type: "object"
     properties:
+      detail:
+        description: "详情"
+        $ref: "#/definitions/EvaluationSectionDetail"
+      conclusion:
+        type: "object"
+        properties:
+          scales:
+            type: "array"
+            items:
+              $ref: "#/definitions/ScaleValue"
+
+
+  EvaluationSectionDetail:
+    type: "object"
+    properties:
       name:
         type: "string"
         description: "名称"
