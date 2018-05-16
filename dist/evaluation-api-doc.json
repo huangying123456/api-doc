@@ -37,16 +37,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "department_id",
-            "in": "query",
-            "description": "机构Id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
         "responses": {
           "200": {
             "description": "成功\n返回结构见 EvaluationBundleListDTO",
@@ -57,7 +47,7 @@
         }
       }
     },
-    "/evaluation-submit-record/{evaluation_submit_record_id}": {
+    "/evaluation--record/{evaluation__record_id}": {
       "get": {
         "tags": [
           "评估记录"
@@ -72,7 +62,7 @@
         ],
         "parameters": [
           {
-            "name": "evaluation_submit_record_id",
+            "name": "evaluation__record_id",
             "in": "path",
             "description": "评估记录Id",
             "required": true,
@@ -82,9 +72,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见 EvaluationSubmitRecordDTO",
+            "description": "成功\n返回结构见 EvaluationRecordDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordDTO"
+              "$ref": "#/definitions/EvaluationRecordDTO"
             }
           }
         }
@@ -103,7 +93,7 @@
         "operationId": "updateEvaluationBundleRecordDetail",
         "parameters": [
           {
-            "name": "evaluation_submit_record_id",
+            "name": "evaluation__record_id",
             "in": "path",
             "description": "评估记录Id",
             "required": true,
@@ -122,15 +112,15 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见 EvaluationSubmitRecordDTO",
+            "description": "成功\n返回结构见 EvaluationRecordDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordDTO"
+              "$ref": "#/definitions/EvaluationRecordDTO"
             }
           }
         }
       }
     },
-    "/evaluation-submit-record": {
+    "/evaluation--record": {
       "get": {
         "tags": [
           "评估记录"
@@ -163,9 +153,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见 EvaluationSubmitRecordListDTO",
+            "description": "成功\n返回结构见 EvaluationRecordListDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordListDTO"
+              "$ref": "#/definitions/EvaluationRecordListDTO"
             }
           }
         }
@@ -186,51 +176,18 @@
           {
             "name": "body",
             "in": "body",
-            "description": "\n请求结构见 EvaluationSubmitRecordOption",
+            "description": "\n请求结构见 EvaluationRecordOption",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordOption"
+              "$ref": "#/definitions/EvaluationRecordOption"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见 EvaluationSubmitRecordDTO",
+            "description": "成功\n返回结构见 EvaluationRecordDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationSubmitRecordDTO"
-            }
-          }
-        }
-      }
-    },
-    "/evaluation-submit-record/{evaluation_submit_record_id}/scales": {
-      "get": {
-        "tags": [
-          "评估记录"
-        ],
-        "description": "评估记录标尺信息",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "operationId": "getEvaluationBundleRecordScales",
-        "parameters": [
-          {
-            "name": "evaluation_submit_record_id",
-            "in": "path",
-            "description": "评估记录Id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功\n返回结构见 RecordScaleValueDTO",
-            "schema": {
-              "$ref": "#/definitions/RecordScaleValueDTO"
+              "$ref": "#/definitions/EvaluationRecordDTO"
             }
           }
         }
@@ -476,8 +433,8 @@
     "EvaluationBundleListItem": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
+        "code": {
+          "type": "string",
           "format": "int64"
         },
         "name": {
@@ -525,7 +482,7 @@
         }
       }
     },
-    "EvaluationSubmitRecordDTO": {
+    "EvaluationRecordDTO": {
       "type": "object",
       "properties": {
         "result": {
@@ -534,17 +491,17 @@
         "data": {
           "type": "object",
           "properties": {
-            "evaluation_submit_record": {
-              "$ref": "#/definitions/EvaluationSubmitRecordDetail"
+            "evaluation_record": {
+              "$ref": "#/definitions/EvaluationRecordDetail"
             }
           }
         }
       }
     },
-    "EvaluationSubmitRecordDetail": {
+    "EvaluationRecordDetail": {
       "type": "object",
       "properties": {
-        "evaluationu_sbmit_record_id": {
+        "evaluationu_record_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
@@ -574,10 +531,13 @@
         },
         "evaluation_module": {
           "$ref": "#/definitions/EvaluationModule"
+        },
+        "conclusion": {
+          "$ref": "#/definitions/EvaluationConclusion"
         }
       }
     },
-    "EvaluationSubmitRecordListDTO": {
+    "EvaluationRecordListDTO": {
       "type": "object",
       "properties": {
         "result": {
@@ -586,20 +546,20 @@
         "data": {
           "type": "object",
           "properties": {
-            "evaluation_submit_record_list": {
+            "evaluation_record_list": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/EvaluationSubmitRecord"
+                "$ref": "#/definitions/EvaluationRecord"
               }
             }
           }
         }
       }
     },
-    "EvaluationSubmitRecord": {
+    "EvaluationRecord": {
       "type": "object",
       "properties": {
-        "evaluationu_sbmit_record_id": {
+        "evaluationu_record_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
@@ -645,18 +605,13 @@
         }
       }
     },
-    "EvaluationSubmitRecordOption": {
+    "EvaluationRecordOption": {
       "type": "object",
       "properties": {
-        "evaluation_bundle_id": {
-          "type": "integer",
+        "evaluation_bundle_code": {
+          "type": "string",
           "format": "int64",
-          "description": "评估量表ID"
-        },
-        "department_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "机构ID"
+          "description": "评估量表code"
         },
         "evaluatee_id": {
           "type": "integer",
@@ -798,7 +753,7 @@
     "Question": {
       "type": "object",
       "properties": {
-        "id": {
+        "code": {
           "type": "string",
           "description": "题目唯一标识"
         },
@@ -919,27 +874,18 @@
         }
       }
     },
-    "EvaluationSection": {
+    "EvaluationConclusion": {
       "type": "object",
       "properties": {
-        "detail": {
-          "description": "详情",
-          "$ref": "#/definitions/EvaluationSectionDetail"
-        },
-        "conclusion": {
-          "type": "object",
-          "properties": {
-            "scales": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ScaleValue"
-              }
-            }
+        "scales": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScaleValue"
           }
         }
       }
     },
-    "EvaluationSectionDetail": {
+    "EvaluationSection": {
       "type": "object",
       "properties": {
         "name": {
@@ -993,10 +939,6 @@
     "ScaleValue": {
       "type": "object",
       "properties": {
-        "latest": {
-          "description": "最近一次标尺数据",
-          "$ref": "#/definitions/ScaleValueHistoryItem"
-        },
         "history": {
           "description": "标尺历史数据",
           "type": "array",
@@ -1058,11 +1000,8 @@
         },
         "date": {
           "type": "integer",
+          "format": "int64",
           "description": "标尺值时间"
-        },
-        "default_color": {
-          "type": "string",
-          "description": "默认颜色"
         }
       }
     },
@@ -1073,13 +1012,13 @@
           "type": "string",
           "description": "标尺刻度值区间"
         },
+        "name": {
+          "type": "string",
+          "description": "标尺刻度值名称"
+        },
         "description": {
           "type": "string",
           "description": "标尺值描述"
-        },
-        "default_color": {
-          "type": "string",
-          "description": "默认颜色"
         }
       }
     }
