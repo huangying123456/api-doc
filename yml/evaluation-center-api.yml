@@ -81,10 +81,10 @@ paths:
           format: "int64"
         - name: "body"
           in: "body"
-          description: "\n请求结构见 EvaluateeDetail"
+          description: "\n请求结构见 EvaluationRecordOption"
           required: true
           schema:
-            $ref: "#/definitions/EvaluateeDetail"
+            $ref: "#/definitions/EvaluationRecordOption"
       responses:
         200:
           description: "成功\n返回结构见 EvaluationRecordDTO"
@@ -131,38 +131,15 @@ paths:
       parameters:
         - name: "body"
           in: "body"
-          description: "\n请求结构见 EvaluationRecordOption"
+          description: "\n请求结构见 InitEvaluationRecordOption"
           required: true
           schema:
-            $ref: "#/definitions/EvaluationRecordOption"
+            $ref: "#/definitions/InitEvaluationRecordOption"
       responses:
         200:
           description: "成功\n返回结构见 EvaluationRecordDTO"
           schema:
             $ref: "#/definitions/EvaluationRecordDTO"
-
-  /evaluation-records/conclusions:
-    get:
-      tags:
-        - "评估记录"
-      description: "获取评估结果结论列表"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      operationId: "getEvaluationRecordConclusions"
-      parameters:
-        - name: "evaluatee_id"
-          in: "query"
-          description: "被评估人ID"
-          required: false
-          type: "integer"
-          format: "int64"
-      responses:
-        200:
-          description: "成功\n返回结构见 EvaluationRecordConclusionListDTO"
-          schema:
-            $ref: "#/definitions/EvaluationRecordConclusionListDTO"
 
   /evaluatee:
     get:
@@ -251,6 +228,29 @@ paths:
           description: "成功\n返回结构见 EvaluateeDTO"
           schema:
             $ref: "#/definitions/EvaluateeDTO"
+    
+  /evaluatee/{evaluatee_id}/conclusions:
+    get:
+      tags:
+        - "被评估人"
+      description: "获取评估结果结论列表"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      operationId: "getEvaluationRecordConclusions"
+      parameters:
+        - name: "evaluatee_id"
+          in: "path"
+          description: "被评估人ID"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见 EvaluationRecordConclusionListDTO"
+          schema:
+            $ref: "#/definitions/EvaluationRecordConclusionListDTO"
 
 definitions:
   Result:
@@ -510,14 +510,57 @@ definitions:
   EvaluationRecordOption:
     type: "object"
     properties:
+      evaluation_module:
+        type: "object"
+        properties:
+          sections:
+            type: "array"
+            items:
+              $ref: "#/definitions/SaveSection"
+                                
+  SaveSection:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+      is_grouped:
+        type: "boolean"
+      groups:
+        type: "array"
+        items:
+          $ref: "#/definitions/SaveGroup"
+      questions:
+        type: "array"
+        items:
+          $ref: "#/definitions/SaveQuestion"
+
+  SaveGroup:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      questions:
+        type: "array"
+        items:
+          $ref: "#/definitions/SaveQuestion"
+
+  SaveQuestion:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      answer:
+        $ref: "#/definitions/QuestionAnswer"
+
+  InitEvaluationRecordOption:
+    type: "object"
+    properties:
       evaluation_bundle_code:
         type: "string"
-        format: "int64"
         description: "评估量表code"
-      # department_id:
-      #   type: "integer"
-      #   format: "int64"
-      #   description: "机构ID"
+      version:
+        type: "string"
+        description: "评估量表版本号"
       evaluatee_id:
         type: "integer"
         format: "int64"
