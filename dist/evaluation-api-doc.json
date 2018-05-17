@@ -47,7 +47,7 @@
         }
       }
     },
-    "/evaluation--record/{evaluation__record_id}": {
+    "/evaluation-records/{evaluation_record_id}": {
       "get": {
         "tags": [
           "评估记录"
@@ -62,7 +62,7 @@
         ],
         "parameters": [
           {
-            "name": "evaluation__record_id",
+            "name": "evaluation_record_id",
             "in": "path",
             "description": "评估记录Id",
             "required": true,
@@ -93,7 +93,7 @@
         "operationId": "updateEvaluationBundleRecordDetail",
         "parameters": [
           {
-            "name": "evaluation__record_id",
+            "name": "evaluation_record_id",
             "in": "path",
             "description": "评估记录Id",
             "required": true,
@@ -120,7 +120,7 @@
         }
       }
     },
-    "/evaluation--record": {
+    "/evaluation-records": {
       "get": {
         "tags": [
           "评估记录"
@@ -321,19 +321,20 @@
         }
       }
     },
-    "/evaluatee/{evaluatee_id}/scales": {
+    "/evaluatee/{evaluatee_id}/evaluation-records": {
       "get": {
         "tags": [
-          "被评估人"
+          "被评估人",
+          "评估记录"
         ],
-        "description": "被评估人标尺信息",
+        "description": "获取被评估人评估记录（仅该评估机构内的评估）",
         "consumes": [
           "application/json"
         ],
         "produces": [
           "application/json"
         ],
-        "operationId": "updateEvaluateeScales",
+        "operationId": "getEvaluateeEvaluationRecords",
         "parameters": [
           {
             "name": "evaluatee_id",
@@ -346,9 +347,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见ScaleValueDTO",
+            "description": "成功\n返回结构见 EvaluationRecordListDTO",
             "schema": {
-              "$ref": "#/definitions/ScaleValueDTO"
+              "$ref": "#/definitions/EvaluationRecordListDTO"
             }
           }
         }
@@ -370,44 +371,6 @@
         },
         "displaymsg": {
           "type": "string"
-        }
-      }
-    },
-    "ScaleValueDTO": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "$ref": "#/definitions/Result"
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "scale": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ScaleValue"
-              }
-            }
-          }
-        }
-      }
-    },
-    "RecordScaleValueDTO": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "$ref": "#/definitions/Result"
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "scale": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/RecordScaleValue"
-              }
-            }
-          }
         }
       }
     },
@@ -519,11 +482,22 @@
           "type": "string",
           "description": "被评估人姓名"
         },
+        "evaluation_bundle_code": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估量表Code"
+        },
+        "evaluation_bundle_name": {
+          "type": "string",
+          "description": "评估名称"
+        },
         "state": {
-          "type": "string"
+          "type": "string",
+          "description": "状态"
         },
         "state_name": {
-          "type": "string"
+          "type": "string",
+          "description": "状态名称"
         },
         "updated_at": {
           "type": "integer",
@@ -549,7 +523,7 @@
             "evaluation_record_list": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/EvaluationRecord"
+                "$ref": "#/definitions/EvaluationRecordDetail"
               }
             }
           }
@@ -939,69 +913,12 @@
     "ScaleValue": {
       "type": "object",
       "properties": {
-        "history": {
-          "description": "标尺历史数据",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ScaleValueHistoryItem"
-          }
-        },
-        "scale_mark": {
-          "description": "标尺刻度",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ScaleMark"
-          }
-        },
-        "scale_max_value": {
-          "type": "integer",
-          "description": "标尺刻度最大值"
-        },
-        "scale_name": {
-          "type": "string",
-          "description": "标尺名称"
-        }
-      }
-    },
-    "RecordScaleValue": {
-      "type": "object",
-      "properties": {
-        "latest": {
-          "description": "最近一次标尺数据",
-          "$ref": "#/definitions/ScaleValueHistoryItem"
-        },
-        "scale_mark": {
-          "description": "标尺刻度",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ScaleMark"
-          }
-        },
-        "scale_max_value": {
-          "type": "integer",
-          "description": "标尺刻度最大值"
-        },
-        "scale_name": {
-          "type": "string",
-          "description": "标尺名称"
-        }
-      }
-    },
-    "ScaleValueHistoryItem": {
-      "type": "object",
-      "properties": {
         "value": {
-          "type": "integer",
-          "description": "标尺值"
+          "description": "标尺数据",
+          "type": "string"
         },
-        "description": {
-          "type": "string",
-          "description": "标尺值描述"
-        },
-        "date": {
-          "type": "integer",
-          "format": "int64",
-          "description": "标尺值时间"
+        "scale": {
+          "$ref": "#/definitions/Scale"
         }
       }
     },
@@ -1018,7 +935,27 @@
         },
         "description": {
           "type": "string",
-          "description": "标尺值描述"
+          "description": "标尺刻度值描述"
+        }
+      }
+    },
+    "Scale": {
+      "type": "object",
+      "properties": {
+        "scale_mark": {
+          "description": "标尺刻度",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScaleMark"
+          }
+        },
+        "scale_max_value": {
+          "type": "integer",
+          "description": "标尺刻度最大值"
+        },
+        "scale_name": {
+          "type": "string",
+          "description": "标尺名称"
         }
       }
     }
