@@ -370,8 +370,7 @@ definitions:
         type: "string"
         description: "被评估人姓名"
       evaluation_bundle_code:
-        type: "integer"
-        format: "int64"
+        type: "string"
         description: "评估量表Code"
       evaluation_bundle_name:
         type: "string"
@@ -441,8 +440,7 @@ definitions:
         type: "string"
         description: "被评估人姓名"
       evaluation_bundle_code:
-        type: "integer"
-        format: "int64"
+        type: "string"
         description: "评估量表Code"
       evaluation_bundle_name:
         type: "string"
@@ -484,8 +482,7 @@ definitions:
         type: "string"
         description: "被评估人姓名"
       evaluation_bundle_code:
-        type: "integer"
-        format: "int64"
+        type: "string"
         description: "评估量表Code"
       evaluation_bundle_name:
         type: "string"
