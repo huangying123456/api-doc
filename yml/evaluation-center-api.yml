@@ -141,28 +141,28 @@ paths:
           schema:
             $ref: "#/definitions/EvaluationRecordDTO"
 
-  # /evaluation-records/{evaluation_record_id}/scales:
-  #   get:
-  #     tags:
-  #       - "评估记录"
-  #     description: "评估记录标尺信息"
-  #     consumes:
-  #     - "application/json"
-  #     produces:
-  #     - "application/json"
-  #     operationId: "getEvaluationBundleRecordScales"
-  #     parameters:
-  #     - name: "evaluation_record_id"
-  #       in: "path"
-  #       description: "评估记录Id"
-  #       required: true
-  #       type: "integer"
-  #       format: "int64"
-  #     responses:
-  #       200:
-  #         description: "成功\n返回结构见 RecordScaleValueDTO"
-  #         schema:
-  #           $ref: "#/definitions/RecordScaleValueDTO" 
+  /evaluation-records/conclusions:
+    get:
+      tags:
+        - "评估记录"
+      description: "获取评估结果结论列表"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      operationId: "getEvaluationRecordConclusions"
+      parameters:
+        - name: "evaluatee_id"
+          in: "query"
+          description: "被评估人ID"
+          required: false
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "成功\n返回结构见 EvaluationRecordConclusionListDTO"
+          schema:
+            $ref: "#/definitions/EvaluationRecordConclusionListDTO"
 
   /evaluatee:
     get:
@@ -251,53 +251,7 @@ paths:
           description: "成功\n返回结构见 EvaluateeDTO"
           schema:
             $ref: "#/definitions/EvaluateeDTO"
-  
-  /evaluatee/{evaluatee_id}/evaluation-records:
-    get:
-      tags:
-        - "被评估人"
-        - "评估记录"
-      description: "获取被评估人评估记录（仅该评估机构内的评估）"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      operationId: "getEvaluateeEvaluationRecords"
-      parameters:
-      - name: "evaluatee_id"
-        in: "path"
-        description: "被评估人Id"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "成功\n返回结构见 EvaluationRecordListDTO"
-          schema:
-            $ref: "#/definitions/EvaluationRecordListDTO"
 
-  # /evaluatee/{evaluatee_id}/scales:
-  #   get:
-  #     tags:
-  #       - "被评估人"
-  #     description: "被评估人标尺信息"
-  #     consumes:
-  #     - "application/json"
-  #     produces:
-  #     - "application/json"
-  #     operationId: "updateEvaluateeScales"
-  #     parameters:
-  #     - name: "evaluatee_id"
-  #       in: "path"
-  #       description: "被评估人Id"
-  #       required: true
-  #       type: "integer"
-  #       format: "int64"
-  #     responses:
-  #       200:
-  #         description: "成功\n返回结构见ScaleValueDTO"
-  #         schema:
-  #           $ref: "#/definitions/ScaleValueDTO" 
 definitions:
   Result:
     type: "object"
@@ -401,13 +355,13 @@ definitions:
   EvaluationRecordDetail:
     type: "object"
     properties:
-      evaluationu_record_id:
+      evaluation_record_id:
         type: "integer"
         format: "int64"
         description: "评估记录ID"
-      evaluation_conclusion:
-        type: "string"
-        description: "结论"
+      # evaluation_conclusion:
+      #   type: "string"
+      #   description: "结论"
       evaluatee_id:
         type: "integer"
         format: "int64"
@@ -454,15 +408,31 @@ definitions:
           evaluation_record_list: 
             type: "array"
             items:
-              $ref: "#/definitions/EvaluationRecordDetail"
-  
-  EvaluationRecord:
+              $ref: "#/definitions/EvaluationRecord"
+
+  EvaluationRecordConclusionListDTO:
     type: "object"
     properties:
-      evaluationu_record_id:
+      result:
+        $ref: "#/definitions/Result"
+      data:
+        type: "object"
+        properties:
+          evaluation_record_conclusion_list: 
+            type: "array"
+            items:
+              $ref: "#/definitions/EvaluationRecordConclusion"
+  
+  EvaluationRecordConclusion:
+    type: "object"
+    properties:
+      evaluation_record_id:
         type: "integer"
         format: "int64"
         description: "评估记录ID"
+      # evaluation_conclusion:
+      #   type: "string"
+      #   description: "结论"
       evaluatee_id:
         type: "integer"
         format: "int64"
@@ -470,10 +440,10 @@ definitions:
       evaluatee_name:
         type: "string"
         description: "被评估人姓名"
-      evaluation_bundle_id:
+      evaluation_bundle_code:
         type: "integer"
         format: "int64"
-        description: "评估量表ID"
+        description: "评估量表Code"
       evaluation_bundle_name:
         type: "string"
         description: "评估名称"
@@ -489,7 +459,50 @@ definitions:
         description: "状态"
       state_name:
         type: "string"
-        description: "状态" 
+        description: "状态名称" 
+      updated_at:
+        type: "integer"
+        format: "int64"
+      conclusion:
+        $ref: "#/definitions/EvaluationConclusion"
+  
+  EvaluationRecord:
+    type: "object"
+    properties:
+      evaluation_record_id:
+        type: "integer"
+        format: "int64"
+        description: "评估记录ID"
+      # evaluation_conclusion:
+      #   type: "string"
+      #   description: "结论"
+      evaluatee_id:
+        type: "integer"
+        format: "int64"
+        description: "被评估人ID"
+      evaluatee_name:
+        type: "string"
+        description: "被评估人姓名"
+      evaluation_bundle_code:
+        type: "integer"
+        format: "int64"
+        description: "评估量表Code"
+      evaluation_bundle_name:
+        type: "string"
+        description: "评估名称"
+      department_id:
+        type: "integer"
+        format: "int64"
+        description: "机构ID"
+      department_name:
+        type: "string"
+        description: "机构名称"
+      state:
+        type: "string"
+        description: "状态"
+      state_name:
+        type: "string"
+        description: "状态名称" 
       updated_at:
         type: "integer"
         format: "int64"
