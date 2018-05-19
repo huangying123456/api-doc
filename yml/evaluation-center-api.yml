@@ -102,18 +102,17 @@ paths:
       - "application/json"
       operationId: "addEvaluationBundleRecord"
       parameters:
-        - name: "department_id"
-          in: "query"
-          description: "机构Id"
-          required: true
-          type: "integer"
-          format: "int64"
         - name: "evaluatee_id"
           in: "query"
           description: "被评估人ID"
           required: false
           type: "integer"
           format: "int64"
+        - name: "evaluation_record_ids"
+          in: "query"
+          description: "评估记录的ids,多个id,用','隔开,如'1,2,3' "
+          required: false
+          type: "string"
       responses:
         200:
           description: "成功\n返回结构见 EvaluationRecordListDTO"
