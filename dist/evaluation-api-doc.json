@@ -103,10 +103,10 @@
           {
             "name": "body",
             "in": "body",
-            "description": "\n请求结构见 EvaluateeDetail",
+            "description": "\n请求结构见 EvaluationRecordOption",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EvaluateeDetail"
+              "$ref": "#/definitions/EvaluationRecordOption"
             }
           }
         ],
@@ -135,20 +135,19 @@
         "operationId": "addEvaluationBundleRecord",
         "parameters": [
           {
-            "name": "department_id",
-            "in": "query",
-            "description": "机构Id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "evaluatee_id",
             "in": "query",
             "description": "被评估人ID",
             "required": false,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "name": "evaluation_record_ids",
+            "in": "query",
+            "description": "评估记录的ids,多个id,用','隔开,如'1,2,3' ",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -176,10 +175,10 @@
           {
             "name": "body",
             "in": "body",
-            "description": "\n请求结构见 EvaluationRecordOption",
+            "description": "\n请求结构见 InitEvaluationRecordOption",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EvaluationRecordOption"
+              "$ref": "#/definitions/InitEvaluationRecordOption"
             }
           }
         ],
@@ -321,25 +320,24 @@
         }
       }
     },
-    "/evaluatee/{evaluatee_id}/evaluation-records": {
+    "/evaluatee/{evaluatee_id}/conclusions": {
       "get": {
         "tags": [
-          "被评估人",
-          "评估记录"
+          "被评估人"
         ],
-        "description": "获取被评估人评估记录（仅该评估机构内的评估）",
+        "description": "获取评估结果结论列表",
         "consumes": [
           "application/json"
         ],
         "produces": [
           "application/json"
         ],
-        "operationId": "getEvaluateeEvaluationRecords",
+        "operationId": "getEvaluationRecordConclusions",
         "parameters": [
           {
             "name": "evaluatee_id",
             "in": "path",
-            "description": "被评估人Id",
+            "description": "被评估人ID",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -347,9 +345,9 @@
         ],
         "responses": {
           "200": {
-            "description": "成功\n返回结构见 EvaluationRecordListDTO",
+            "description": "成功\n返回结构见 EvaluationRecordConclusionListDTO",
             "schema": {
-              "$ref": "#/definitions/EvaluationRecordListDTO"
+              "$ref": "#/definitions/EvaluationRecordConclusionListDTO"
             }
           }
         }
@@ -464,14 +462,10 @@
     "EvaluationRecordDetail": {
       "type": "object",
       "properties": {
-        "evaluationu_record_id": {
+        "evaluation_record_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
-        },
-        "evaluation_conclusion": {
-          "type": "string",
-          "description": "结论"
         },
         "evaluatee_id": {
           "type": "integer",
@@ -483,8 +477,7 @@
           "description": "被评估人姓名"
         },
         "evaluation_bundle_code": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": "评估量表Code"
         },
         "evaluation_bundle_name": {
@@ -523,17 +516,36 @@
             "evaluation_record_list": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/EvaluationRecordDetail"
+                "$ref": "#/definitions/EvaluationRecord"
               }
             }
           }
         }
       }
     },
-    "EvaluationRecord": {
+    "EvaluationRecordConclusionListDTO": {
       "type": "object",
       "properties": {
-        "evaluationu_record_id": {
+        "result": {
+          "$ref": "#/definitions/Result"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "evaluation_record_conclusion_list": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EvaluationRecordConclusion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "EvaluationRecordConclusion": {
+      "type": "object",
+      "properties": {
+        "evaluation_record_id": {
           "type": "integer",
           "format": "int64",
           "description": "评估记录ID"
@@ -547,10 +559,9 @@
           "type": "string",
           "description": "被评估人姓名"
         },
-        "evaluation_bundle_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "评估量表ID"
+        "evaluation_bundle_code": {
+          "type": "string",
+          "description": "评估量表Code"
         },
         "evaluation_bundle_name": {
           "type": "string",
@@ -571,7 +582,58 @@
         },
         "state_name": {
           "type": "string",
+          "description": "状态名称"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "conclusion": {
+          "$ref": "#/definitions/EvaluationConclusion"
+        }
+      }
+    },
+    "EvaluationRecord": {
+      "type": "object",
+      "properties": {
+        "evaluation_record_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评估记录ID"
+        },
+        "evaluatee_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "被评估人ID"
+        },
+        "evaluatee_name": {
+          "type": "string",
+          "description": "被评估人姓名"
+        },
+        "evaluation_bundle_code": {
+          "type": "string",
+          "description": "评估量表Code"
+        },
+        "evaluation_bundle_name": {
+          "type": "string",
+          "description": "评估名称"
+        },
+        "department_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "机构ID"
+        },
+        "department_name": {
+          "type": "string",
+          "description": "机构名称"
+        },
+        "state": {
+          "type": "string",
           "description": "状态"
+        },
+        "state_name": {
+          "type": "string",
+          "description": "状态名称"
         },
         "updated_at": {
           "type": "integer",
@@ -582,10 +644,77 @@
     "EvaluationRecordOption": {
       "type": "object",
       "properties": {
+        "evaluation_module": {
+          "type": "object",
+          "properties": {
+            "sections": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SaveSection"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SaveSection": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "is_grouped": {
+          "type": "boolean"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SaveGroup"
+          }
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SaveQuestion"
+          }
+        }
+      }
+    },
+    "SaveGroup": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SaveQuestion"
+          }
+        }
+      }
+    },
+    "SaveQuestion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "answer": {
+          "$ref": "#/definitions/QuestionAnswer"
+        }
+      }
+    },
+    "InitEvaluationRecordOption": {
+      "type": "object",
+      "properties": {
         "evaluation_bundle_code": {
           "type": "string",
-          "format": "int64",
           "description": "评估量表code"
+        },
+        "version": {
+          "type": "string",
+          "description": "评估量表版本号"
         },
         "evaluatee_id": {
           "type": "integer",
