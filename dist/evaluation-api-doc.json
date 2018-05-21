@@ -781,14 +781,19 @@
             "type": "string"
           }
         },
-        "contents": {
+        "completion": {
           "type": "array",
-          "description": "所选选项",
+          "description": "所填信息",
           "items": {
-            "type": "array",
-            "description": "所选选项",
-            "items": {
-              "type": "string"
+            "type": "object",
+            "description": "所填信息",
+            "properties": {
+              "contents": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
