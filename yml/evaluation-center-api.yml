@@ -517,7 +517,7 @@ definitions:
   SaveSection:
     type: "object"
     properties:
-      type:
+      code:
         type: "string"
       is_grouped:
         type: "boolean"
@@ -543,7 +543,7 @@ definitions:
   SaveQuestion:
     type: "object"
     properties:
-      id:
+      code:
         type: "string"
       answer:
         $ref: "#/definitions/QuestionAnswer"
@@ -666,21 +666,15 @@ definitions:
       code: 
         type: "string"
         description: "题目唯一标识"
-      order:
-        type: "integer"
-        format: "int64"
-      title:
+      content:
         type: "string"
         description: "标题"
-      description:
-        type: "string"
-        description: "描述"
       type:
         type: "string"
         description: "题目类型,有4种:completion(填空),single_choice(单选),multi_choice(多选),bundle(量表题)"
-      repeat:
+      required:
         type: "boolean"
-        description: "题目是否需要重复"
+        description: "是否必填"
       properties:
         type: "array"
         items:
@@ -689,8 +683,6 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/ChoiceOption"
-      content:
-        $ref: "#/definitions/EvaluationSection"
       answer:
         $ref: "#/definitions/QuestionAnswer"
       
@@ -717,8 +709,6 @@ definitions:
   ChoiceOption:
     type: "object"
     properties:
-      order:
-        type: "integer"
       code:
         type: "string"
         description: "选项标示"  
@@ -784,7 +774,7 @@ definitions:
       name:
         type: "string"
         description: "名称"
-      type:
+      code:
         type: "string"
         description: "类型"
       is_grouped:
