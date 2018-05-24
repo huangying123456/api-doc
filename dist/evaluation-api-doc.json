@@ -985,6 +985,10 @@
     "EvaluationConclusion": {
       "type": "object",
       "properties": {
+        "section_code": {
+          "type": "string",
+          "description": "section 编码"
+        },
         "scales": {
           "type": "array",
           "items": {
@@ -1048,7 +1052,11 @@
       "type": "object",
       "properties": {
         "value": {
-          "description": "标尺数据",
+          "description": "标尺数据value",
+          "type": "string"
+        },
+        "value_code": {
+          "description": "标尺数据code",
           "type": "string"
         },
         "scale": {
@@ -1063,11 +1071,11 @@
           "type": "string",
           "description": "标尺刻度值区间"
         },
-        "name": {
+        "code": {
           "type": "string",
-          "description": "标尺刻度值名称"
+          "description": "标尺刻度值code"
         },
-        "description": {
+        "name": {
           "type": "string",
           "description": "标尺刻度值描述"
         }
