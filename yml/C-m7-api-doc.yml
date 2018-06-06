@@ -1,0 +1,576 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "蜂邻项目C端"
+basePath: "/weixin/v1"
+tags:
+
+- name: "首页"
+  description: "首页"
+- name: "注册"
+  description: "首页"
+- name: "消息"
+  description: "消息接口"
+- name: "我的"
+  description: "客户详情接口"
+- name: "打卡"
+  description: "打卡（目标）接口"
+
+schemes:
+- "http"
+paths:
+  
+  /user/register:
+    post:
+      tags:
+        - "注册"
+      description: "用户注册"
+      operationId: "userRegister"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RegisterOption"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/RegisterDTO"
+  /user/register/captcha:
+    post:
+      tags:
+        - "注册"
+      description: "用户注册获取验证码"
+      operationId: "userGetCaptcha"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PhoneCaptchaOption"
+      responses:
+        200:
+          description: "验证码"
+          schema:
+            $ref: "#/definitions/CaptchaDTO"
+  /user/register/tag-lists:
+    get:
+      tags:
+        - "注册"
+      description: "用户注册标签列表"
+      operationId: "userRegisterTagList"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/TagListDTO"
+  /home:
+    get:
+      tags:
+        - "首页"
+      description: "获取主页详情"
+      operationId: "getHome"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/HomeInfoDTO"
+  /user/health-manager:
+    get:
+      tags:
+        - "我的"
+      description: "获取主页详情"
+      operationId: "getHealthManager"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/HealthManagerDTO"
+  /user/point-detail:
+    get:
+      tags:
+        - "我的"
+      description: "获取积分详情"
+      operationId: "getPoint"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/PointDetailDTO"
+  
+  /user/target/diet-target-calender:
+     get:
+      tags:
+        - "我的"
+      description: "获取饮食打卡日历"
+      operationId: "getDietTargetCalender"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "startTime"
+          in: "query"
+          description: "开始时间"
+          required: true
+          type: "integer"
+        - name: "endTime"
+          in: "query"
+          description: "结束时间"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/TargetCalenderDTO" 
+  
+  /user/target/diet-target:
+    get:
+      tags:
+        - "我的"
+      description: "工作日程页面\n"
+      operationId: "getDietTargetRecordList"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "startTime"
+        in: "query"
+        description: "查询日期时间戳"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "成功\n返回结构见DietTargetRecordDTO"
+          schema:
+            $ref: "#/definitions/DietTargetRecordDTO"
+    post:
+      tags:
+        - "我的"
+      description: "工作日程页面\n"
+      operationId: "addDietTarget"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "护理任务更新"
+        required: true
+        schema:
+          $ref: "#/definitions/TargetRecordItem"
+      responses:
+        200:
+          description: "成功\n返回结构见DietTargetRecordDTO"
+          schema:
+            $ref: "#/definitions/DietTargetRecordDTO"
+  
+  /user/target/sports-target-calender:
+    get:
+      tags:
+        - "我的"
+      description: "获取运动打卡日历"
+      operationId: "getSportsTargetCalender"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "startTime"
+          in: "query"
+          description: "开始时间"
+          required: true
+          type: "integer"
+        - name: "endTime"
+          in: "query"
+          description: "结束时间"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/TargetCalenderDTO" 
+  
+  /user/target/sports-target:
+    get:
+      tags:
+        - "我的"
+      description: "获取运动记录\n"
+      operationId: "getTargetRecord"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "startTime"
+        in: "query"
+        description: "查询日期时间戳"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "成功\n返回结构见TargetRecordDTO"
+          schema:
+            $ref: "#/definitions/TargetRecordDTO"
+  /user/target/sports-list:
+    get:
+      tags:
+        - "我的"
+      description: "获取运动项目列表\n"
+      operationId: "getTargetSuggestion"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功\n返回结构见SportsListDTO"
+          schema:
+            $ref: "#/definitions/SportsListDTO"
+
+
+definitions:
+  SimpleResponseDTO:
+    properties:
+      result:
+        $ref: "#/definitions/Result"
+
+  PhoneCaptchaOption:
+    properties:
+      phone:
+        type: "string"
+      captcha:
+        type: "string"
+        description: "验证码"
+
+  CaptchaDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          captcha:
+            type: "string"
+            description: "验证码"
+      result:
+        $ref: "#/definitions/Result"
+
+  CustomerOption:
+    properties:
+      name:
+        type: "string"
+        description: "姓名"
+      gender:
+        type: "integer"
+        description: "性别"
+      birthday:
+        type: "integer"
+        description: "出生日期时间戳"
+        format: "int64"
+      height:
+        type: "integer" 
+        description: "身高（厘米）"
+      weight:
+        type: "integer"  
+        description: "体重（公斤）"
+      tags:
+        type: "array"
+        description: "标签id"
+        items:
+          type: "integer"  
+  
+  TagListDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          tags:
+            type: "array"
+            description: "标签列表"
+            items:
+              $ref: "#/definitions/Tag"
+      result:
+        $ref: "#/definitions/Result"
+
+  Tag:
+    properties:
+      name:
+        type: "string"  
+        description: "名称"
+      id:
+        type: "integer"  
+        description: "id"
+      color:
+        type: "integer"  
+        description: "颜色"
+
+  HomeInfoDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          type: "object"
+          properties:
+            pointLevel:
+              $ref: "#/definitions/PointLevel"
+            physicalIndicator:
+              $ref: "#/definitions/PhysicalIndicator"
+            riskTag:
+              type: "array"
+              items:
+                $ref: "#/definitions/Tag"
+            dietTarget:
+              $ref: "#/definitions/DailyTarget" 
+            sportsTarget:
+              $ref: "#/definitions/DailyTarget"   
+            healthManager:
+              $ref: "#/definitions/ImAccount"
+      result:
+        $ref: "#/definitions/Result"
+
+  PointLevel:
+    properties:
+      name:
+        type: "string"  
+        description: "名称"
+      icon:
+        type: "string"  
+        description: "等级图标"
+      point:
+        type: "integer"  
+        description: "积分"
+
+  PhysicalIndicator:
+    properties:
+      name:
+        type: "string"  
+        description: "名称"
+      value:
+        type: "string"  
+        description: "数值"
+  
+  DailyTarget:
+    properties:
+      name:
+        type: "string"  
+        description: "名称"
+      targetTitleName:
+        type: "string"  
+        description: "目标标题名称"
+      targetValue:
+        type: "string"  
+        description: "目标值"
+      targetContentTitleName:
+        type: "string"  
+        description: "目标内容名称"
+      targetContent:
+        type: "string"  
+        description: "目标内容"
+
+  HealthManagerDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          healthManager:
+            $ref: "#/definitions/HealthManager"
+      result:
+        $ref: "#/definitions/Result"
+
+  HealthManager:
+      properties:
+        name:
+          type: "string"  
+          description: "名字"
+        gender:
+          type: "integer"
+          description: "性别"
+        title:
+          type: "string"
+          description: "职称"
+        avatarUrl:
+          type: "string"
+          description: "头像"
+        imAccount:
+          $ref: "#/definitions/ImAccount"
+
+  ImAccount:
+    type: "object"
+    properties:
+      identifier:
+        type: "string"
+        description: "im用identifier"
+      signature:
+        type: "string"
+        description: "im用signature 仅知道自己的"
+      imName:
+        type: "string"
+        description: "im用名字 仅与对方聊天时使用"
+      imAvatarUrl:
+        type: "string"
+        format: "uri"
+        description: "im头像Url 仅与对方聊天时使用"
+
+  PointDetailDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          pointDetail:
+            $ref: "#/definitions/PointDetail"
+      result:
+        $ref: "#/definitions/Result"
+
+  PointDetail:
+    properties:
+      pointLevel: 
+        $ref: "#/definitions/PointDetail"
+      pointLog:
+
+
+  PointLogItem:
+    properties:
+      name:
+        type: "string"
+        description: "项目名称"
+      amount:
+        type: "integer"
+        description: "数量"
+      time:
+        type: "integer"
+        description: "时间戳"
+
+  TargetCalenderDTO:
+    properties:
+      data:
+        type: "object"
+        description: "打卡日历"
+        properties:
+          scheduleMarkTime:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
+              description: "有打卡记录的日期时间戳"
+      result:
+        $ref: "#/definitions/Result" 
+
+  TargetRecordItem:
+    properties:
+      name:
+        type: "string"
+        description: "类型"
+      content:
+        type: "string"
+        description: "内容"
+      calories:
+        type: "string"
+        description: "内容"
+      imageUrl:
+        type: "string"
+        description: "配图Url"
+
+  SportsTargetRecordItemOption:
+    properties:
+      name:
+        type: "string"
+        description: "类型"
+      time:
+        type: "string"
+        description: "时间"
+
+  TargetRecordDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          dietTargetRecords:
+            type: "array"
+            items:
+              $ref: "#/definitions/TargetRecordItem"
+      result:
+        $ref: "#/definitions/Result"  
+
+  SportsListDTO:
+    properties:
+      data:
+        type: "object"
+        properties:
+          sportsSuggestionList:
+            type: "array"
+            items:
+              $ref: "#/definitions/SportsSuggestionItem"
+          sports:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                typeName:
+                  type: "string"
+                  description: "分类名称"
+                sportsItems:
+                  type: "array"
+                  item:
+                    $ref: "#/definitions/SportsItem"
+      result:
+        $ref: "#/definitions/Result"    
+  
+  SportsItem:
+    properties:
+      name:
+        type: "string"
+        description: "类型"
+      calories:
+        type: "integer"
+        description: "每60分钟消耗热量"
+  
+  SportsSuggestionItem:
+    properties:
+      name:
+        type: "string"
+        description: "类型"
+      suggestionTime:
+        type: "integer"
+        description: "建议时长（分钟）"
+
+
+  Result:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+      code:
+        type: "integer"
+      msg:
+        type: "string"
+      displamsg:
+        type: "string"
