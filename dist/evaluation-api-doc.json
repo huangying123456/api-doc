@@ -435,6 +435,9 @@
         "version": {
           "type": "string"
         },
+        "desc": {
+          "type": "string"
+        },
         "sections": {
           "type": "array",
           "items": {
@@ -500,7 +503,10 @@
           "$ref": "#/definitions/EvaluationModule"
         },
         "conclusion": {
-          "$ref": "#/definitions/EvaluationConclusion"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EvaluationConclusion"
+          }
         }
       }
     },
@@ -866,9 +872,13 @@
         },
         "type": {
           "type": "string",
-          "description": "题目类型,有4种:completion(填空),single_choice(单选),multi_choice(多选),bundle(量表题)"
+          "description": "题目类型,有5种:completion(填空),complex_completion(复合填空),single_choice(单选),multi_choice(多选),bundle(量表题)"
         },
         "required": {
+          "type": "boolean",
+          "description": "是否必填"
+        },
+        "repeated": {
           "type": "boolean",
           "description": "是否必填"
         },
@@ -886,6 +896,15 @@
         },
         "answer": {
           "$ref": "#/definitions/QuestionAnswer"
+        },
+        "bundle_code": {
+          "type": "string"
+        },
+        "bundle_version": {
+          "type": "string"
+        },
+        "bundle_content": {
+          "type": "null"
         }
       }
     },
@@ -914,6 +933,17 @@
               }
             }
           }
+        },
+        "bundle_content": {
+          "type": "object",
+          "properties": {
+            "sections": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SaveSection"
+              }
+            }
+          }
         }
       }
     },
@@ -936,7 +966,7 @@
     "CompletionProperty": {
       "type": "object",
       "properties": {
-        "require": {
+        "required": {
           "type": "boolean",
           "description": "是否必填"
         },
@@ -946,7 +976,7 @@
         },
         "blank_type": {
           "type": "string",
-          "description": "空的类型,有2种:SELECTION(带选项),TEXT(空白),NUM(只填数值的空白)"
+          "description": "空的类型,有2种:preset_option(预设选项),text(单行文本),textarea(多行文本),number(只填数值的空白)"
         },
         "chosen_value": {
           "type": "array",
@@ -961,6 +991,14 @@
         "text_after": {
           "type": "string",
           "description": "填空后面的说明"
+        },
+        "floor_value": {
+          "type": "integer",
+          "description": "最小值"
+        },
+        "ceil_value": {
+          "type": "integer",
+          "description": "最大值"
         },
         "newline": {
           "type": "boolean",
@@ -1053,10 +1091,6 @@
     "ScaleMark": {
       "type": "object",
       "properties": {
-        "mark": {
-          "type": "string",
-          "description": "标尺刻度值区间"
-        },
         "code": {
           "type": "string",
           "description": "标尺刻度值code"
@@ -1064,26 +1098,44 @@
         "name": {
           "type": "string",
           "description": "标尺刻度值描述"
+        },
+        "floor_value": {
+          "type": "integer",
+          "description": "最小值"
+        },
+        "floor_close": {
+          "type": "boolean"
+        },
+        "ceil_value": {
+          "type": "integer",
+          "description": "最大值"
+        },
+        "ceil_close": {
+          "type": "boolean"
         }
       }
     },
     "Scale": {
       "type": "object",
       "properties": {
-        "scale_mark": {
+        "marks": {
           "description": "标尺刻度",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ScaleMark"
           }
         },
-        "scale_max_value": {
+        "max_value": {
           "type": "integer",
           "description": "标尺刻度最大值"
         },
-        "scale_name": {
+        "name": {
           "type": "string",
           "description": "标尺名称"
+        },
+        "code": {
+          "type": "string",
+          "description": "编码"
         }
       }
     }

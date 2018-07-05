@@ -264,32 +264,6 @@ definitions:
       displaymsg:
         type: "string"
 
-  # ScaleValueDTO:
-  #   type: "object"
-  #   properties:
-  #     result:
-  #       $ref: "#/definitions/Result"
-  #     data:
-  #       type: "object"
-  #       properties:
-  #         scale:
-  #           type: "array"
-  #           items:
-  #             $ref: "#/definitions/ScaleValue"
-  
-  # RecordScaleValueDTO:
-  #   type: "object"
-  #   properties:
-  #     result:
-  #       $ref: "#/definitions/Result"
-  #     data:
-  #       type: "object"
-  #       properties:
-  #         scale:
-  #           type: "array"
-  #           items:
-  #             $ref: "#/definitions/RecordScaleValue"
-
   EvaluationBundleListDTO:
     type: "object"
     properties:
@@ -334,7 +308,9 @@ definitions:
       code:
         type: "string"
       version:
-        type: "string"        
+        type: "string" 
+      desc:
+        type: "string"       
       sections:
         type: "array"
         items:
@@ -393,7 +369,9 @@ definitions:
       evaluation_module:
         $ref: "#/definitions/EvaluationModule"
       conclusion:
-        $ref: "#/definitions/EvaluationConclusion"
+        type: "array"
+        items:
+          $ref: "#/definitions/EvaluationConclusion"
   
   EvaluationRecordListDTO:
     type: "object"
@@ -671,8 +649,11 @@ definitions:
         description: "标题"
       type:
         type: "string"
-        description: "题目类型,有4种:completion(填空),single_choice(单选),multi_choice(多选),bundle(量表题)"
+        description: "题目类型,有5种:completion(填空),complex_completion(复合填空),single_choice(单选),multi_choice(多选),bundle(量表题)"
       required:
+        type: "boolean"
+        description: "是否必填"
+      repeated:
         type: "boolean"
         description: "是否必填"
       properties:
@@ -685,6 +666,12 @@ definitions:
           $ref: "#/definitions/ChoiceOption"
       answer:
         $ref: "#/definitions/QuestionAnswer"
+      bundle_code:
+        type: "string"
+      bundle_version:
+        type: "string"
+      bundle_content:
+        type: "null"
       
   QuestionAnswer:
     type: "object"
@@ -705,6 +692,13 @@ definitions:
               type: "array"
               items:
                 type: "string"
+      bundle_content:
+        type: "object"
+        properties:
+          sections:
+            type: "array"
+            items:
+              $ref: "#/definitions/SaveSection" 
 
   ChoiceOption:
     type: "object"
@@ -721,7 +715,7 @@ definitions:
   CompletionProperty:
     type: "object"
     properties:
-      require:
+      required:
         type: "boolean"
         description: "是否必填"
       text_before:
@@ -729,7 +723,7 @@ definitions:
         description: "填空前面的说明"
       blank_type:
         type: "string"
-        description: "空的类型,有2种:SELECTION(带选项),TEXT(空白),NUM(只填数值的空白)"
+        description: "空的类型,有2种:preset_option(预设选项),text(单行文本),textarea(多行文本),number(只填数值的空白)"
       chosen_value:
         type: "array"
         description: "选项"
@@ -740,23 +734,16 @@ definitions:
       text_after:
         type: "string"
         description: "填空后面的说明"
+      floor_value:
+        type: "integer"
+        description: "最小值"
+      ceil_value:
+        type: "integer"
+        description: "最大值"
       newline:
         type: "boolean"
         description: "是否需要换行"
 
-  # EvaluationSection:
-  #   type: "object"
-  #   properties:
-  #     detail:
-  #       description: "详情"
-  #       $ref: "#/definitions/EvaluationSectionDetail"
-  #     conclusion:
-  #       type: "object"
-  #       properties:
-  #         scales:
-  #           type: "array"
-  #           items:
-  #             $ref: "#/definitions/ScaleValue"
   EvaluationConclusion:
     type: "object"
     properties:
@@ -809,9 +796,6 @@ definitions:
   ScaleValue:
     type: "object"
     properties:
-      # latest:
-      #   description: "最近一次标尺数据"
-      #   $ref: "#/definitions/ScaleValueHistoryItem"
       value:
         description: "标尺数据value"
         type: "string"
@@ -821,63 +805,40 @@ definitions:
       scale:
         $ref: "#/definitions/Scale"
 
-  # RecordScaleValue:
-  #   type: "object"
-  #   properties:
-  #     # latest:
-  #     #   description: "最近一次标尺数据"
-  #     #   $ref: "#/definitions/ScaleValueHistoryItem"
-  #     scale_mark:
-  #       description: "标尺刻度"
-  #       type: "array"
-  #       items:
-  #         $ref: "#/definitions/ScaleMark"
-  #     scale_max_value:
-  #       type: "integer"
-  #       description: "标尺刻度最大值"
-  #     scale_name:
-  #       type: "string"
-  #       description: "标尺名称"
-        
-  
-  # ScaleValueHistoryItem:
-  #   type: "object"
-  #   properties:
-  #     value:
-  #       type: "integer"
-  #       description: "标尺值"
-  #     description:
-  #       type: "string"
-  #       description: "标尺值描述"
-  #     date:
-  #       type: "integer"
-  #       format: "int64"
-  #       description: "标尺值时间"
-
   ScaleMark:
     type: "object"
     properties:
-      mark:
-        type: "string"
-        description: "标尺刻度值区间"
       code:
         type: "string"
         description: "标尺刻度值code"
       name:
         type: "string"
         description: "标尺刻度值描述"
+      floor_value:
+        type: "integer"
+        description: "最小值"
+      floor_close:
+        type: "boolean"
+      ceil_value:
+        type: "integer"
+        description: "最大值"
+      ceil_close:
+        type: "boolean"
 
   Scale:
     type: "object"
     properties:
-      scale_mark:
+      marks:
         description: "标尺刻度"
         type: "array"
         items:
           $ref: "#/definitions/ScaleMark"
-      scale_max_value:
+      max_value:
         type: "integer"
         description: "标尺刻度最大值"
-      scale_name:
+      name:
         type: "string"
         description: "标尺名称"
+      code:
+        type: "string"
+        description: "编码"
